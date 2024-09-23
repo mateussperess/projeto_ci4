@@ -6,16 +6,26 @@ use App\Models\UserModel;
 
 class UserController extends BaseController
 {
-    public function index()
-    {
-        $usermodel = new UserModel();
-        $usuarios = $usermodel->findAll(); // ou o método apropriado para obter os usuários
+  public function index()
+  {
+    $usermodel = new UserModel();
+    $data = $usermodel->findAll();
 
-        return view(
-            'user_list',
-            [
-                'usuarios' => $usuarios
-            ]
-        ); 
-    }
+    return view(
+      'user_list',
+      [
+        'usuarios' => $data
+      ]
+    );
+  }
+
+  public function createAccount() 
+  {
+    return view('createAccount');
+  }
+
+  public function login() 
+  {
+
+  }
 }
