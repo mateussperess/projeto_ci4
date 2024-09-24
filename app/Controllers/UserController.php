@@ -6,6 +6,11 @@ use App\Models\UserModel;
 
 class UserController extends BaseController
 {
+  public function __construct()
+  {
+    helper('url');
+  }
+
   public function list_users()
   {
     $usermodel = new UserModel();
@@ -41,21 +46,21 @@ class UserController extends BaseController
     ];
 
     if ($userModel->createUser($data)) {
-      $stats = json_encode([
+      $stats = [
         'status_code' => 200,
         'status' => 'success'
-      ]);
-
-      return view('login', ['stats' => $stats]);
+      ];
     } else {
-      $stats = json_encode([
+      $stats = [
         'status_code' => 500,
         'status' => 'error',
         'message' => 'Falha ao criar o usuário'
-      ]);
+      ];
 
-      return view('register', ['status' => $stats]);
+      redirect(site_url('register'));
     }
+
+    return view('login', ['status' => $stats]);
   }
 
   public function loginUser() {}

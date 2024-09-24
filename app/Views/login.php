@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
+<!-- $status['status_code'] -->
+<?php if (isset($status) && is_array($status) && $status['status_code'] === 200): ?>
+  <div id="alert" role="alert" class="rounded-xl border border-gray-100 bg-white p-4 mb-4 fixed inset-0 flex items-center justify-center z-50">
+    <div class="flex items-start gap-4">
+      <span class="text-green-600">
+        <img src="<?php echo base_url('../../assets/icons/check.png'); ?>" alt="Success" class="w-10 h-10">
+      </span>
+
+      <div class="flex-1">
+        <strong class="block font-medium text-gray-900">Cadastro realizado com sucesso!</strong>
+        <p class="mt-1 text-sm text-gray-700">Faça o login com sua!</p>
+      </div>
+
+      <button class="text-gray-500 transition hover:text-gray-600" onclick="this.closest('[role=alert]').remove()">
+        <span class="sr-only">Dismiss popup</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+<?php endif; ?>
+
+
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,7 +95,15 @@
   </section>
 
   <script>
-   
+    function removeAlert() {
+      const alertBox = document.getElementById('alert');
+      setTimeout(() => {
+        alertBox.parentElement.remove(); 
+        window.location.href = 'login';
+      }, 5000); 
+    }
+
+    setTimeout(removeAlert, 0); 
   </script>
 </body>
 
