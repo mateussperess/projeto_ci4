@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Register  </title>
+  <title> Register </title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
 
   <style>
@@ -13,6 +13,12 @@
     span,
     p {
       user-select: none;
+    }
+    .error-input {
+      border-color: #600;
+      /* match the color of the error text */
+      border-width: 1px;
+      border-style: solid;
     }
   </style>
 </head>
@@ -40,7 +46,8 @@
             </div>
             <div>
               <label for="mail" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mail</label>
-              <input type="email" name="mail" id="mail" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+              <input type="email" name="mail" id="mail" class="bg-gray-50 border border-<?php echo isset($stats) ? 'red' : 'gray'; ?>-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+              <div class="text-red-600 text-sm" id="email-error"> <?= isset($stats) ? $stats['message'] : '' ?> </div>
             </div>
             <div>
               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
@@ -76,4 +83,5 @@
 
   </script>
 </body>
+
 </html>

@@ -45,21 +45,32 @@ class UserController extends BaseController
       'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT), // Exemplo de hash de senha
     ];
 
-    if ($userModel->createUser($data)) {
+    if($userModel->checkEmailExists($data['mail'])) {
       $stats = [
-        'status_code' => 200,
-        'status' => 'success'
+        'status_code' => 409,
+        'status' => 'bad-request',
+        'message' => 'Email already registered'
       ];
+
+      return view('register', [
+        'stats' => $stats
+      ]);
     } else {
-      $stats = [
-        'status_code' => 500,
-        'status' => 'error',
-        'message' => 'Falha ao criar o usuário'
-      ];
-
-      redirect(site_url('register'));
+      if ($userModel->createUser($data)) {
+        $stats = [
+          'status_code' => 200,
+          'status' => 'success'
+        ];
+      } else {
+        $stats = [
+          'status_code' => 500,
+          'status' => 'error',
+          'message' => 'Falha ao criar o usuário'
+        ];
+  
+        redirect(site_url('register'));
+      }
     }
-
     return view('login', ['status' => $stats]);
   }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Locale;
 
 class UserModel extends Model
 {
@@ -13,6 +14,21 @@ class UserModel extends Model
 
     public function createUser($data)
     {
-        return $this->insert($data); // Usa o método insert para adicionar os dados
+        return $this->insert($data); 
+    }
+
+    public function checkEmailExists($mail)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('users');
+    
+        $builder->where('mail', $mail);
+        $query = $builder->get();
+    
+        if ($query->getNumRows() > 0) {
+            return true; 
+        } else {
+            return false; 
+        }
     }
 }
