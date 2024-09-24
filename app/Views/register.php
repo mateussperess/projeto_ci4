@@ -14,6 +14,7 @@
     p {
       user-select: none;
     }
+
     .error-input {
       border-color: #600;
       /* match the color of the error text */
@@ -66,7 +67,7 @@
               </div>
             </div>
 
-            <button type="submit" class="w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">
+            <button type="submit" id="submit-button" class="w-full  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
               Create an Account
             </button>
 
@@ -79,8 +80,23 @@
     </div>
   </section>
 
-  <script>
+  <script type="text/javascript" async>
+    let button = document.querySelector("#submit-button");
+    let passwordInput = document.querySelector("#password");
+    let confirmPasswordInput = document.querySelector("#confirm_password");
 
+    function validatePassword() {
+      if (passwordInput.value.length >= 8 && passwordInput.value === confirmPasswordInput.value) {
+        button.disabled = false;
+        button.classList.add('text-white', 'bg-gradient-to-r', 'from-blue-500', 'via-blue-600', 'to-blue-700', 'hover:bg-gradient-to-br');
+      } else {
+        button.disabled = true;
+        button.classList.remove('text-white', 'bg-gradient-to-r', 'from-blue-500', 'via-blue-600', 'to-blue-700', 'hover:bg-gradient-to-br');
+      }
+    }
+
+    passwordInput.addEventListener('input', validatePassword);
+    confirmPasswordInput.addEventListener('input', validatePassword);
   </script>
 </body>
 

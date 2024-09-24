@@ -11,7 +11,7 @@
 
       <div class="flex-1">
         <strong class="block font-medium text-gray-900">Cadastro realizado com sucesso!</strong>
-        <p class="mt-1 text-sm text-gray-700">Faça o login com sua!</p>
+        <p class="mt-1 text-sm text-gray-700">Faça o login com sua conta!</p>
       </div>
 
       <button class="text-gray-500 transition hover:text-gray-600" onclick="this.closest('[role=alert]').remove()">
@@ -29,8 +29,6 @@
     </div>
   </div>
 <?php endif; ?>
-
-
 
 <head>
   <meta charset="UTF-8">
