@@ -8,8 +8,9 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->get('/', 'Home::index');
 
 $routes->get('/', 'Home::index');
-$routes->get('users', 'UserController::index');
+$routes->get('users', 'UserController::list_users');
 
-// $routes->get('usuarios', 'User::index');
+$routes->get('login', 'UserController::form_login');
 
-$routes->get('createaccount', 'UserController::createAccount');
+$routes->get('register', 'UserController::form_create');
+$routes->post('create', 'UserController::create');
