@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title> Register </title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" href="<?php echo base_url('assets/img/logos/6.png'); ?>">
 
   <style>
     h1,

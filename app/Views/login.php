@@ -5,7 +5,7 @@
 <?php if (isset($status) && is_array($status) && $status['status_code'] === 200): ?>
   <div id="alert" role="alert" class="rounded-xl border border-gray-100 bg-white p-4 mb-4 fixed inset-0 flex items-center justify-center z-50">
     <div class="flex items-start gap-4">
-      <span class="text-green-600">
+      <span>
         <img src="<?php echo base_url('../../assets/icons/check.png'); ?>" alt="Success" class="w-10 h-10">
       </span>
 
@@ -35,6 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="icon" href="<?php echo base_url('assets/img/logos/6.png'); ?>">
 
   <style>
     h1,
