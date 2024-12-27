@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Models\ProfilePhotoModel;
 
 class UserModel extends Model
 {
@@ -15,7 +16,6 @@ class UserModel extends Model
 		'last_name',
 		'email',
 		'password',
-		'profile_photo',
 		'created_at',
 		'updated_at',
 		'deleted_at',
@@ -57,9 +57,24 @@ class UserModel extends Model
 		return $this->where('username', $username)->first();
 	}
 
-	public function checkEmailExistence(string $email) 
+	public function checkEmailExistence(string $email)
 	{
 		return $this->where('email', $email)->first();
+	}
+
+	public function addProfilePhoto($userId, $fileData)
+	{
+		$photoModel = new ProfilePhotoModel();
+
+		$data = [
+			'user_id'   => $userId,
+			'file_name' => $fileData['file_name'],
+			'file_path' => $fileData['file_path'],
+			'mime_type' => $fileData['mime_type'],
+			'created_at' => date('Y-m-d H:i:s'),
+		];
+
+		return $photoModel->addPhoto($data);
 	}
 
 	private $username;
@@ -67,16 +82,11 @@ class UserModel extends Model
 	private $last_name;
 	private $email;
 	private $password;
-	private $profile_photo;
 	private $created_at;
 	private $updated_at;
 	private $deleted_at;
 	private $is_deleted;
 	private $message;
-
-	// public function insert(): bool {
-
-	// }
 
 	public function getUsername()
 	{
@@ -126,16 +136,6 @@ class UserModel extends Model
 	public function setPassword($value)
 	{
 		$this->password = $value;
-	}
-
-	public function getProfile_photo()
-	{
-		return $this->profile_photo;
-	}
-
-	public function setProfile_photo($value)
-	{
-		$this->profile_photo = $value;
 	}
 
 	public function getCreated_at()
