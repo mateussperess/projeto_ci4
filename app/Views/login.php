@@ -26,12 +26,28 @@
         <input type="password" id="password" name="password" class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
       </div>
 
+      <?php
+        if (isset($_GET['code']) && (int)$_GET['code'] === 200) {
+          ?>
+          <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+            <span class="font-medium">Conta criada com sucesso!</span> Você já pode efetuar o login.
+          </div>
+          <?php
+        }
+      ?>
+
+
       <button type="submit" class="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Entrar</button>
     </form>
 
     <!-- Link para recuperação de senha (opcional) -->
     <div class="text-center mt-4">
       <a href="#" class="text-sm text-blue-500 hover:underline">Esqueceu a senha?</a>
+    </div>
+
+    <!-- Link para criar conta (opcional) -->
+    <div class="text-center mt-4">
+      <span>Não possui uma conta? </span><a href="register" class="text-sm text-blue-500 hover:underline">Criar agora!</a>
     </div>
   </div>
 

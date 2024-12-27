@@ -1,0 +1,181 @@
+<?php
+
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class UserModel extends Model
+{
+	protected $table      = 'users';                 // Nome da tabela
+	protected $primaryKey = 'id';                    // Chave primária
+	protected $useAutoIncrement = true;              // Usa incremento automático para o id
+	protected $allowedFields = [
+		'username',
+		'first_name',
+		'last_name',
+		'email',
+		'password',
+		'profile_photo',
+		'created_at',
+		'updated_at',
+		'deleted_at',
+		'is_deleted',
+		'message'
+	];                                                 // Campos que podem ser manipulados
+
+	protected $useTimestamps = true;                   // Habilita o uso de timestamps
+	protected $createdField  = 'created_at';           // Nome do campo de data de criação
+	protected $updatedField  = 'updated_at';           // Nome do campo de data de atualização
+	protected $deletedField  = 'deleted_at';           // Nome do campo de data de exclusão (soft delete)     
+	protected $validationRules = [
+		'username'    => 'required|min_length[3]|max_length[255]',
+		'email'       => 'required|valid_email|is_unique[users.email]',
+		'password'    => 'required|min_length[8]',
+	];
+
+	protected $validationMessages = [
+		'email' => [
+			'is_unique' => 'Esse email já está em uso.'
+		],
+	];
+
+	public function insertUser($data)
+	{
+		// Verificar se os dados são válidos com base nas regras de validação
+		if (!$this->validate($data)) {
+			return false; // Retorna falso se os dados não passarem na validação
+		}
+
+		// Hash da senha antes de salvar
+		$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+		// Inserir os dados na tabela users
+		return $this->insert($data);
+	}
+
+	private $username;
+	private $first_name;
+	private $last_name;
+	private $email;
+	private $password;
+	private $profile_photo;
+	private $created_at;
+	private $updated_at;
+	private $deleted_at;
+	private $is_deleted;
+	private $message;
+
+	// public function insert(): bool {
+
+	// }
+
+	public function getUsername()
+	{
+		return $this->username;
+	}
+
+	public function setUsername($value)
+	{
+		$this->username = $value;
+	}
+
+	public function getFirst_name()
+	{
+		return $this->first_name;
+	}
+
+	public function setFirst_name($value)
+	{
+		$this->first_name = $value;
+	}
+
+	public function getLast_name()
+	{
+		return $this->last_name;
+	}
+
+	public function setLast_name($value)
+	{
+		$this->last_name = $value;
+	}
+
+	public function getEmail()
+	{
+		return $this->email;
+	}
+
+	public function setEmail($value)
+	{
+		$this->email = $value;
+	}
+
+	public function getPassword()
+	{
+		return $this->password;
+	}
+
+	public function setPassword($value)
+	{
+		$this->password = $value;
+	}
+
+	public function getProfile_photo()
+	{
+		return $this->profile_photo;
+	}
+
+	public function setProfile_photo($value)
+	{
+		$this->profile_photo = $value;
+	}
+
+	public function getCreated_at()
+	{
+		return $this->created_at;
+	}
+
+	public function setCreated_at($value)
+	{
+		$this->created_at = $value;
+	}
+
+	public function getUpdated_at()
+	{
+		return $this->updated_at;
+	}
+
+	public function setUpdated_at($value)
+	{
+		$this->updated_at = $value;
+	}
+
+	public function getDeleted_at()
+	{
+		return $this->deleted_at;
+	}
+
+	public function setDeleted_at($value)
+	{
+		$this->deleted_at = $value;
+	}
+
+	public function getIs_deleted()
+	{
+		return $this->is_deleted;
+	}
+
+	public function setIs_deleted($value)
+	{
+		$this->is_deleted = $value;
+	}
+
+	public function getMessage()
+	{
+		return $this->message;
+	}
+
+	public function setMessage($value)
+	{
+		$this->message = $value;
+	}
+}
