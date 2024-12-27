@@ -68,4 +68,4 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
 
 ## Base URL
-`http://localhost/projeto_ci4/public/login`
+`http://localhost/projeto_ci4/public/`
