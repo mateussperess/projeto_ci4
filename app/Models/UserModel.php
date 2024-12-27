@@ -41,9 +41,8 @@ class UserModel extends Model
 
 	public function insertUser($data)
 	{
-		// Verificar se os dados são válidos com base nas regras de validação
 		if (!$this->validate($data)) {
-			return false; // Retorna falso se os dados não passarem na validação
+			return false;
 		}
 
 		// Hash da senha antes de salvar
@@ -51,6 +50,16 @@ class UserModel extends Model
 
 		// Inserir os dados na tabela users
 		return $this->insert($data);
+	}
+
+	public function checkUserNameExistence(string $username)
+	{
+		return $this->where('username', $username)->first();
+	}
+
+	public function checkEmailExistence(string $email) 
+	{
+		return $this->where('email', $email)->first();
 	}
 
 	private $username;

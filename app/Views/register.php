@@ -21,6 +21,16 @@
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
       </div>
 
+      <?php
+        if (isset($_GET['code']) && (int)$_GET['code'] === 409) {
+          ?>
+          <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+            <span class="font-medium">Este nome de usuário </span> já está em uso!
+          </div>
+          <?php
+        }
+      ?>
+
       <!-- Nome -->
       <div class="mb-4">
         <label for="first_name" class="block text-sm font-medium text-gray-700">Nome</label>
@@ -41,6 +51,16 @@
         <input type="email" name="email" id="email" required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
       </div>
+
+      <?php
+        if (isset($_GET['code']) && (int)$_GET['code'] === 422) {
+          ?>
+          <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+            <span class="font-medium">O email fornecido</span> já está em uso!
+          </div>
+          <?php
+        }
+      ?>
 
       <!-- Senha -->
       <div class="mb-4">

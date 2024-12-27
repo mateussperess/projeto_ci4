@@ -43,20 +43,24 @@ class User extends Controller
     // Exibir os dados capturados com var_dump
     // var_dump($data);
     // exit();
+    
     $UserModel = new UserModel();
 
-    // Inserir no banco (após testar)
+    if($UserModel->checkUserNameExistence($username)) {
+      return redirect()->to(base_url('public/register' . '?code=409'));
+    }
+    
+    if($UserModel->checkEmailExistence($email)) {
+      return redirect()->to(base_url('public/register' . '?code=422'));
+    }
 
     if ($UserModel->insertUser($data)) {
-      // Sucesso, redirecionar para a lista de usuários
+      // success
+      $UserModel->insert($data);
       return redirect()->to(base_url('public/login' . '?code=200'));
     } else {
-      // Erro, mostrar mensagem de erro
+      // error
       return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
     }
-    // $UserModel->insert($data);
-
-    // Redirecionar após o sucesso
-    // return redirect()->to('/login');
   }
 }
