@@ -25,26 +25,6 @@ class User extends Controller
     $last_name = $this->request->getPost('last_name');
     $email = $this->request->getPost('email');
     $password = $this->request->getPost('password');
-    $profile_photo = $this->request->getFile('profile_photo');
-
-    // Verificar se o arquivo foi enviado corretamente
-    if (!$profile_photo || !$profile_photo->isValid()) {
-      return redirect()->back()->withInput()->with('error', 'Erro ao enviar foto de perfil.');
-    }
-
-    // Capturar o tipo MIME antes de mover o arquivo
-    $mimeType = $profile_photo->getMimeType();
-
-    // Salvar a foto em um diretório específico
-    $newName = $profile_photo->getRandomName();
-    $uploadPath = WRITEPATH . 'uploads/profile_photos';
-
-    // Mover o arquivo para o local definitivo
-    try {
-      $profile_photo->move($uploadPath, $newName);
-    } catch (\Exception $e) {
-      return redirect()->back()->withInput()->with('error', 'Erro ao mover a foto de perfil: ' . $e->getMessage());
-    }
 
     // Dados para a tabela 'users'
     $userData = [
@@ -61,34 +41,55 @@ class User extends Controller
 
     $userModel = new UserModel();
 
+    // Verificar se o nome de usuário já existe
     if ($userModel->checkUserNameExistence($username)) {
       return redirect()->to(base_url('public/register?code=409'));
     }
 
+    // Verificar se o e-mail já existe
     if ($userModel->checkEmailExistence($email)) {
       return redirect()->to(base_url('public/register?code=422'));
     }
 
-    // insere usuário na tabela 'users'
+    // Insere usuário na tabela 'users'
     $userId = $userModel->insert($userData);
 
     if ($userId) {
-      // insere na tabela 'profile_photos'
-      $photoData = [
-        'user_id'   => $userId,
-        'file_name' => $newName,
-        'file_path' => $uploadPath . '/' . $newName,
-        'mime_type' => $mimeType, // Usar o tipo MIME capturado anteriormente
-        'created_at' => date('Y-m-d H:i:s'),
-      ];
+      // Verificar se o arquivo de foto foi enviado
+      $profile_photo = $this->request->getFile('profile_photo');
+      if ($profile_photo && $profile_photo->isValid()) {
+        // Capturar o tipo MIME antes de mover o arquivo
+        $mimeType = $profile_photo->getMimeType();
 
-      // ProfilePhotoModel para inserir
-      $photoModel = new ProfilePhotoModel();
-      $photoModel->addPhoto($photoData);
+        // Salvar a foto em um diretório específico
+        $newName = $profile_photo->getRandomName();
+        $uploadPath = WRITEPATH . 'uploads/profile_photos';
 
-      return redirect()->to(base_url('public/login?code=200'));
+        // Mover o arquivo para o local definitivo
+        try {
+          $profile_photo->move($uploadPath, $newName);
+        } catch (\Exception $e) {
+          return redirect()->back()->withInput()->with('error', 'Erro ao mover a foto de perfil: ' . $e->getMessage());
+        }
+
+        // Dados para a tabela 'profile_photos'
+        $photoData = [
+          'user_id'   => $userId,
+          'file_name' => $newName,
+          'file_path' => $uploadPath . '/' . $newName,
+          'mime_type' => $mimeType,
+          'created_at' => date('Y-m-d H:i:s'),
+        ];
+
+        // ProfilePhotoModel para inserir
+        $photoModel = new ProfilePhotoModel();
+        $photoModel->addPhoto($photoData);
+      }
+
     } else {
       return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
     }
+
+    return redirect()->to(base_url('public/login?code=200'));
   }
 }
