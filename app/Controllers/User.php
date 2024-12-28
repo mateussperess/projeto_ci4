@@ -9,6 +9,19 @@ use App\Models\ProfilePhotoModel;
 class User extends Controller
 {
 
+  public function profile() {
+    $session = session();
+
+    if($session->has('user_id')) {
+      $data = [
+        'user_id' => $session->get('user_id'),
+        'username' => $session->get('username'),
+      ];
+      return view('profile', $data);
+    } else {
+      return redirect()->to(base_url('public/login?code=401'));
+    }
+  }
   public function register_page()
   {
     return view('register');
@@ -28,9 +41,9 @@ class User extends Controller
 
     // Dados para a tabela 'users'
     $userData = [
-      'username'    => $username,
-      'first_name'  => $first_name,
-      'last_name'   => $last_name,
+      'username'    => strtolower($username),
+      'first_name'  => ucfirst($first_name),
+      'last_name'   => ucfirst($last_name),
       'email'       => $email,
       'password'    => password_hash($password, PASSWORD_DEFAULT), // Hash da senha
       'created_at'  => date('Y-m-d H:i:s'),
@@ -89,7 +102,39 @@ class User extends Controller
     } else {
       return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
     }
-
     return redirect()->to(base_url('public/login?code=200'));
+  }
+
+  public function login() {
+    $email = $this->request->getPost('email');
+    $password = $this->request->getPost('password');
+
+    // $UserDataLogin = [
+    //   'email' => $email,
+    //   'password' => $password
+    // ];
+
+    $UserModel = new UserModel();
+    
+    $user = $UserModel->where('email', $email)->first();
+    
+    if ($user && password_verify($password, $user['password'])) {
+      // Iniciar a sessão
+      $session = session();
+      $session->set('user_id', $user['id']);
+      $session->set('username', $user['username']);
+      $session->set('email', $user['email']);
+      $session->set('logged_in', TRUE);
+
+      return redirect()->to(base_url('public/profile'));
+    } else {
+      return redirect()->to(base_url('public/login?code=401'));
+    }
+  }
+
+  public function logout() {
+    $session = session();
+    $session->destroy();
+    return redirect()->to(base_url('public/login'));
   }
 }

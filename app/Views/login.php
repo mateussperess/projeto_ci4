@@ -15,10 +15,10 @@
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Entrar</h2>
 
     <!-- Formulário de login -->
-    <form action="/login" method="POST">
+    <form action="<?= base_url('public/login') ?>" method="POST">
       <div class="mb-4">
-        <label for="username" class="block text-sm font-semibold text-gray-700">Usuário</label>
-        <input type="text" id="username" name="username" class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        <label for="email" class="block text-sm font-semibold text-gray-700">Email</label>
+        <input type="text" id="email" name="email" class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
       </div>
 
       <div class="mb-6">
@@ -31,6 +31,16 @@
           ?>
           <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
             <span class="font-medium">Conta criada com sucesso!</span> Você já pode efetuar login.
+          </div>
+          <?php
+        }
+      ?>
+      
+      <?php
+        if (isset($_GET['code']) && (int)$_GET['code'] === 401) {
+          ?>
+          <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <span class="font-medium">Email ou senha incorretos!</span> Tente novamente.
           </div>
           <?php
         }
