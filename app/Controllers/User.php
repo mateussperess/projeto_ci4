@@ -12,6 +12,7 @@ class User extends Controller
   public function profile() {
     $session = session();
     $profile_photo_model = new ProfilePhotoModel();
+    $user = new UserModel();
 
     if($session->has('user_id')) {
       $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
@@ -19,6 +20,8 @@ class User extends Controller
       $data = [
         'user_id' => $session->get('user_id'),
         'username' => $session->get('username'),
+        'firstname' => $user->getFirstNameByUserId($session->get('user_id')),
+        'lastname' => $user->getLastNameByUserId($session->get('user_id')),
         'profile_photo' => $profile_photo 
       ];
       return view('profile', $data);

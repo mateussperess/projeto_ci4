@@ -12,22 +12,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minimal Profile</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<body class="bg-gradient-to-r from-blue-400 via-purple-500 to-blue-500 min-h-screen flex items-center justify-center">
   <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
     <div class="flex flex-col items-center">
       <!-- Profile Picture -->
-      <div class="w-24 h-24 mb-4">
+      <div class="w-44 h-44 mb-4">
         <img
-        src="<?= base_url('public/uploads/profile_photos/' . esc($profile_photo['file_name'])) ?>"
-        alt="Profile Picture"
+          src="<?= base_url('public/uploads/profile_photos/' . esc($profile_photo['file_name'])) ?>"
+          alt="Profile Picture"
           class="rounded-full shadow-md w-full h-full object-cover">
       </div>
 
+      <a href="<?= base_url('user/edit_profile') ?>"
+        class="mb-4 bg-blue-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-600 transition">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+
       <!-- User Name -->
       <h1 class="text-2xl font-semibold text-gray-900"><?= esc($username) ?></h1>
-      <p class="text-gray-500 text-sm">Software Developer</p>
+      <p class="text-gray-500 text-sm"> <?= esc($firstname) .' '. esc($lastname); ?> </p>
 
       <!-- About Section -->
       <p class="mt-4 text-gray-600 text-center">

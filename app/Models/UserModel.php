@@ -77,6 +77,17 @@ class UserModel extends Model
 		return $photoModel->addPhoto($data);
 	}
 
+	public function getFirstNameByUserId($userId) 
+	{
+		$user = $this->find($userId);
+		return $user['first_name'];
+	}
+
+	public function getLastNameByUserId($userId) {
+		$user = $this->find($userId);
+		return $user['last_name'];
+	}
+
 	private $username;
 	private $first_name;
 	private $last_name;
