@@ -1,6 +1,7 @@
 <?php
-var_dump($profile_photo);
-exit;
+// var_dump($profile_photo);
+// echo base_url('uploads/profile_photos/' . esc($profile_photo['file_name']));
+// exit;
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +20,8 @@ exit;
       <!-- Profile Picture -->
       <div class="w-24 h-24 mb-4">
         <img
-          src="<?= base_url('uploads/profile_photos/' . esc($profile_photo['file_name'])) ?>"
-          alt="Profile Picture"
+        src="<?= base_url('public/uploads/profile_photos/' . esc($profile_photo['file_name'])) ?>"
+        alt="Profile Picture"
           class="rounded-full shadow-md w-full h-full object-cover">
       </div>
 

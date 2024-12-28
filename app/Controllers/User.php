@@ -68,37 +68,30 @@ class User extends Controller
       return redirect()->to(base_url('public/register?code=422'));
     }
 
-    // Insere usuário na tabela 'users'
     $userId = $userModel->insert($userData);
 
     if ($userId) {
       // Verificar se o arquivo de foto foi enviado
       $profile_photo = $this->request->getFile('profile_photo');
-      if ($profile_photo && $profile_photo->isValid()) {
-        // Capturar o tipo MIME antes de mover o arquivo
-        $mimeType = $profile_photo->getMimeType();
-
-        // Salvar a foto em um diretório específico
+      if ($profile_photo->isValid() && !$profile_photo->hasMoved()) {
         $newName = $profile_photo->getRandomName();
-        $uploadPath = WRITEPATH . 'uploads/profile_photos';
+        $uploadPath = ROOTPATH  . 'public/uploads/profile_photos';
 
-        // Mover o arquivo para o local definitivo
+        // move o arquivo para o local definitivo
         try {
           $profile_photo->move($uploadPath, $newName);
         } catch (\Exception $e) {
           return redirect()->back()->withInput()->with('error', 'Erro ao mover a foto de perfil: ' . $e->getMessage());
         }
 
-        // Dados para a tabela 'profile_photos'
         $photoData = [
           'user_id'   => $userId,
           'file_name' => $newName,
-          'file_path' => $uploadPath . '/' . $newName,
-          'mime_type' => $mimeType,
+          'file_path' => 'uploads/profile_photos/' . $newName,
+          'mime_type' => $profile_photo->getClientMimeType(),
           'created_at' => date('Y-m-d H:i:s'),
         ];
 
-        // ProfilePhotoModel para inserir
         $photoModel = new ProfilePhotoModel();
         $photoModel->addPhoto($photoData);
       }
