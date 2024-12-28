@@ -11,11 +11,15 @@ class User extends Controller
 
   public function profile() {
     $session = session();
+    $profile_photo_model = new ProfilePhotoModel();
 
     if($session->has('user_id')) {
+      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
+
       $data = [
         'user_id' => $session->get('user_id'),
         'username' => $session->get('username'),
+        'profile_photo' => $profile_photo 
       ];
       return view('profile', $data);
     } else {

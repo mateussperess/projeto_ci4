@@ -17,8 +17,8 @@ class ProfilePhotoModel extends Model
     return $this->insertID();
   }
 
-  public function getPhotosByUserId($userId)
+  public function getProfilePhotoByUserId($userId)
   {
-    return $this->where('user_id', $userId)->findAll();
+    return $this->where('user_id', $userId)->first();
   }
 }
