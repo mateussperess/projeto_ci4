@@ -18,6 +18,14 @@
 <body class="bg-gradient-to-r from-blue-400 via-purple-500 to-blue-500 min-h-screen flex items-center justify-center">
   <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
     <div class="flex flex-col items-center">
+
+      <!-- mensagem de sucesso caso os dados tenham sido alterados com sucesso -->
+      <?php if (session()->getFlashdata('success')): ?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span class="block sm:inline"><?= session()->getFlashdata('success') ?></span>
+        </div>
+      <?php endif; ?>
+
       <!-- Profile Picture -->
       <div class="w-44 h-44 mb-4">
         <img
@@ -33,7 +41,7 @@
 
       <!-- User Name -->
       <h1 class="text-2xl font-semibold text-gray-900"><?= esc($username) ?></h1>
-      <p class="text-gray-500 text-sm"> <?= esc($firstname) .' '. esc($lastname); ?> </p>
+      <p class="text-gray-500 text-sm"> <?= esc($firstname) . ' ' . esc($lastname); ?> </p>
 
       <!-- About Section -->
       <p class="mt-4 text-gray-600 text-center">
