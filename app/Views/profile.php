@@ -26,7 +26,7 @@
           class="rounded-full shadow-md w-full h-full object-cover">
       </div>
 
-      <a href="<?= base_url('user/edit_profile') ?>"
+      <a href="<?= base_url('public/edit_profile') ?>"
         class="mb-4 bg-blue-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-blue-600 transition">
         <i class="fas fa-pencil-alt"></i>
       </a>

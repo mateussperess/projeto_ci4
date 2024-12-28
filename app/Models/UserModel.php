@@ -88,6 +88,15 @@ class UserModel extends Model
 		return $user['last_name'];
 	}
 
+	public function updateUser($userId, $data)
+	{
+		return $this->update($userId, $data);
+	}
+
+	public function getUsernameByUserId($userId) {
+		$user = $this->find($userId);
+		return $user['username'];
+	}
 	private $username;
 	private $first_name;
 	private $last_name;

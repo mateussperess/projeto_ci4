@@ -8,27 +8,6 @@ use App\Models\ProfilePhotoModel;
 
 class User extends Controller
 {
-
-  public function profile() {
-    $session = session();
-    $profile_photo_model = new ProfilePhotoModel();
-    $user = new UserModel();
-
-    if($session->has('user_id')) {
-      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
-
-      $data = [
-        'user_id' => $session->get('user_id'),
-        'username' => $session->get('username'),
-        'firstname' => $user->getFirstNameByUserId($session->get('user_id')),
-        'lastname' => $user->getLastNameByUserId($session->get('user_id')),
-        'profile_photo' => $profile_photo 
-      ];
-      return view('profile', $data);
-    } else {
-      return redirect()->to(base_url('public/login?code=401'));
-    }
-  }
   public function register_page()
   {
     return view('register');
@@ -61,12 +40,10 @@ class User extends Controller
 
     $userModel = new UserModel();
 
-    // Verificar se o nome de usuário já existe
     if ($userModel->checkUserNameExistence($username)) {
       return redirect()->to(base_url('public/register?code=409'));
     }
 
-    // Verificar se o e-mail já existe
     if ($userModel->checkEmailExistence($email)) {
       return redirect()->to(base_url('public/register?code=422'));
     }
@@ -98,26 +75,20 @@ class User extends Controller
         $photoModel = new ProfilePhotoModel();
         $photoModel->addPhoto($photoData);
       }
-
     } else {
       return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
     }
     return redirect()->to(base_url('public/login?code=200'));
   }
 
-  public function login() {
+  public function login()
+  {
     $email = $this->request->getPost('email');
     $password = $this->request->getPost('password');
 
-    // $UserDataLogin = [
-    //   'email' => $email,
-    //   'password' => $password
-    // ];
-
     $UserModel = new UserModel();
-    
     $user = $UserModel->where('email', $email)->first();
-    
+
     if ($user && password_verify($password, $user['password'])) {
       // Iniciar a sessão
       $session = session();
@@ -132,9 +103,101 @@ class User extends Controller
     }
   }
 
-  public function logout() {
+  public function logout()
+  {
     $session = session();
     $session->destroy();
     return redirect()->to(base_url('public/login'));
+  }
+
+  public function profile()
+  {
+    $session = session();
+    $profile_photo_model = new ProfilePhotoModel();
+    $user = new UserModel();
+
+    if ($session->has('user_id')) {
+      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
+
+      $data = [
+        'user_id' => $session->get('user_id'),
+        'username' => $user->getUsernameByUserId($session->get('user_id')),
+        'firstname' => $user->getFirstNameByUserId($session->get('user_id')),
+        'lastname' => $user->getLastNameByUserId($session->get('user_id')),
+        'profile_photo' => $profile_photo
+      ];
+      return view('profile', $data);
+    } else {
+      return redirect()->to(base_url('public/login?code=401'));
+    }
+  }
+
+  public function edit_profile()
+  {
+    $session = session();
+    $profile_photo_model = new ProfilePhotoModel();
+    $user_model = new UserModel();
+
+    if ($session->has('user_id')) {
+      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
+      $user = $user_model->find($session->get('user_id'));
+      $data = [
+        'user_id' => $session->get('user_id'),
+        'username' => $user['username'],
+        'first_name' => $user['first_name'],
+        'last_name' => $user['last_name'],
+        'email' => $user['email'],
+        'profile_photo' => $profile_photo
+      ];
+      return view('edit_profile', $data);
+    } else {
+      return redirect()->to(base_url('public/login?code=401'));
+    }
+  }
+
+  public function update_profile()
+  {
+    $session = session();
+    $userModel = new UserModel();
+    $profilePhotoModel = new ProfilePhotoModel();
+
+    $userId = $session->get('user_id');
+    $username = $this->request->getPost('username');
+    $first_name = $this->request->getPost('first_name');
+    $last_name = $this->request->getPost('last_name');
+    $email = $this->request->getPost('email');
+
+    $userData = [
+      'username' => $username,
+      'first_name' => $first_name,
+      'last_name' => $last_name,
+      'email' => $email,
+      'updated_at' => date('Y-m-d H:i:s')
+    ];
+
+    $userModel->updateUser($userId, $userData);
+
+    $profile_photo = $this->request->getFile('profile_photo');
+    if ($profile_photo->isValid() && !$profile_photo->hasMoved()) {
+      $newName = $profile_photo->getRandomName();
+      $uploadPath = ROOTPATH . 'public/uploads/profile_photos';
+
+      try {
+        $profile_photo->move($uploadPath, $newName);
+      } catch (\Exception $e) {
+        return redirect()->back()->withInput()->with('error', 'Erro ao mover a foto de perfil: ' . $e->getMessage());
+      }
+
+      $photoData = [
+        'file_name' => $newName,
+        'file_path' => 'uploads/profile_photos/' . $newName,
+        'mime_type' => $profile_photo->getClientMimeType(),
+        'created_at' => date('Y-m-d H:i:s')
+      ];
+
+      $profilePhotoModel->updateProfilePhoto($userId, $photoData);
+    }
+
+    return redirect()->to(base_url('public/profile'))->with('success', 'Perfil atualizado com sucesso.');
   }
 }

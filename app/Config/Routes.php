@@ -13,4 +13,8 @@ $routes->post('register', 'User::create');
 // $routes->post('login', 'Auth::loginAction');
 
 $routes->get('profile', 'User::profile');
+$routes->get('profile', 'User::profile');
+$routes->get('edit_profile', 'User::edit_profile');
+$routes->post('update_profile', 'User::update_profile');
+
 $routes->post('logout', 'User::logout');
