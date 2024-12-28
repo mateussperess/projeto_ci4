@@ -21,4 +21,9 @@ class ProfilePhotoModel extends Model
   {
     return $this->where('user_id', $userId)->first();
   }
+
+  public function updateProfilePhoto($userId, $data)
+  {
+    return $this->where('user_id', $userId)->set($data)->update();
+  }
 }
