@@ -118,7 +118,12 @@ class User extends Controller
 
     if ($session->has('user_id')) {
       $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
-
+      
+      // $session->set('user_id', $user['id']);
+      $session->set('username', $user->getUsernameByUserId($session->get('user_id')));
+      $session->set('email', $user->getEmailByUserId($session->get('user_id')));
+      $session->set('profile_photo', $profile_photo);
+      
       $data = [
         'user_id' => $session->get('user_id'),
         'username' => $user->getUsernameByUserId($session->get('user_id')),

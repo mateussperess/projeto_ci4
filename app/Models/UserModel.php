@@ -97,6 +97,11 @@ class UserModel extends Model
 		$user = $this->find($userId);
 		return $user['username'];
 	}
+
+	public function getEmailByUserId($userId) {
+		$user = $this->find($userId);
+		return $user['email'];
+	}
 	private $username;
 	private $first_name;
 	private $last_name;
