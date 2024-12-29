@@ -97,7 +97,7 @@ class User extends Controller
       $session->set('email', $user['email']);
       $session->set('logged_in', TRUE);
 
-      return redirect()->to(base_url('public/profile'))->with('success_login', 'Bem-vindo(a) de volta!');
+      return redirect()->to(base_url('public/'))->with('success_login', 'Bem-vindo(a) de volta!');
     } else {
       return redirect()->to(base_url('public/login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }

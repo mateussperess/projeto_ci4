@@ -35,7 +35,7 @@
       <!-- Profile Picture -->
       <div class="w-44 h-44 mb-4">
         <img
-          src="<?= base_url('public/uploads/profile_photos/' . esc($profile_photo['file_name'])) ?>"
+          src="<?= isset($profile_photo) && $profile_photo ? base_url('public/uploads/profile_photos/' . esc($profile_photo['file_name'])) : base_url('public/uploads/profile_photos/default.png') ?>"
           alt="Profile Picture"
           class="rounded-full shadow-md w-full h-full object-cover">
       </div>
@@ -68,6 +68,14 @@
           <h2 class="text-lg font-bold text-gray-800">350</h2>
           <p class="text-gray-500 text-sm">Following</p>
         </div>
+      </div>
+
+      <div class="flex justify-center mt-6">
+        <form action="<?= base_url('/public'); ?>" method="get">
+          <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+            Voltar ao Menu Principal
+          </button>
+        </form>
       </div>
 
       <!-- Logout Button -->
