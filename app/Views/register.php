@@ -11,6 +11,18 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
   <div class="bg-white p-8 rounded-lg shadow-xl w-full sm:w-96">
+    <?php if (session()->getFlashdata('warning_username')): ?>
+      <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline"><?= session()->getFlashdata('warning_username') ?></span>
+      </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('warning_email')): ?>
+      <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline"><?= session()->getFlashdata('warning_email') ?></span>
+      </div>
+    <?php endif; ?>
+
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Criar Conta</h2>
     <form action="<?= base_url('public/register') ?>" method="POST" enctype="multipart/form-data">
 
@@ -20,16 +32,6 @@
         <input type="text" name="username" id="username" required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
       </div>
-
-      <?php
-        if (isset($_GET['code']) && (int)$_GET['code'] === 409) {
-          ?>
-          <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
-            <span class="font-medium">Este nome de usuário </span> já está em uso!
-          </div>
-          <?php
-        }
-      ?>
 
       <!-- Nome -->
       <div class="mb-4">
@@ -51,16 +53,6 @@
         <input type="email" name="email" id="email" required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
       </div>
-
-      <?php
-        if (isset($_GET['code']) && (int)$_GET['code'] === 422) {
-          ?>
-          <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
-            <span class="font-medium">O email fornecido</span> já está em uso!
-          </div>
-          <?php
-        }
-      ?>
 
       <!-- Senha -->
       <div class="mb-4">
@@ -87,7 +79,7 @@
     </form>
 
     <p class="text-center text-sm text-gray-600 mt-4">
-      Já tem uma conta? <a href="/login" class="text-indigo-600 hover:text-indigo-800">Entrar</a>
+      Já tem uma conta? <a href="<?= base_url('public/login'); ?>" class="text-indigo-600 hover:text-indigo-800">Entrar</a>
     </p>
   </div>
 

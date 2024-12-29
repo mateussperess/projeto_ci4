@@ -26,6 +26,12 @@
         </div>
       <?php endif; ?>
 
+      <?php if (session()->getFlashdata('success_login')): ?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span class="block sm:inline"><?= session()->getFlashdata('success_login') ?></span>
+        </div>
+      <?php endif; ?>
+
       <!-- Profile Picture -->
       <div class="w-44 h-44 mb-4">
         <img
@@ -66,7 +72,7 @@
 
       <!-- Logout Button -->
       <div class="flex justify-center mt-6">
-        <form action="<?= base_url('public/logout') ?>" method="post">
+        <form action="<?= base_url('public/logout'); ?>" method="POST">
           <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
             Logout
           </button>

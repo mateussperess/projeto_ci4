@@ -12,6 +12,18 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 
   <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+    <?php if (session()->getFlashdata('error')): ?>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline"><?= session()->getFlashdata('error') ?></span>
+      </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('success')): ?>
+      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline"><?= session()->getFlashdata('success') ?></span>
+      </div>
+    <?php endif; ?>
+
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Entrar</h2>
 
     <!-- Formulário de login -->
@@ -25,26 +37,6 @@
         <label for="password" class="block text-sm font-semibold text-gray-700">Senha</label>
         <input type="password" id="password" name="password" class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
       </div>
-
-      <?php
-        if (isset($_GET['code']) && (int)$_GET['code'] === 200) {
-          ?>
-          <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-            <span class="font-medium">Conta criada com sucesso!</span> Você já pode efetuar login.
-          </div>
-          <?php
-        }
-      ?>
-      
-      <?php
-        if (isset($_GET['code']) && (int)$_GET['code'] === 401) {
-          ?>
-          <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-            <span class="font-medium">Email ou senha incorretos!</span> Tente novamente.
-          </div>
-          <?php
-        }
-      ?>
 
       <button type="submit" class="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Entrar</button>
     </form>

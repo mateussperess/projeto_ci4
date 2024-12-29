@@ -41,17 +41,17 @@ class User extends Controller
     $userModel = new UserModel();
 
     if ($userModel->checkUserNameExistence($username)) {
-      return redirect()->to(base_url('public/register?code=409'));
+      return redirect()->to(base_url('public/register'))->with('warning_username', 'Este nome de usuário já está em uso!');
     }
 
     if ($userModel->checkEmailExistence($email)) {
-      return redirect()->to(base_url('public/register?code=422'));
+      return redirect()->to(base_url('public/register'))->with('warning_email', 'Este email não está disponível!');
     }
 
     $userId = $userModel->insert($userData);
 
     if ($userId) {
-      // Verificar se o arquivo de foto foi enviado
+      // verificar se o arquivo de foto foi enviado
       $profile_photo = $this->request->getFile('profile_photo');
       if ($profile_photo->isValid() && !$profile_photo->hasMoved()) {
         $newName = $profile_photo->getRandomName();
@@ -78,7 +78,7 @@ class User extends Controller
     } else {
       return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
     }
-    return redirect()->to(base_url('public/login?code=200'));
+    return redirect()->to(base_url('public/login'))->with('success', 'Conta criada com sucesso!');
   }
 
   public function login()
@@ -97,9 +97,9 @@ class User extends Controller
       $session->set('email', $user['email']);
       $session->set('logged_in', TRUE);
 
-      return redirect()->to(base_url('public/profile'));
+      return redirect()->to(base_url('public/profile'))->with('success_login', 'Bem-vindo(a) de volta!');
     } else {
-      return redirect()->to(base_url('public/login?code=401'));
+      return redirect()->to(base_url('public/login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
   }
 
@@ -128,7 +128,7 @@ class User extends Controller
       ];
       return view('profile', $data);
     } else {
-      return redirect()->to(base_url('public/login?code=401'));
+      return redirect()->to(base_url('public/login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
   }
 
@@ -151,7 +151,8 @@ class User extends Controller
       ];
       return view('edit_profile', $data);
     } else {
-      return redirect()->to(base_url('public/login?code=401'));
+      // return redirect()->to(base_url('public/login?code=401'));
+      return redirect()->to(base_url('public/login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
   }
 
