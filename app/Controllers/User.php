@@ -86,16 +86,21 @@ class User extends Controller
     $email = $this->request->getPost('email');
     $password = $this->request->getPost('password');
 
-    $UserModel = new UserModel();
+    $profile_photo_model = new ProfilePhotoModel();
+    $UserModel = new UserModel();    
     $user = $UserModel->where('email', $email)->first();
 
     if ($user && password_verify($password, $user['password'])) {
+      
       // Iniciar a sessão
       $session = session();
       $session->set('user_id', $user['id']);
       $session->set('username', $user['username']);
       $session->set('email', $user['email']);
       $session->set('logged_in', TRUE);
+
+      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
+      $session->set('profile_photo', $profile_photo);
 
       return redirect()->to(base_url('public/'))->with('success_login', 'Bem-vindo(a) de volta!');
     } else {
