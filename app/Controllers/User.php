@@ -28,8 +28,8 @@ class User extends Controller
     // Dados para a tabela 'users'
     $userData = [
       'username'    => strtolower($username),
-      'first_name'  => ucfirst($first_name),
-      'last_name'   => ucfirst($last_name),
+      'first_name'  => ucfirst(strtolower($first_name)),
+      'last_name'   => ucfirst(strtolower($last_name)),
       'email'       => $email,
       'password'    => password_hash($password, PASSWORD_DEFAULT), // Hash da senha
       'created_at'  => date('Y-m-d H:i:s'),
@@ -118,12 +118,12 @@ class User extends Controller
 
     if ($session->has('user_id')) {
       $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
-      
+
       // $session->set('user_id', $user['id']);
       $session->set('username', $user->getUsernameByUserId($session->get('user_id')));
       $session->set('email', $user->getEmailByUserId($session->get('user_id')));
       $session->set('profile_photo', $profile_photo);
-      
+
       $data = [
         'user_id' => $session->get('user_id'),
         'username' => $user->getUsernameByUserId($session->get('user_id')),
@@ -173,18 +173,46 @@ class User extends Controller
     $last_name = $this->request->getPost('last_name');
     $email = $this->request->getPost('email');
 
-    $userData = [
-      'username' => $username,
-      'first_name' => $first_name,
-      'last_name' => $last_name,
-      'email' => $email,
-      'updated_at' => date('Y-m-d H:i:s')
-    ];
+    // Obter os dados atuais do usuário
+    $current_user = $userModel->find($userId);
 
-    $userModel->updateUser($userId, $userData);
+    // Verificar se o email já está cadastrado e é diferente do atual
+    if ($email !== $current_user['email']) {
+      $existing_user = $userModel->where('email', $email)->where('id !=', $userId)->first();
+      if ($existing_user) {
+        return redirect()->back()->with('error_email', 'O email já está cadastrado. Tente outro email.');
+      }
+    }
+
+    // Verificar se o nome de usuário já está cadastrado e é diferente do atual
+    if ($username !== $current_user['username']) {
+      $existing_username = $userModel->where('username', $username)->where('id !=', $userId)->first();
+      if ($existing_username) {
+        return redirect()->back()->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
+      }
+    }
+
+    // atualiza os dados se forem diferentes dos
+    $userData = [];
+    if ($username !== $current_user['username']) {
+      $userData['username'] = strtolower($username);
+    }
+    if ($first_name !== $current_user['first_name']) {
+      $userData['first_name'] = ucfirst(strtolower($first_name));
+    }
+    if ($last_name !== $current_user['last_name']) {
+      $userData['last_name'] = ucfirst(strtolower($last_name));
+    }
+    if ($email !== $current_user['email']) {
+      $userData['email'] = $email;
+    }
+    if (!empty($userData)) {
+      $userData['updated_at'] = date('Y-m-d H:i:s');
+      $userModel->update($userId, $userData);
+    }
 
     $profile_photo = $this->request->getFile('profile_photo');
-    if ($profile_photo->isValid() && !$profile_photo->hasMoved()) {
+    if ($profile_photo && $profile_photo->isValid() && !$profile_photo->hasMoved()) {
       $newName = $profile_photo->getRandomName();
       $uploadPath = ROOTPATH . 'public/uploads/profile_photos';
 
@@ -201,9 +229,18 @@ class User extends Controller
         'created_at' => date('Y-m-d H:i:s')
       ];
 
-      $profilePhotoModel->updateProfilePhoto($userId, $photoData);
+      // Verificar se o usuário já tem uma foto de perfil
+      $existing_photo = $profilePhotoModel->where('user_id', $userId)->first();
+      if ($existing_photo) {
+        // Atualizar a foto de perfil existente
+        $profilePhotoModel->update($existing_photo['id'], $photoData);
+      } else {
+        // Adicionar uma nova foto de perfil
+        $photoData['user_id'] = $userId;
+        $profilePhotoModel->insert($photoData);
+      }
     }
 
-    return redirect()->to(base_url('public/profile'))->with('success', 'Perfil atualizado com sucesso.');
+    return redirect()->to(base_url('public/profile'))->with('success', 'Perfil atualizado com sucesso!');
   }
 }
