@@ -78,7 +78,15 @@
         </form>
       </div>
 
-      <!-- Logout Button -->
+      <!-- Back to home Button -->
+      <div class="flex justify-center mt-6">
+        <form action="<?= base_url('public/'); ?>" method="GET">
+          <button type="submit" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">
+            Voltar
+          </button>
+        </form>
+      </div>
+
       <div class="flex justify-center mt-6">
         <form action="<?= base_url('public/logout'); ?>" method="POST">
           <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
