@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peres Imóveis</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
   <script>
     function toggleMenu() {
       const menu = document.getElementById('navbar-cta');
@@ -98,7 +101,7 @@
               <a href="#catalogo" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Catálogo</a>
             </li>
             <li>
-              <a href="#contato" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contato</a>
+              <a href="#contato" class="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Anunciar</a>
             </li>
           </ul>
         </div>
@@ -119,29 +122,82 @@
   <!-- Catálogo de Imóveis -->
   <section id="catalogo" class="container mx-auto py-12">
     <h2 class="text-3xl font-bold text-center mb-8">Catálogo de Imóveis</h2>
+      
+    <!-- Carrossel -->
+    <div id="default-carousel" class="mb-9 relative mx-auto max-w-8xl" data-carousel="slide">
+      <!-- Carousel wrapper -->
+      <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+        <!-- Item 1 -->
+        <div class="hidden duration-[2000ms] ease-in-out" data-carousel-item>
+          <img src="<?= base_url('public/img/1.jpg') ?>" class="absolute block w-full h-full object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="...">
+        </div>
+        <!-- Item 2 -->
+        <div class="hidden duration-[2000ms] ease-in-out" data-carousel-item>
+          <img src="<?= base_url('public/img/2.jpg') ?>" class="absolute block w-full h-full object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="...">
+        </div>
+        <!-- Item 3 -->
+        <div class="hidden duration-[2000ms] ease-in-out" data-carousel-item>
+          <img src="<?= base_url('public/img/3.jpg') ?>" class="absolute block w-full h-full object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="...">
+        </div>
+        <!-- Item 4 -->
+        <div class="hidden duration-[2000ms] ease-in-out" data-carousel-item>
+          <img src="<?= base_url('public/img/4.jpg') ?>" class="absolute block w-full h-full object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="...">
+        </div>
+        <!-- Item 5 -->
+        <div class="hidden duration-[2000ms] ease-in-out" data-carousel-item>
+          <img src="<?= base_url('public/img/5.jpg') ?>" class="absolute block w-full h-full object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="...">
+        </div>
+      </div>
+      <!-- Slider indicators -->
+      <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
+        <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
+      </div>
+      <!-- Slider controls -->
+      <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+          <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+          <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Card de Imóvel -->
       <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <img src="https://via.placeholder.com/400x300" alt="Imóvel" class="w-full h-48 object-cover">
+        <img src="<?= base_url('public/img/1.jpg') ?>" alt="Imóvel" class="w-full h-48 object-cover lazy">
         <div class="p-4">
-          <h3 class="text-xl font-bold mb-2">Imóvel 1</h3>
+          <h3 class="text-xl font-bold mb-2"> Casas </h3>
           <p class="text-gray-700 mb-4">Descrição breve do imóvel.</p>
           <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Ver Detalhes</a>
         </div>
       </div>
       <!-- Repetir os cards de imóveis conforme necessário -->
       <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <img src="https://via.placeholder.com/400x300" alt="Imóvel" class="w-full h-48 object-cover">
+        <img src="<?= base_url('public/img/2.jpg') ?>" alt="Imóvel" class="w-full h-48 object-cover lazy">
         <div class="p-4">
-          <h3 class="text-xl font-bold mb-2">Imóvel 2</h3>
+          <h3 class="text-xl font-bold mb-2"> Apartamentos </h3>
           <p class="text-gray-700 mb-4">Descrição breve do imóvel.</p>
           <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Ver Detalhes</a>
         </div>
       </div>
       <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-        <img src="https://via.placeholder.com/400x300" alt="Imóvel" class="w-full h-48 object-cover">
+        <img src="<?= base_url('public/img/3.jpg') ?>" alt="Imóvel" class="w-full h-48 object-cover lazy">
         <div class="p-4">
-          <h3 class="text-xl font-bold mb-2">Imóvel 3</h3>
+          <h3 class="text-xl font-bold mb-2"> Terrenos </h3>
           <p class="text-gray-700 mb-4">Descrição breve do imóvel.</p>
           <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Ver Detalhes</a>
         </div>
