@@ -24,6 +24,7 @@ class User extends Controller
     $last_name = $this->request->getPost('last_name');
     $email = $this->request->getPost('email');
     $password = $this->request->getPost('password');
+    $confirm_password = $this->request->getPost('confirm_password');
 
     // Dados para a tabela 'users'
     $userData = [
@@ -46,6 +47,10 @@ class User extends Controller
 
     if ($userModel->checkEmailExistence($email)) {
       return redirect()->to(base_url('public/register'))->with('warning_email', 'Este email não está disponível!');
+    }
+
+    if($password !== $confirm_password) {
+      return redirect()->to(base_url('public/register'))->with('warning_passwords', 'As senhas devem ser iguais!');
     }
 
     $userId = $userModel->insert($userData);

@@ -23,6 +23,12 @@
       </div>
     <?php endif; ?>
 
+    <?php if (session()->getFlashdata('warning_passwords')): ?>
+      <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline"><?= session()->getFlashdata('warning_passwords') ?></span>
+      </div>
+    <?php endif; ?>
+
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Criar Conta</h2>
     <form action="<?= base_url('public/register') ?>" method="POST" enctype="multipart/form-data">
 
@@ -61,6 +67,12 @@
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
       </div>
 
+      <div class="mb-4" id="confirm_password_div">
+        <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+        <input type="password" name="confirm_password" id="confirm_password" required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
       <!-- Foto de Perfil -->
       <div class="mb-4">
         <label for="profile_photo" class="block text-sm font-medium text-gray-700">Foto de Perfil</label>
@@ -70,8 +82,8 @@
 
       <!-- Botão de Registro -->
       <div class="mb-4 text-center">
-        <button type="submit"
-          class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+        <button type="submit" id="submit_button"
+          class="w-full py-2 px-4 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" disabled>
           Registrar
         </button>
       </div>
@@ -83,6 +95,51 @@
     </p>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const password = document.getElementById("password");
+      const confirm_password = document.getElementById("confirm_password");
+      const confirm_password_div = document.getElementById("confirm_password_div");
+      const submit_button = document.getElementById("submit_button");
+      const form = document.querySelector('form');
+      let span = document.createElement('span');
+  
+      confirm_password.addEventListener('input', (e) => {
+        if (confirm_password.value !== password.value) {
+          confirm_password.classList.add('bg-red-50', 'border', 'border-red-500', 'text-red-900', 'placeholder-red-700', 'focus:ring-red-500', 'focus:border-red-500');
+          confirm_password.classList.remove('bg-green-50', 'border', 'border-green-500', 'text-green-500', 'focus:ring-indigo-500', 'focus:border-indigo-500');
+  
+          span.textContent = "As senhas não coincidem.";
+          span.classList.add('mt-2', 'text-sm', 'text-red-600', 'dark:text-red-500');
+          span.classList.remove('mt-2', 'text-sm', 'text-green-600', 'dark:text-green-500');
+  
+          confirm_password_div.appendChild(span);
+          submit_button.setAttribute('disabled', 'disabled');
+          submit_button.classList.add('bg-gray-600', 'hover:bg-gray-700', 'focus:ring-gray-500');
+          submit_button.classList.remove('bg-indigo-600', 'hover:bg-indigo-700', 'focus:ring-indigo-500');
+        } else {
+          confirm_password.classList.remove('bg-red-50', 'border', 'border-red-500', 'text-red-900', 'placeholder-red-700', 'focus:ring-red-500', 'focus:border-red-500');
+          confirm_password.classList.add('bg-green-50', 'border', 'border-green-500', 'text-green-500', 'focus:ring-indigo-500', 'focus:border-indigo-500');
+  
+          span.textContent = "As senhas coincidem.";
+          span.classList.add('mt-2', 'text-sm', 'text-green-600', 'dark:text-green-500');
+          span.classList.remove('mt-2', 'text-sm', 'text-red-600', 'dark:text-red-500');
+  
+          confirm_password_div.appendChild(span);
+          submit_button.removeAttribute('disabled');
+          submit_button.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'focus:ring-indigo-500');
+          submit_button.classList.remove('bg-gray-600', 'hover:bg-gray-700', 'focus:ring-gray-500');
+        }
+      });
+  
+      form.addEventListener('submit', (e) => {
+        if (confirm_password.value !== password.value) {
+          e.preventDefault();
+          alert("As senhas não coincidem.");
+        }
+      });
+    })
+  </script>
 </body>
 
 </html>
