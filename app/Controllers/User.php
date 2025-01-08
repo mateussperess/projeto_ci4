@@ -26,6 +26,20 @@ class User extends Controller
     $password = $this->request->getPost('password');
     $confirm_password = $this->request->getPost('confirm_password');
 
+    $userModel = new UserModel();
+
+    if ($userModel->checkUserNameExistence($username)) {
+      return redirect()->to(base_url('public/register'))->with('warning_username', 'Este nome de usuário já está em uso!');
+    }
+
+    if ($userModel->checkEmailExistence($email)) {
+      return redirect()->to(base_url('public/register'))->with('warning_email', 'Este email não está disponível!');
+    }
+
+    if ($password !== $confirm_password) {
+      return redirect()->to(base_url('public/register'))->with('warning_passwords', 'As senhas devem ser iguais!');
+    }
+
     // Dados para a tabela 'users'
     $userData = [
       'username'    => strtolower($username),
@@ -38,20 +52,6 @@ class User extends Controller
       'is_deleted'  => 0,
       'message'     => null,
     ];
-
-    $userModel = new UserModel();
-
-    if ($userModel->checkUserNameExistence($username)) {
-      return redirect()->to(base_url('public/register'))->with('warning_username', 'Este nome de usuário já está em uso!');
-    }
-
-    if ($userModel->checkEmailExistence($email)) {
-      return redirect()->to(base_url('public/register'))->with('warning_email', 'Este email não está disponível!');
-    }
-
-    if($password !== $confirm_password) {
-      return redirect()->to(base_url('public/register'))->with('warning_passwords', 'As senhas devem ser iguais!');
-    }
 
     $userId = $userModel->insert($userData);
 
@@ -92,11 +92,11 @@ class User extends Controller
     $password = $this->request->getPost('password');
 
     $profile_photo_model = new ProfilePhotoModel();
-    $UserModel = new UserModel();    
+    $UserModel = new UserModel();
     $user = $UserModel->where('email', $email)->first();
 
     if ($user && password_verify($password, $user['password'])) {
-      
+
       // Iniciar a sessão
       $session = session();
       $session->set('user_id', $user['id']);
