@@ -84,7 +84,7 @@ Criação de cadastro de usuários, login, gerenciamento de dados conta;
 5. **Inicie o servidor**
 
 6. **Base URL de acesso**
-   `http://localhost/projeto_ci4/public/`
+   `http://localhost/projeto_ci4/`
 
 ## 📋 Pré-requisitos
 
