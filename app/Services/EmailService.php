@@ -28,7 +28,10 @@ class EmailService
 
   public function sendWelcomeEmail($userEmail, $username)
   {
-    $this->email->setFrom('mateuspereslopesl@gmail.com', 'Peres Imóveis');
+    $fromEmail = env('EMAIL_FROM');
+    $fromName = env('EMAIL_FROM_NAME');
+
+    $this->email->setFrom($fromEmail, $fromName);
     $this->email->setTo($userEmail);
     $this->email->setSubject('Bem-vindo à Peres Imóveis!');
 
