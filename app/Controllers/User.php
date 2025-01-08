@@ -30,15 +30,15 @@ class User extends Controller
     $userModel = new UserModel();
 
     if ($userModel->checkUserNameExistence($username)) {
-      return redirect()->to(base_url('public/register'))->with('warning_username', 'Este nome de usuário já está em uso!');
+      return redirect()->to(base_url('register'))->with('warning_username', 'Este nome de usuário já está em uso!');
     }
 
     if ($userModel->checkEmailExistence($email)) {
-      return redirect()->to(base_url('public/register'))->with('warning_email', 'Este email não está disponível!');
+      return redirect()->to(base_url('register'))->with('warning_email', 'Este email não está disponível!');
     }
 
     if ($password !== $confirm_password) {
-      return redirect()->to(base_url('public/register'))->with('warning_passwords', 'As senhas devem ser iguais!');
+      return redirect()->to(base_url('register'))->with('warning_passwords', 'As senhas devem ser iguais!');
     }
 
     // Dados para a tabela 'users'
@@ -87,7 +87,7 @@ class User extends Controller
     
     $emailService = new EmailService();
     $emailService->sendWelcomeEmail($userData['email'], $userData['username']);
-    return redirect()->to(base_url('public/login'))->with('success', 'Conta criada com sucesso!');
+    return redirect()->to(base_url('login'))->with('success', 'Conta criada com sucesso!');
   }
 
   public function login()
@@ -111,9 +111,9 @@ class User extends Controller
       $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
       $session->set('profile_photo', $profile_photo);
 
-      return redirect()->to(base_url('public/'))->with('success_login', 'Bem-vindo(a) de volta!');
+      return redirect()->to(base_url(''))->with('success_login', 'Bem-vindo(a) de volta!');
     } else {
-      return redirect()->to(base_url('public/login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
+      return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
   }
 
@@ -121,7 +121,7 @@ class User extends Controller
   {
     $session = session();
     $session->destroy();
-    return redirect()->to(base_url('public/login'));
+    return redirect()->to(base_url('login'));
   }
 
   public function profile()
@@ -147,7 +147,7 @@ class User extends Controller
       ];
       return view('profile', $data);
     } else {
-      return redirect()->to(base_url('public/login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
+      return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
   }
 
@@ -170,8 +170,8 @@ class User extends Controller
       ];
       return view('edit_profile', $data);
     } else {
-      // return redirect()->to(base_url('public/login?code=401'));
-      return redirect()->to(base_url('public/login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
+      // return redirect()->to(base_url('login?code=401'));
+      return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
   }
 
@@ -195,7 +195,7 @@ class User extends Controller
       $existing_user = $userModel->where('email', $email)->where('id !=', $userId)->first();
       if ($existing_user) {
         // return redirect()->back()->with('error_email', 'O email já está cadastrado. Tente outro email.');
-        return redirect()->to(base_url('public/edit_profile'))->with('error_email', 'O email já está cadastrado. Tente outro email.');
+        return redirect()->to(base_url('edit_profile'))->with('error_email', 'O email já está cadastrado. Tente outro email.');
       }
     }
 
@@ -204,7 +204,7 @@ class User extends Controller
       $existing_username = $userModel->where('username', $username)->where('id !=', $userId)->first();
       if ($existing_username) {
         // return redirect()->back()->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
-        return redirect()->to(base_url('public/edit_profile'))->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
+        return redirect()->to(base_url('edit_profile'))->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
       }
     }
 
@@ -257,6 +257,6 @@ class User extends Controller
       }
     }
 
-    return redirect()->to(base_url('public/profile'))->with('success', 'Perfil atualizado com sucesso!');
+    return redirect()->to(base_url('profile'))->with('success', 'Perfil atualizado com sucesso!');
   }
 }

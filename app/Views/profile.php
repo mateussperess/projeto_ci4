@@ -72,17 +72,9 @@
         </div>
       </div>
 
-      <div class="flex justify-center mt-6">
-        <form action="<?= base_url('/public'); ?>" method="get">
-          <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-            Voltar ao Menu Principal
-          </button>
-        </form>
-      </div>
-
       <!-- Back to home Button -->
       <div class="flex justify-center mt-6">
-        <form action="<?= base_url('public/'); ?>" method="GET">
+        <form action="<?= base_url('/'); ?>" method="GET">
           <button type="submit" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">
             Voltar
           </button>
