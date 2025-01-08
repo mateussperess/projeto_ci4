@@ -1,0 +1,12 @@
+* {
+  scroll-behavior: smooth;
+}
+
+#backToTop {
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+#backToTop.show {
+  opacity: 1;
+}

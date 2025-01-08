@@ -8,25 +8,12 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+  <link rel="stylesheet" href="<?= base_url('public/style/style_index.css'); ?>">
 
   <script src="<?= base_url('public/js/index.js') ?>"></script>
 </head>
 
 <body class="bg-gray-100">
-  <style>
-    * {
-      scroll-behavior: smooth;
-    }
-
-    #backToTop {
-      opacity: 0;
-      transition: opacity 0.25s ease-in-out;
-    }
-
-    #backToTop.show {
-      opacity: 1;
-    }
-  </style>
 
   <!-- Navbar -->
   <?php if (!(session()->get('user_id'))) : ?>
