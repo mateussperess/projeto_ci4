@@ -13,8 +13,15 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen">
 
   <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+    <div class="flex flex-col items-center mb-6">
+      <img src="<?= base_url('public/img/black_logo.png'); ?>" alt="Logo do Projeto" class="h-16 mb-2">
+      <span class="text-2xl font-semibold text-gray-800 dark:text-black">Peres Imóveis</span>
+    </div>
+
+    <h2 class="text-xl font-medium text-center text-gray-600 mb-6">Faça o seu login abaixo</h2>
+    
     <?php if (session()->getFlashdata('error')): ?>
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+      <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
         <span class="block sm:inline"><?= session()->getFlashdata('error') ?></span>
       </div>
     <?php endif; ?>
@@ -24,8 +31,6 @@
         <span class="block sm:inline"><?= session()->getFlashdata('success') ?></span>
       </div>
     <?php endif; ?>
-
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Entrar</h2>
 
     <!-- Formulário de login -->
     <form action="<?= base_url('public/login') ?>" method="POST">
@@ -53,6 +58,7 @@
     </div>
   </div>
 
+  <script src="<?= base_url('public/js/login.js') ?>"></script>
 </body>
 
 </html>
