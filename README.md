@@ -1,4 +1,4 @@
-<div style="display: flex; align-items: center; flex-direction: row;">
+<div style="display: flex; align-items: center; flex-direction: column;">
   <img src="public/img/blue_logo.png" alt="Logo Peres Imóveis" width="90" style="margin-right: 10px;">
   <h1 style="margin: 0;">Peres Imóveis</h1>
 </div>
