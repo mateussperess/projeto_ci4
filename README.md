@@ -1,7 +1,7 @@
-<table border="0">
+<table style="border-collapse: collapse; width: 100%;">
   <tr>
-    <td><img src="public/img/blue_logo.png" alt="Logo Peres Imóveis" width="90"></td>
-    <td><h1>Peres Imóveis</h1></td>
+    <td style="border: none;"><img src="public/img/blue_logo.png" alt="Logo Peres Imóveis" width="90"></td>
+    <td style="border: none;"><h1>Peres Imóveis</h1></td>
   </tr>
 </table>
 
