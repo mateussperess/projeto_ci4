@@ -1,6 +1,4 @@
-# 🏢 Peres Imóveis
-
-<img src="public/img/blue_logo.png" alt="Logo Peres Imóveis" width="150">
+# <img src="public/img/blue_logo.png" alt="Logo Peres Imóveis" width="90"> Peres Imóveis
 
 ## 📋 Sobre o Projeto
 Sistema web desenvolvido em CodeIgniter 4 para gestão imobiliária, com foco em uma experiência moderna e intuitiva.
