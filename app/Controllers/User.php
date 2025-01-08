@@ -5,6 +5,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Models\ProfilePhotoModel;
+use App\Services\EmailService;
 
 class User extends Controller
 {
@@ -83,6 +84,9 @@ class User extends Controller
     } else {
       return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
     }
+    
+    $emailService = new EmailService();
+    $emailService->sendWelcomeEmail($userData['email'], $userData['username']);
     return redirect()->to(base_url('public/login'))->with('success', 'Conta criada com sucesso!');
   }
 

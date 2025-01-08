@@ -19,3 +19,5 @@ $routes->post('update_profile', 'User::update_profile');
 
 $routes->get('logout', 'User::logout');
 $routes->post('logout', 'User::logout');
+
+// $routes->get('test-email', 'Home::testEmail');

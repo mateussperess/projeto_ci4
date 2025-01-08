@@ -7,10 +7,18 @@
   <title>Registro de Usuário</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="shortcut icon" href="<?= base_url('public/img/black_logo.png'); ?>" type="image/x-icon">
-
+  <link rel="stylesheet" href="<?= base_url('public/style/style_register.css'); ?>">
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-100 bg-opacity-75 z-50 hidden ">
+    <div role="status" class="flex flex-col items-center">
+      <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full loading-spinner"></div>
+
+      <h3 class="mt-4 text-lg font-semibold text-gray-800">Registrando usuário...</h3>
+    </div>
+  </div>
 
   <div class="bg-white p-8 rounded-lg shadow-xl w-full sm:w-96">
     <?php if (session()->getFlashdata('warning_username')): ?>

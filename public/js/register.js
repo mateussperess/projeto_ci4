@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirm_password_ok = document.getElementById('confirm_password_ok');
   const confirm_password_not_ok = document.getElementById('confirm_password_not_ok');
 
+  const loadingScreen = document.getElementById('loading-screen');
+
   let span = document.createElement('span');
 
   confirm_password.addEventListener('input', (e) => {
@@ -46,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirm_password.value !== password.value) {
       e.preventDefault();
       alert("As senhas não coincidem.");
+    } else {
+      loadingScreen.classList.remove('hidden');
+      loadingScreen.classList.add('flex');
     }
   });
 });
