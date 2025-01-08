@@ -1,71 +1,70 @@
-# CodeIgniter 4 Application Starter
+# 🏢 Peres Imóveis
 
-## What is CodeIgniter?
+![Logo Peres Imóveis](public/img/blue_logo.png)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## 📋 Sobre o Projeto
+Sistema web desenvolvido em CodeIgniter 4 para gestão imobiliária, com foco em uma experiência moderna e intuitiva.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## 🚀 Funcionalidades
+Criação de cadastro de usuários, login, gerenciamento de dados conta;  
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+### 👤 Gestão de Usuários
+- Cadastro e autenticação
+- Perfis personalizados
+- Upload de fotos
+- Edição de dados pessoais
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### 🎨 Interface
+- Design responsivo com TailwindCSS
+- Modo escuro/claro
+- Navegação intuitiva
+- Feedback visual de ações
 
-## Installation & updates
+## 🛠️ Tecnologias
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+- **Backend:** CodeIgniter 4, PHP 8+
+- **Database:** MySQL
+- **Frontend:** TailwindCSS, JavaScript
+- **Ícones:** Font Awesome
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## 📦 Estrutura do Projeto
+```
+  projeto_ci4/
+  ├── app/
+  │   ├── Controllers/
+  │   │   └── User.php
+  │   ├── Models/
+  │   │   └── ProfilePhotoModel.php
+  │   └── Views/
+  │       ├── index.php
+  │       ├── register.php
+  │       ├── profile.php
+  │       └── edit_profile.php
+  └── public/
+      ├── img/
+      ├── style/
+      └── uploads/
+          └── profile_photos/
+```
+## ⚙️ Instalação
 
-## Setup
+1. **Clone o Repositório**
+```git clone [https://github.com/mateussperess/projeto_ci4]```
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+2. **Instale as dependências**
+``` composer install ```
 
-## Important Change with index.php
+3. **Prepare e configure o ambiente**
+``` cp env .env ```
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+4. **Configure a base de dados**
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+5. **Inicie o servidor**
 
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 8.1 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-
-## Base URL
+6. **Base URL de acesso**
 `http://localhost/projeto_ci4/public/`
+
+## 📋 Pré-requisitos
+- PHP 8.0+
+- MySQL 5.7+
+- Composer
