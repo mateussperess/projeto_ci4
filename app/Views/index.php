@@ -9,25 +9,28 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('navbar-cta');
-      menu.classList.toggle('hidden');
-    }
-
-    function toggleDropdown() {
-      const dropdown = document.getElementById('user-dropdown');
-      dropdown.classList.toggle('hidden');
-    }
-  </script>
+  <script src="<?= base_url('public/js/index.js') ?>"></script>
 </head>
 
 <body class="bg-gray-100">
+  <style>
+    * {
+      scroll-behavior: smooth;
+    }
+
+    #backToTop {
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+
+    #backToTop.show {
+      opacity: 1;
+    }
+  </style>
+
   <!-- Navbar -->
-
   <?php if (!(session()->get('user_id'))) : ?>
-
-    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <nav id="nav" class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="<?= base_url('public/img/blue_logo.png') ?>" class="h-14" alt="Peres Imóveis Logo" />
@@ -66,7 +69,7 @@
 
   <?php else: ?>
 
-    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <nav id="nav" class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="<?= base_url('public/img/blue_logo.png') ?>" class="h-14" alt="Peres Imóveis Logo" />
@@ -282,6 +285,11 @@
       <p>&copy; 2023 Peres Imóveis. Todos os direitos reservados.</p>
     </div>
   </footer>
+
+  <!-- Botão de Voltar ao Topo -->
+  <button id="backToTop" class="fixed bottom-4 right-4 p-2 rounded-full shadow-lg">
+    <img src="<?= base_url('public/img/go_top.png') ?>" class="w-12 h-12" alt="Voltar ao topo">
+  </button>
 </body>
 
 </html>
