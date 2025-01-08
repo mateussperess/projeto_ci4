@@ -1,9 +1,7 @@
-<table style="border-collapse: collapse; width: 100%;">
-  <tr>
-    <td style="border: none;"><img src="public/img/blue_logo.png" alt="Logo Peres Imóveis" width="90"></td>
-    <td style="border: none;"><h1>Peres Imóveis</h1></td>
-  </tr>
-</table>
+<div style="display: flex; align-items: center;">
+  <img src="public/img/blue_logo.png" alt="Logo Peres Imóveis" width="90" style="margin-right: 10px;">
+  <h1 style="margin: 0;">Peres Imóveis</h1>
+</div>
 
 ## 📋 Sobre o Projeto
 Sistema web desenvolvido em CodeIgniter 4 para gestão imobiliária, com foco em uma experiência moderna e intuitiva.
