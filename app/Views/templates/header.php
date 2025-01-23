@@ -7,7 +7,7 @@
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Peres Imóveis</span>
       </a>
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        <form action="<?= base_url('public/login') ?>" method="get">
+        <form action="<?= base_url('login') ?>" method="get">
           <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Entrar</button>
         </form>
 
@@ -45,6 +45,7 @@
         <img src="<?= base_url('public/img/blue_logo.png') ?>" class="h-14" alt="Peres Imóveis Logo" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Peres Imóveis</span>
       </a>
+
       <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
           <span class="sr-only">Open user menu</span>
@@ -53,6 +54,7 @@
             src="<?= isset($profile_photo) && $profile_photo ? base_url('public/uploads/profile_photos/' . esc($profile_photo['file_name'])) : base_url('public/uploads/profile_photos/default.png') ?>"
             alt="user photo">
         </button>
+
         <!-- Dropdown menu -->
         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
           <div class="px-4 py-3">
@@ -64,7 +66,7 @@
               <a href="<?= base_url('profile') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"> Perfil </a>
             </li>
             <li>
-              <a href="<?= base_url('logout') ?>" class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+              <a href="<?= base_url('dashboard/logout') ?>" class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
             </li>
           </ul>
         </div>

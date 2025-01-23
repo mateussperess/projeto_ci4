@@ -34,6 +34,18 @@ Criação de cadastro de usuários, login, gerenciamento de dados conta;
 - **Frontend:** TailwindCSS, JavaScript
 - **Ícones:** Font Awesome
 
+## 🚩 Rotas do Sistema
+
+### Públicas
+- `/` - Página inicial
+- `/login` - Página de login
+- `/register` - Página de registro
+
+### Área Restrita (Dashboard)
+- `/dashboard` - Painel principal
+- `/dashboard/profile` - Perfil do usuário
+- `/dashboard/edit_profile` - Edição de perfil
+
 ## 📦 Estrutura do Projeto
 
 ```

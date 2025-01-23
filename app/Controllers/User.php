@@ -111,7 +111,7 @@ class User extends Controller
       $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
       $session->set('profile_photo', $profile_photo);
 
-      return redirect()->to(base_url(''))->with('success_login', 'Bem-vindo(a) de volta!');
+      return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta!');
     } else {
       return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }

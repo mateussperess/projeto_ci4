@@ -11,7 +11,6 @@
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-
   <div id="loading-screen" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-100 bg-opacity-75 z-50 hidden ">
     <div role="status" class="flex flex-col items-center">
       <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full loading-spinner"></div>

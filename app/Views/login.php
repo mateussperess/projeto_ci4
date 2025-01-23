@@ -33,7 +33,7 @@
     <?php endif; ?>
 
     <!-- Formulário de login -->
-    <form action="<?= base_url('public/login') ?>" method="POST">
+    <form action="<?= base_url('login') ?>" method="POST">
       <div class="mb-4">
         <label for="email" class="block text-sm font-semibold text-gray-700">Email</label>
         <input type="text" id="email" name="email" class="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
