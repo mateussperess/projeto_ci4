@@ -20,15 +20,15 @@
 
   <!-- Catálogo de Imóveis -->
   <section id="catalogo" class="container mx-auto py-12">
-    <h2 class="text-3xl font-bold text-center mb-8">Catálogo de Imóveis</h2>
+    <h2 class="text-3xl font-bold text-center mb-8">Catálogo</h2>
     <?= view('templates/carousel') ?>
 
-    <h2 class="text-3xl font-bold text-center mb-8">Categorias de Imóveis</h2>
+    <h2 class="text-3xl font-bold text-center mb-8">Categorias</h2>
     <?= view('templates/categories_section') ?>
-    
   </section>
   
   <?= view('templates/about') ?>
+  <?= view('templates/contact') ?>
   <?= view('templates/footer') ?>
 
   <!-- Botão de Voltar ao Topo -->

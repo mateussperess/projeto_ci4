@@ -1,7 +1,7 @@
 <!-- Sobre -->
 <section id="sobre" class="bg-gray-100 py-16">
   <div class="container mx-auto text-center px-4">
-    <h2 class="text-4xl font-bold mb-6 text-black-700">Sobre Nós</h2>
+    <h2 class="text-3xl font-bold mb-6 text-black-700">Sobre Nós</h2>
     <p class="text-gray-700 mb-12 text-lg leading-relaxed">A Peres Imóveis é uma empresa dedicada a ajudar você a encontrar o imóvel dos seus sonhos. Com anos de experiência no mercado, oferecemos um serviço personalizado e de alta qualidade.</p>
 
     <!-- Missão, Visão e Valores -->
@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- Equipe -->
-    <h3 class="text-3xl font-bold mb-6 text-blue-700">Nossa Equipe</h3>
+    <h3 class="text-3xl font-bold mb-6 text-black-700">Nossa Equipe</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
       <div class="bg-white rounded-lg shadow-lg p-6">
         <img src="https://via.placeholder.com/150" alt="Equipe 1" class="w-32 h-32 mx-auto rounded-full mb-6">
@@ -45,10 +45,6 @@
         <h4 class="text-xl font-semibold text-blue-700">Ana Costa</h4>
         <p class="text-gray-600">Assistente Administrativo</p>
       </div>
-    </div>
-    <!-- Botão de Contato -->
-    <div class="flex justify-center">
-      <a href="#contato" class="bg-blue-700 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-800 transition duration-300">Entre em Contato</a>
     </div>
   </div>
 </section>
