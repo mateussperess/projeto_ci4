@@ -26,22 +26,22 @@
     <h3 class="text-3xl font-bold mb-6 text-black-700">Nossa Equipe</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
       <div class="bg-white rounded-lg shadow-lg p-6">
-        <img src="https://via.placeholder.com/150" alt="Equipe 1" class="w-32 h-32 mx-auto rounded-full mb-6">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUysEXH1VhPTsop0bSj1JgAlXlRdJWyO6Bxg&s" alt="Equipe 1" class="w-32 h-32 mx-auto rounded-full mb-6">
         <h4 class="text-xl font-semibold text-blue-700">João Silva</h4>
         <p class="text-gray-600">CEO</p>
       </div>
       <div class="bg-white rounded-lg shadow-lg p-6">
-        <img src="https://via.placeholder.com/150" alt="Equipe 2" class="w-32 h-32 mx-auto rounded-full mb-6">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUysEXH1VhPTsop0bSj1JgAlXlRdJWyO6Bxg&s" alt="Equipe 2" class="w-32 h-32 mx-auto rounded-full mb-6">
         <h4 class="text-xl font-semibold text-blue-700">Maria Oliveira</h4>
         <p class="text-gray-600">Gerente de Vendas</p>
       </div>
       <div class="bg-white rounded-lg shadow-lg p-6">
-        <img src="https://via.placeholder.com/150" alt="Equipe 3" class="w-32 h-32 mx-auto rounded-full mb-6">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUysEXH1VhPTsop0bSj1JgAlXlRdJWyO6Bxg&s" alt="Equipe 3" class="w-32 h-32 mx-auto rounded-full mb-6">
         <h4 class="text-xl font-semibold text-blue-700">Carlos Pereira</h4>
         <p class="text-gray-600">Consultor Imobiliário</p>
       </div>
       <div class="bg-white rounded-lg shadow-lg p-6">
-        <img src="https://via.placeholder.com/150" alt="Equipe 4" class="w-32 h-32 mx-auto rounded-full mb-6">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUysEXH1VhPTsop0bSj1JgAlXlRdJWyO6Bxg&s" alt="Equipe 4" class="w-32 h-32 mx-auto rounded-full mb-6">
         <h4 class="text-xl font-semibold text-blue-700">Ana Costa</h4>
         <p class="text-gray-600">Assistente Administrativo</p>
       </div>
