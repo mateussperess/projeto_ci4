@@ -20,8 +20,8 @@ $routes->group('', function($routes) {
 // Grupo de rotas protegidas (requer autenticação)
 $routes->group('dashboard', ['filter' => 'auth'], function($routes) {
   $routes->get('/', 'Dashboard::index');
-  // $routes->get('profile', 'User::profile');
-  // $routes->get('edit_profile', 'User::edit_profile');
+  $routes->get('profile', 'User::profile');
+  $routes->get('edit_profile', 'User::edit_profile');
   $routes->get('logout', 'User::logout');
 
   $routes->post('logout', 'User::logout');

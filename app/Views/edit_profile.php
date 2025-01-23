@@ -12,7 +12,7 @@
 
 <body class="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center">
   <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-    <form action="<?= base_url('public/update_profile') ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url('dashboard/update_profile') ?>" method="post" enctype="multipart/form-data">
       <div class="flex flex-col items-center">
 
         <?php if (session()->getFlashdata('error_email')): ?>
@@ -70,7 +70,7 @@
       </div>
     </form>
     <div class="flex justify-center mt-6">
-      <form action="<?= base_url('public/profile') ?>" method="get">
+      <form action="<?= base_url('dashboard/profile') ?>" method="get">
         <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
           Voltar
         </button>

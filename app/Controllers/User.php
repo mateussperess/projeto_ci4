@@ -195,7 +195,7 @@ class User extends Controller
       $existing_user = $userModel->where('email', $email)->where('id !=', $userId)->first();
       if ($existing_user) {
         // return redirect()->back()->with('error_email', 'O email já está cadastrado. Tente outro email.');
-        return redirect()->to(base_url('edit_profile'))->with('error_email', 'O email já está cadastrado. Tente outro email.');
+        return redirect()->to(base_url('dashboard/edit_profile'))->with('error_email', 'O email já está cadastrado. Tente outro email.');
       }
     }
 
@@ -204,7 +204,7 @@ class User extends Controller
       $existing_username = $userModel->where('username', $username)->where('id !=', $userId)->first();
       if ($existing_username) {
         // return redirect()->back()->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
-        return redirect()->to(base_url('edit_profile'))->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
+        return redirect()->to(base_url('dashboard/edit_profile'))->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
       }
     }
 
@@ -257,6 +257,6 @@ class User extends Controller
       }
     }
 
-    return redirect()->to(base_url('profile'))->with('success', 'Perfil atualizado com sucesso!');
+    return redirect()->to(base_url('dashboard/profile'))->with('success', 'Perfil atualizado com sucesso!');
   }
 }
