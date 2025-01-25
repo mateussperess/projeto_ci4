@@ -27,3 +27,10 @@ $routes->group('dashboard', ['filter' => 'auth'], function($routes) {
   $routes->post('logout', 'User::logout');
   $routes->post('update_profile', 'User::update_profile');
 });
+
+$routes->group('admin', ['filter' => 'admin'], function($routes) {
+  $routes->get('/', 'Admin::index');
+  $routes->get('profile', 'User::profile');
+  $routes->get('edit_profile', 'User::edit_profile');
+  $routes->get('logout', 'User::logout');
+});

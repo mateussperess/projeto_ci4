@@ -33,6 +33,10 @@ class UserModel extends Model
 		'password'    => 'required|min_length[8]',
 	];
 
+	protected $belongsTo = [
+		'role' => 'App\Models\UserTypeModel'
+	];
+
 	protected $validationMessages = [
 		'email' => [
 			'is_unique' => 'Esse email já está em uso.'
@@ -77,13 +81,14 @@ class UserModel extends Model
 		return $photoModel->addPhoto($data);
 	}
 
-	public function getFirstNameByUserId($userId) 
+	public function getFirstNameByUserId($userId)
 	{
 		$user = $this->find($userId);
 		return $user['first_name'];
 	}
 
-	public function getLastNameByUserId($userId) {
+	public function getLastNameByUserId($userId)
+	{
 		$user = $this->find($userId);
 		return $user['last_name'];
 	}
@@ -93,12 +98,14 @@ class UserModel extends Model
 		return $this->update($userId, $data);
 	}
 
-	public function getUsernameByUserId($userId) {
+	public function getUsernameByUserId($userId)
+	{
 		$user = $this->find($userId);
 		return $user['username'];
 	}
 
-	public function getEmailByUserId($userId) {
+	public function getEmailByUserId($userId)
+	{
 		$user = $this->find($userId);
 		return $user['email'];
 	}

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\UserTypeModel;
 use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Models\ProfilePhotoModel;
@@ -99,6 +100,11 @@ class User extends Controller
     $UserModel = new UserModel();
     $user = $UserModel->where('email', $email)->first();
 
+    $user_type = new UserTypeModel();
+    $user_role = $user_type->getUserTypeByUserId($user['id']);
+    // var_dump($user_role['id']);
+    // exit;
+
     if ($user && password_verify($password, $user['password'])) {
 
       // Iniciar a sessão
@@ -106,12 +112,20 @@ class User extends Controller
       $session->set('user_id', $user['id']);
       $session->set('username', $user['username']);
       $session->set('email', $user['email']);
+      $session->set('role', $user_role['id']);
       $session->set('logged_in', TRUE);
 
       $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
       $session->set('profile_photo', $profile_photo);
 
-      return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta!');
+      if($user_role['id'] == 1){
+        return redirect()->to(base_url('admin'))->with('success_login', 'Bem-vindo(a) de volta, administrador!');
+      } else if ($user_role['id'] == 2) {
+        return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta, corretor!');
+      } else if ($user_role['id'] == 3) {
+        return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta, cliente!');
+      }
+
     } else {
       return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
