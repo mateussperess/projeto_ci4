@@ -102,10 +102,8 @@ class User extends Controller
 
     $user_type = new UserTypeModel();
     $user_role = $user_type->getUserTypeByUserId($user['id']);
-    // var_dump($user_role['id']);
-    // exit;
 
-    if ($user && password_verify($password, $user['password'])) {
+    if ($user && password_verify($password, $user['password']) && $user['is_deleted'] == 0) {
 
       // Iniciar a sessão
       $session = session();

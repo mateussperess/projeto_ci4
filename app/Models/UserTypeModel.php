@@ -29,4 +29,9 @@ class UserTypeModel extends Model
     $userModel = new UserModel();
     return $userModel->countAllResults();
   }
+
+  public function getAllUsers() {
+    $userModel = new UserModel();
+    return $userModel->findAll();
+  }
 }
