@@ -31,10 +31,12 @@ $routes->group('dashboard', ['filter' => 'auth'], function($routes) {
 $routes->group('admin', ['filter' => 'admin'], function($routes) {
   $routes->get('/', 'Admin::index');
   $routes->get('users', 'Admin::users');
+  $routes->get('edit_user/(:num)', 'Admin::edit_user_page/$1');
 
   $routes->get('profile', 'User::profile');
   $routes->get('edit_profile', 'User::edit_profile');
   $routes->get('logout', 'User::logout');
 
   $routes->post('toggle_user_status', 'Admin::toggle_user_status');
+  $routes->post('update_user/(:num)', 'Admin::update_user/$1');
 });

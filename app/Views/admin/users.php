@@ -94,7 +94,9 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div class="flex space-x-2">
-                    <button class="text-blue-600 hover:text-blue-900">Editar</button>
+                    <form action="<?= base_url('admin/edit_user/' . $user['id'])?>" method="GET" class="inline-flex">
+                      <button class="text-blue-600 hover:text-blue-900">Editar</button>
+                    </form>
                     <button type="button" data-modal-target="deactivateModal" data-modal-toggle="deactivateModal" onclick="showStatusModal(<?= $user['id'] ?>, <?= $user['is_deleted'] ?>)" class="text-red-600 hover:text-red-900">
                       <?= $user['is_deleted'] ? 'Ativar' : 'Desativar' ?>
                     </button>
