@@ -74,7 +74,19 @@
 
       <!-- Back to home Button -->
       <div class="flex justify-center mt-6">
-        <form action="<?= base_url('dashboard'); ?>" method="GET">
+        <form action="
+        <?php
+        switch ($user_role) {
+          case 1:
+            echo base_url('admin');
+            break;
+          case 2:
+            echo base_url('dashboard');
+            break;
+          default:
+            echo base_url('dashboard');
+        }
+        ?>" method="GET">
           <button type="submit" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">
             Voltar
           </button>

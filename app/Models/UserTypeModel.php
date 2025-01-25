@@ -24,4 +24,9 @@ class UserTypeModel extends Model
       ->where('users.id', $userId)
       ->first();
   }
+
+  public function getTotalQuantityUsers() {
+    $userModel = new UserModel();
+    return $userModel->countAllResults();
+  }
 }

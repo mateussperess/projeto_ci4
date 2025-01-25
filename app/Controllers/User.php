@@ -144,6 +144,9 @@ class User extends Controller
     $profile_photo_model = new ProfilePhotoModel();
     $user = new UserModel();
 
+    $user_role = new UserTypeModel();
+    $user_role = $user_role->getUserTypeByUserId($session->get('user_id'));
+
     if ($session->has('user_id')) {
       $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
 
@@ -157,7 +160,8 @@ class User extends Controller
         'username' => $user->getUsernameByUserId($session->get('user_id')),
         'firstname' => $user->getFirstNameByUserId($session->get('user_id')),
         'lastname' => $user->getLastNameByUserId($session->get('user_id')),
-        'profile_photo' => $profile_photo
+        'profile_photo' => $profile_photo,
+        'user_role' => $user_role['id']
       ];
       return view('profile', $data);
     } else {
