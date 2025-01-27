@@ -15,22 +15,24 @@ class UserTypeModel extends Model
   protected $hasMany = [
     'users' => 'App\Models\UserModel'
   ];
-
   public function getUserTypeByUserId($userId)
   {
-    $userModel = new UserModel();
-    return $userModel->select('user_types.*')
+    return $this->db->table('users')
+      ->select('user_types.*')
       ->join('user_types', 'user_types.id = users.role_id')
       ->where('users.id', $userId)
-      ->first();
+      ->get()
+      ->getRowArray();
   }
 
-  public function getTotalQuantityUsers() {
+  public function getTotalQuantityUsers()
+  {
     $userModel = new UserModel();
     return $userModel->countAllResults();
   }
 
-  public function getAllUsers() {
+  public function getAllUsers()
+  {
     $userModel = new UserModel();
     return $userModel->findAll();
   }
