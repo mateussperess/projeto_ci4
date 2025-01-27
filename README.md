@@ -46,6 +46,11 @@ Criação de cadastro de usuários, login, gerenciamento de dados conta;
 - `/dashboard/profile` - Perfil do usuário
 - `/dashboard/edit_profile` - Edição de perfil
 
+### Área Administrativa (Dashboard)
+- `/admin` - Painel principal
+- `/admin/users` - Painel de Controle de Usuários
+- `/admin/edit_user/(:num)` - Edição de perfil do usuário pelo ID
+
 ## 📦 Estrutura do Projeto
 
 ```
