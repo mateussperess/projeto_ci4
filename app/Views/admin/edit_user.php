@@ -23,8 +23,20 @@
       </div>
 
       <?php if (session()->getFlashdata('error')): ?>
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-          <?= session()->getFlashdata('error') ?>
+        <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span class="block sm:inline"><?= session()->getFlashdata('error') ?></span>
+        </div>
+      <?php endif; ?>
+
+      <?php if (session()->getFlashdata('warning')): ?>
+        <div id="warning" class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4">
+          <?= session()->getFlashdata('warning') ?>
+        </div>
+      <?php endif; ?>
+
+      <?php if (session()->getFlashdata('success')): ?>
+        <div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+          <?= session()->getFlashdata('success') ?>
         </div>
       <?php endif; ?>
 
@@ -50,8 +62,8 @@
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Nome de Usuário</label>
-              <input type="text" name="username" value="<?= esc($user['username']) ?>"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <input id="username" type="text" name="username" value="<?= esc($user['username']) ?>"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 <?= session()->getFlashdata('error') ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500' : '' ?>">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Nome</label>
@@ -131,6 +143,7 @@
   </button>
 
   <script src="<?= base_url('public/js/register.js') ?>"></script>
+  <script src="<?= base_url('public/js/admin/edit_user.js') ?>"></script>
 </body>
 
 </html>

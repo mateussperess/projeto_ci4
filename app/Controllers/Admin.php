@@ -84,80 +84,98 @@ class Admin extends Controller
   {
     $userModel = new UserModel();
     $profilePhotoModel = new ProfilePhotoModel();
-
-    $username = $this->request->getPost('username');
-    $first_name = $this->request->getPost('first_name');
-    $last_name = $this->request->getPost('last_name');
-    $email = $this->request->getPost('email');
-    $role_id = $this->request->getPost('role_id');
-    $is_deleted = $this->request->getPost('is_deleted');
-
-    // Get current user data
     $current_user = $userModel->find($user_id);
 
-    // Check email uniqueness
-    if ($email !== $current_user['email']) {
-      $existing_user = $userModel->where('email', $email)->where('id !=', $user_id)->first();
-      if ($existing_user) {
-        return redirect()->back()->with('error', 'Email já está em uso por outro usuário.');
-      }
-    }
+    $userData = [];
 
-    // Check username uniqueness
+    $username = $this->request->getPost('username');
     if ($username !== $current_user['username']) {
-      $existing_username = $userModel->where('username', $username)->where('id !=', $user_id)->first();
+      $existing_username = $userModel->where('username', $username)
+        ->where('id !=', $user_id)
+        ->first();
       if ($existing_username) {
-        return redirect()->back()->with('error', 'Nome de usuário já está em uso.');
+        return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('error', 'Nome de usuário já está em uso.');
       }
+      $userData['username'] = strtolower($username);
     }
 
-    // Update user data
-    $userData = [
-      'username' => strtolower($username),
-      'first_name' => ucfirst(strtolower($first_name)),
-      'last_name' => ucfirst(strtolower($last_name)),
-      'email' => $email,
-      'role_id' => $role_id,
-      'is_deleted' => $is_deleted,
-      'updated_at' => date('Y-m-d H:i:s')
-    ];
+    $email = $this->request->getPost('email');
+    if ($email !== $current_user['email']) {
+      $existing_email = $userModel->where('email', $email)
+        ->where('id !=', $user_id)
+        ->first();
+      if ($existing_email) {
+        return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('error', 'Email já está em uso.');
+      }
+      $userData['email'] = $email;
+    }
 
-    // Handle password update if provided
+    $first_name = $this->request->getPost('first_name');
+    if ($first_name !== $current_user['first_name']) {
+      $userData['first_name'] = ucfirst(strtolower($first_name));
+    }
+
+    $last_name = $this->request->getPost('last_name');
+    if ($last_name !== $current_user['last_name']) {
+      $userData['last_name'] = ucfirst(strtolower($last_name));
+    }
+
+    $role_id = $this->request->getPost('role_id');
+    if ($role_id !== $current_user['role_id']) {
+      $userData['role_id'] = $role_id;
+    }
+
+    $is_deleted = $this->request->getPost('is_deleted');
+    if ($is_deleted !== null && $is_deleted !== $current_user['is_deleted']) {
+      $userData['is_deleted'] = $is_deleted;
+    }
+
     $password = $this->request->getPost('password');
     if ($password) {
       $userData['password'] = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    $userModel->update($user_id, $userData);
-
-    // Handle profile photo upload
-    $profile_photo = $this->request->getFile('profile_photo');
-    if ($profile_photo && $profile_photo->isValid() && !$profile_photo->hasMoved()) {
-      $newName = $profile_photo->getRandomName();
-      $uploadPath = ROOTPATH . 'public/uploads/profile_photos';
-
-      try {
-        $profile_photo->move($uploadPath, $newName);
-
-        $photoData = [
-          'file_name' => $newName,
-          'file_path' => 'uploads/profile_photos/' . $newName,
-          'mime_type' => $profile_photo->getClientMimeType(),
-          'created_at' => date('Y-m-d H:i:s')
-        ];
-
-        $existing_photo = $profilePhotoModel->where('user_id', $user_id)->first();
-        if ($existing_photo) {
-          $profilePhotoModel->update($existing_photo['id'], $photoData);
-        } else {
-          $photoData['user_id'] = $user_id;
-          $profilePhotoModel->insert($photoData);
-        }
-      } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Erro ao atualizar foto de perfil: ' . $e->getMessage());
-      }
+    if (!empty($userData)) {
+      $userData['updated_at'] = date('Y-m-d H:i:s');
+      $userModel->update($user_id, $userData);
     }
 
-    return redirect()->to(base_url('admin/users'))->with('success', 'Usuário atualizado com sucesso!');
+    $profile_photo = $this->request->getFile('profile_photo');
+    if ($profile_photo && $profile_photo->isValid() && !$profile_photo->hasMoved()) {
+      $this->processProfilePhoto($profile_photo, $user_id, $profilePhotoModel);
+    }
+
+    if(empty($userData)) {
+      return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('warning', 'Nenhum campo foi alterado.');
+    }
+
+    return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('success', 'Usuário atualizado com sucesso!');
+  }
+
+  private function processProfilePhoto($profile_photo, $user_id, $profilePhotoModel)
+  {
+    $newName = $profile_photo->getRandomName();
+    $uploadPath = ROOTPATH . 'public/uploads/profile_photos';
+
+    try {
+      $profile_photo->move($uploadPath, $newName);
+
+      $photoData = [
+        'file_name' => $newName,
+        'file_path' => 'uploads/profile_photos/' . $newName,
+        'mime_type' => $profile_photo->getClientMimeType(),
+        'created_at' => date('Y-m-d H:i:s')
+      ];
+
+      $existing_photo = $profilePhotoModel->where('user_id', $user_id)->first();
+      if ($existing_photo) {
+        $profilePhotoModel->update($existing_photo['id'], $photoData);
+      } else {
+        $photoData['user_id'] = $user_id;
+        $profilePhotoModel->insert($photoData);
+      }
+    } catch (\Exception $e) {
+      return redirect()->back()->with('error', 'Erro ao atualizar foto de perfil: ' . $e->getMessage());
+    }
   }
 }
