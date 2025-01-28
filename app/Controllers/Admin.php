@@ -64,6 +64,81 @@ class Admin extends Controller
     }
   }
 
+  public function create_user_page()
+  {
+    return view('admin/create_user');
+  }
+
+  public function create_user()
+  {
+    $userModel = new UserModel();
+
+    $username = $this->request->getPost("username");
+    $first_name = $this->request->getPost("first_name");
+    $last_name = $this->request->getPost("last_name");
+    $email = $this->request->getPost("email");
+    $role_id = $this->request->getPost("role_id");
+    $is_deleted = $this->request->getPost("is_deleted");
+    $password = $this->request->getPost("password");
+    $password_confirm = $this->request->getPost("password_confirm");
+
+    if ($userModel->checkUserNameExistence($username)) {
+      return redirect()->to(base_url('admin/users/create_user'))->with('warning_username', 'Este nome de usuário já está em uso!');
+    }
+
+    if ($userModel->checkEmailExistence($email)) {
+      return redirect()->to(base_url('admin/users/create_user'))->with('warning_email', 'Este email não está disponível!');
+    }
+
+    if ($password != $password_confirm) {
+      return redirect()->to(base_url('admin/users/create_user'))->with('warning_passwords', 'As senhas devem ser iguais!');
+    }
+
+    $data = [
+      'username' => $username,
+      'first_name' => $first_name,
+      'last_name' => $last_name,
+      'email' => $email,
+      'role_id' => $role_id,
+      'is_deleted' => $is_deleted,
+      'password' => password_hash($password, PASSWORD_DEFAULT),
+      'created_at' => date('Y-m-d H:i:s')
+    ];
+
+    $userId = $userModel->insert($data);
+
+    if ($userId) {
+      // verificar se o arquivo de foto foi enviado
+      $profile_photo = $this->request->getFile('profile_photo');
+      if ($profile_photo->isValid() && !$profile_photo->hasMoved()) {
+        $newName = $profile_photo->getRandomName();
+        $uploadPath = ROOTPATH  . 'public/uploads/profile_photos';
+
+        // move o arquivo para o local definitivo
+        try {
+          $profile_photo->move($uploadPath, $newName);
+        } catch (\Exception $e) {
+          return redirect()->back()->withInput()->with('error', 'Erro ao mover a foto de perfil: ' . $e->getMessage());
+        }
+
+        $photoData = [
+          'user_id'   => $userId,
+          'file_name' => $newName,
+          'file_path' => 'uploads/profile_photos/' . $newName,
+          'mime_type' => $profile_photo->getClientMimeType(),
+          'created_at' => date('Y-m-d H:i:s'),
+        ];
+
+        $photoModel = new ProfilePhotoModel();
+        $photoModel->addPhoto($photoData);
+      }
+    } else {
+      return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
+    }
+
+    return redirect()->to(base_url('admin/users/edit_user/' . $userId))->with('success', 'Conta criada com sucesso!');
+  }
+
   public function edit_user_page($user_id)
   {
     $user = new UserModel();
@@ -94,7 +169,7 @@ class Admin extends Controller
         ->where('id !=', $user_id)
         ->first();
       if ($existing_username) {
-        return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('error', 'Nome de usuário já está em uso.');
+        return redirect()->to(base_url('admin/users/edit_user/' . $user_id))->with('error', 'Nome de usuário já está em uso.');
       }
       $userData['username'] = strtolower($username);
     }
@@ -105,7 +180,7 @@ class Admin extends Controller
         ->where('id !=', $user_id)
         ->first();
       if ($existing_email) {
-        return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('error', 'Email já está em uso.');
+        return redirect()->to(base_url('admin/users/edit_user/' . $user_id))->with('error', 'Email já está em uso.');
       }
       $userData['email'] = $email;
     }
@@ -145,11 +220,11 @@ class Admin extends Controller
       $this->processProfilePhoto($profile_photo, $user_id, $profilePhotoModel);
     }
 
-    if(empty($userData)) {
-      return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('warning', 'Nenhum campo foi alterado.');
+    if (empty($userData)) {
+      return redirect()->to(base_url('admin/users/edit_user/' . $user_id))->with('warning', 'Nenhum campo foi alterado.');
     }
 
-    return redirect()->to(base_url('admin/edit_user/' . $user_id))->with('success', 'Usuário atualizado com sucesso!');
+    return redirect()->to(base_url('admin/users/edit_user/' . $user_id))->with('success', 'Usuário atualizado com sucesso!');
   }
 
   private function processProfilePhoto($profile_photo, $user_id, $profilePhotoModel)

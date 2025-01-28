@@ -30,9 +30,11 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
-          <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-            Adicionar Usuário
-          </button>
+          <form action="<?= base_url('admin/users/create_user/') ?>" method="GET" class="inline-flex">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+              Adicionar Usuário
+            </button>
+          </form>
         </div>
       </div>
 
@@ -94,7 +96,7 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div class="flex space-x-2">
-                    <form action="<?= base_url('admin/edit_user/' . $user['id']) ?>" method="GET" class="inline-flex">
+                    <form action="<?= base_url('admin/users/edit_user/' . $user['id']) ?>" method="GET" class="inline-flex">
                       <button class="text-blue-600 hover:text-blue-900">Editar</button>
                     </form>
                     <button type="button" data-modal-target="deactivateModal" data-modal-toggle="deactivateModal" onclick="showStatusModal(<?= $user['id'] ?>, <?= $user['is_deleted'] ?>)" class="text-red-600 hover:text-red-900">
@@ -147,7 +149,7 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
           </svg>
           <h3 class="mb-5 text-lg font-normal text-gray-500" id="modalText"></h3>
-          <form id="statusForm" action="<?= base_url('admin/toggle_user_status') ?>" method="POST" class="inline-flex">
+          <form id="statusForm" action="<?= base_url('admin/users/toggle_user_status') ?>" method="POST" class="inline-flex">
             <input type="hidden" name="user_id" id="userIdToToggle">
             <input type="hidden" name="current_status" id="currentStatus">
             <button type="submit" id="confirmButton" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">

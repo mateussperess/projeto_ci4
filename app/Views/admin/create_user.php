@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Usuário - Peres Imóveis</title>
+  <title>Cadastrar Usuário - Peres Imóveis</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
@@ -18,41 +18,38 @@
   <div class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Editar Usuário</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Cadastrar Novo Usuário</h2>
         <a href="<?= base_url('admin/users') ?>" class="text-blue-600 hover:text-blue-800">Voltar para Lista</a>
       </div>
 
-      <?php if (session()->getFlashdata('error')): ?>
+      <?php if (session()->getFlashdata('warning_username')): ?>
         <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-          <span class="block sm:inline"><?= session()->getFlashdata('error') ?></span>
+          <span class="block sm:inline"><?= session()->getFlashdata('warning_username') ?></span>
         </div>
       <?php endif; ?>
 
-      <?php if (session()->getFlashdata('warning')): ?>
-        <div id="warning" class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4">
-          <?= session()->getFlashdata('warning') ?>
+      <?php if (session()->getFlashdata('warning_email')): ?>
+        <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span class="block sm:inline"><?= session()->getFlashdata('warning_email') ?></span>
         </div>
       <?php endif; ?>
 
-      <?php if (session()->getFlashdata('success')): ?>
-        <div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-          <?= session()->getFlashdata('success') ?>
+      <?php if (session()->getFlashdata('warning_passwords')): ?>
+        <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span class="block sm:inline"><?= session()->getFlashdata('warning_passwords') ?></span>
         </div>
       <?php endif; ?>
 
-      <form action="<?= base_url('admin/users/update_user/' . $user['id']) ?>" method="POST" enctype="multipart/form-data">
-
+      <form action="<?= base_url('admin/users/save_user') ?>" method="POST" enctype="multipart/form-data">
         <!-- Profile Photo Section -->
         <div class="mb-6 text-center">
           <div class="mb-4">
-            <img class="w-32 h-32 rounded-full mx-auto"
-              src="<?= isset($profile_photo) ? base_url('public/uploads/profile_photos/' . $profile_photo['file_name']) : base_url('public/uploads/profile_photos/default.png') ?>"
-              alt="Profile photo">
+            <img class="w-32 h-32 rounded-full mx-auto" src="<?= base_url('public/uploads/profile_photos/default.png') ?>" alt="Profile photo">
           </div>
           <div class="flex items-center justify-center">
             <input type="file" name="profile_photo" id="profile_photo" class="hidden" accept="image/*">
             <label for="profile_photo" class="bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-600">
-              Alterar Foto
+              Escolher Foto
             </label>
           </div>
         </div>
@@ -62,18 +59,15 @@
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Nome de Usuário</label>
-              <input id="username" type="text" name="username" value="<?= esc($user['username']) ?>"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 <?= session()->getFlashdata('error') ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500' : '' ?>">
+              <input type="text" name="username" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Nome</label>
-              <input type="text" name="first_name" value="<?= esc($user['first_name']) ?>"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <input type="text" name="first_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Sobrenome</label>
-              <input type="text" name="last_name" value="<?= esc($user['last_name']) ?>"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <input type="text" name="last_name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
             </div>
           </div>
 
@@ -81,44 +75,44 @@
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" name="email" value="<?= esc($user['email']) ?>"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <input type="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Tipo de Usuário</label>
-              <select name="role_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                <option value="1" <?= $user['role_id'] == 1 ? 'selected' : '' ?>>Administrador</option>
-                <option value="2" <?= $user['role_id'] == 2 ? 'selected' : '' ?>>Corretor</option>
-                <option value="3" <?= $user['role_id'] == 3 ? 'selected' : '' ?>>Cliente</option>
+              <select name="role_id" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <option value="1">Administrador</option>
+                <option value="2">Corretor</option>
+                <option value="3" selected>Cliente</option>
               </select>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Status</label>
               <select name="is_deleted" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                <option value="0" <?= $user['is_deleted'] == 0 ? 'selected' : '' ?>>Ativo</option>
-                <option value="1" <?= $user['is_deleted'] == 1 ? 'selected' : '' ?>>Inativo</option>
+                <option value="0" selected>Ativo</option>
+                <option value="1">Inativo</option>
               </select>
             </div>
           </div>
         </div>
 
-        <!-- Password Reset Section -->
+        <!-- Password Section -->
         <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Redefinir Senha</h3>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Definir Senha</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700">Nova Senha</label>
-              <input type="password" name="password" id="password"
+              <label class="block text-sm font-medium text-gray-700">Senha</label>
+              <input type="password" name="password" id="password" required
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
             </div>
             <div id="confirm_password_div">
-              <label class="block text-sm font-medium text-gray-700">Confirmar Nova Senha</label>
-              <input type="password" name="password_confirm" id="confirm_password"
+              <label class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
+              <input type="password" name="password_confirm" id="confirm_password" required
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-
-              <p id="confirm_password_ok" class="mt-2 text-sm text-green-600 dark:text-green-500" style="display: none;"><span class="font-medium">Muito bem!</span> As senhas estão corretas.</p>
-              <p id="confirm_password_not_ok" class="mt-2 text-sm text-red-600 dark:text-red-500" style="display: none;"><span class="font-medium">Oops!</span> As senhas estão diferentes!</p>
-
+              
+              <p id="confirm_password_ok" class="mt-2 text-sm text-green-600 dark:text-green-500" style="display: none;">
+                <span class="font-medium">Muito bem!</span> As senhas estão corretas.</p>
+              <p id="confirm_password_not_ok" class="mt-2 text-sm text-red-600 dark:text-red-500" style="display: none;">
+                <span class="font-medium">Oops!</span> As senhas estão diferentes!</p>
             </div>
           </div>
         </div>
@@ -130,7 +124,7 @@
             Cancelar
           </button>
           <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            Salvar Alterações
+            Cadastrar Usuário
           </button>
         </div>
       </form>
@@ -143,7 +137,5 @@
   </button>
 
   <script src="<?= base_url('public/js/register.js') ?>"></script>
-  <script src="<?= base_url('public/js/admin/edit_user.js') ?>"></script>
 </body>
-
 </html>

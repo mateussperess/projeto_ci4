@@ -11,11 +11,9 @@
   <link rel="stylesheet" href="<?= base_url('public/style/style_index.css'); ?>">
   <link rel="shortcut icon" href="<?= base_url('public/img/black_logo.png'); ?>" type="image/x-icon">
 
-  <script src="<?= base_url('public/js/index.js') ?>"></script>
 </head>
 
 <body class="bg-gray-100">
-
   <?= view('admin/templates/header') ?>
 
   <!-- Admin Stats Section -->
@@ -46,6 +44,8 @@
   <button id="backToTop" class="fixed bottom-4 right-4 p-2 rounded-full shadow-lg">
     <img src="<?= base_url('public/img/go_top.png') ?>" class="w-12 h-12" alt="Voltar ao topo">
   </button>
+
+  <script src="<?= base_url('public/js/index.js') ?>"></script>
 </body>
 
 </html>
