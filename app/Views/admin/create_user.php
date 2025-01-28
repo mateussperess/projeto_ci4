@@ -143,7 +143,7 @@
     <img src="<?= base_url('public/img/go_top.png') ?>" class="w-12 h-12" alt="Voltar ao topo">
   </button>
 
-  <script src="<?= base_url('public/js/admin/create_user.js') ?>"></script>
-  <script src="<?= base_url('public/js/register.js') ?>"></script>
+  <script src="<?= base_url('public/js/admin/create_user.js') ?>" async></script>
+  <script src="<?= base_url('public/js/register.js') ?>" async></script>
 </body>
 </html>

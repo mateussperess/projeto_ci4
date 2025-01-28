@@ -10,7 +10,6 @@
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
   <link rel="stylesheet" href="<?= base_url('public/style/style_index.css'); ?>">
   <link rel="shortcut icon" href="<?= base_url('public/img/black_logo.png'); ?>" type="image/x-icon">
-  <script src="<?= base_url('public/js/index.js') ?>"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -181,6 +180,8 @@
       modal.classList.add('flex');
     }
   </script>
+
+  <script src="<?= base_url('public/js/index.js') ?>" async></script>
 </body>
 
 </html>

@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <script src="<?= base_url('public/js/login.js') ?>"></script>
+  <script src="<?= base_url('public/js/login.js') ?>" async></script>
 </body>
 
 </html>

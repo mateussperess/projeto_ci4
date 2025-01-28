@@ -108,7 +108,7 @@
     </p>
   </div>
 
-  <script src="<?= base_url('public/js/register.js') ?>"></script>
+  <script src="<?= base_url('public/js/register.js') ?>" async></script>
 </body>
 
 </html>

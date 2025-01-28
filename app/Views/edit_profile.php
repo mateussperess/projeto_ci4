@@ -78,7 +78,7 @@
     </div>
   </div>
 
-  <script src="<?= base_url('public/js/edit_profile.js') ?>"></script>
+  <script src="<?= base_url('public/js/edit_profile.js') ?>" async></script>
 </body>
 
 </html>

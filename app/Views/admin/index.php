@@ -45,7 +45,7 @@
     <img src="<?= base_url('public/img/go_top.png') ?>" class="w-12 h-12" alt="Voltar ao topo">
   </button>
 
-  <script src="<?= base_url('public/js/index.js') ?>"></script>
+  <script src="<?= base_url('public/js/index.js') ?>" async></script>
 </body>
 
 </html>
