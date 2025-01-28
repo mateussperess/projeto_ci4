@@ -106,7 +106,6 @@ class Admin extends Controller
     ];
 
     $userId = $userModel->insert($data);
-
     if ($userId) {
       // verificar se o arquivo de foto foi enviado
       $profile_photo = $this->request->getFile('profile_photo');

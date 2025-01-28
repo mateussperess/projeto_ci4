@@ -16,6 +16,7 @@ class UserModel extends Model
 		'last_name',
 		'email',
 		'password',
+		'role_id',
 		'created_at',
 		'updated_at',
 		'deleted_at',
@@ -114,6 +115,7 @@ class UserModel extends Model
 	private $last_name;
 	private $email;
 	private $password;
+	private $role_id;
 	private $created_at;
 	private $updated_at;
 	private $deleted_at;
@@ -168,6 +170,14 @@ class UserModel extends Model
 	public function setPassword($value)
 	{
 		$this->password = $value;
+	}
+
+	public function getRoleId($value) {
+		return $this->role_id;
+	}
+
+	public function setRoleId($value) {
+		$this->role_id = $value;
 	}
 
 	public function getCreated_at()
