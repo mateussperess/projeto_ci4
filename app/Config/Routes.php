@@ -31,9 +31,9 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
   $routes->get('/', 'Admin::index');
   $routes->get('users', 'Admin::users');
+  $routes->get('profile', 'User::profile');
   
   $routes->get('users/edit_user/(:num)', 'Admin::edit_user_page/$1');
-  $routes->get('users/profile', 'User::profile');
   $routes->get('users/edit_profile', 'User::edit_profile');
   $routes->get('users/create_user', 'Admin::create_user_page');
 

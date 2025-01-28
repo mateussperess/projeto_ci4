@@ -51,7 +51,7 @@
         <!-- Profile Photo Section -->
         <div class="mb-6 text-center">
           <div class="mb-4">
-            <img class="w-32 h-32 rounded-full mx-auto" src="<?= base_url('public/uploads/profile_photos/default.png') ?>" alt="Profile photo">
+            <img class="w-32 h-32 rounded-full mx-auto object-cover" src="<?= base_url('public/uploads/profile_photos/default.png') ?>" alt="Profile photo">
           </div>
           <div class="flex items-center justify-center">
             <input type="file" name="profile_photo" id="profile_photo" class="hidden" accept="image/*">
@@ -144,5 +144,6 @@
   </button>
 
   <script src="<?= base_url('public/js/admin/create_user.js') ?>"></script>
+  <script src="<?= base_url('public/js/register.js') ?>"></script>
 </body>
 </html>
