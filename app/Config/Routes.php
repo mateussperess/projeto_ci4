@@ -12,7 +12,6 @@ $routes->group('', function ($routes) {
   $routes->get('login', 'User::login_page');
   $routes->get('register', 'User::register_page');
 
-  // Rotas POST para processar formulários
   $routes->post('login', 'User::login');
   $routes->post('register', 'User::create');
 });
@@ -24,8 +23,17 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
   $routes->get('edit_profile', 'User::edit_profile');
   $routes->get('logout', 'User::logout');
 
+  $routes->get('announce', 'PreAnnouncement::create');
+  $routes->post('submit_announce', 'PreAnnouncement::store');
+
   $routes->post('logout', 'User::logout');
   $routes->post('update_profile', 'User::update_profile');
+});
+
+$routes->group('broker', '', function ($routes) {
+  $routes->get('/', 'Broker::index');
+
+  $routes->get('logout', 'User::logout');
 });
 
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {

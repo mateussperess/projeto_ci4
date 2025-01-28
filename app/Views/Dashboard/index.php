@@ -17,6 +17,12 @@
 
   <?= view('templates/header') ?>
 
+  <?php if (session()->getFlashdata('success')): ?>
+    <div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+      <?= session()->getFlashdata('success') ?>
+    </div>
+  <?php endif; ?>
+
   <!-- Catálogo de Imóveis -->
   <section id="catalogo" class="container mx-auto py-12">
     <h2 class="text-3xl font-bold text-center mb-8">Catálogo</h2>
@@ -25,7 +31,7 @@
     <h2 class="text-3xl font-bold text-center mb-8">Categorias</h2>
     <?= view('templates/categories_section') ?>
   </section>
-  
+
   <?= view('templates/about') ?>
   <?= view('templates/contact') ?>
   <?= view('templates/footer') ?>
@@ -34,7 +40,7 @@
   <button id="backToTop" class="fixed bottom-4 right-4 p-2 rounded-full shadow-lg">
     <img src="<?= base_url('public/img/go_top.png') ?>" class="w-12 h-12" alt="Voltar ao topo">
   </button>
-  
+
   <script src="<?= base_url('public/js/index.js') ?>" async></script>
 </body>
 

@@ -7,6 +7,8 @@ use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Models\ProfilePhotoModel;
 use App\Services\EmailService;
+use App\Models\PreAnnouncementModel;
+use App\Models\PropertyTypesModel;
 
 class User extends Controller
 {
@@ -120,7 +122,7 @@ class User extends Controller
       if ($user_role['id'] == 1) {
         return redirect()->to(base_url('admin'))->with('success_login', 'Bem-vindo(a) de volta, administrador!');
       } else if ($user_role['id'] == 2) {
-        return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta, corretor!');
+        return redirect()->to(base_url('broker'))->with('success_login', 'Bem-vindo(a) de volta, corretor!');
       } else if ($user_role['id'] == 3) {
         return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta, cliente!');
       }
@@ -219,7 +221,6 @@ class User extends Controller
     if ($username !== $current_user['username']) {
       $existing_username = $userModel->where('username', $username)->where('id !=', $userId)->first();
       if ($existing_username) {
-        // return redirect()->back()->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
         return redirect()->to(base_url('dashboard/edit_profile'))->with('error_username', 'O nome de usuário inserido não está disponível! Tente outro nome de usuário.');
       }
     }
