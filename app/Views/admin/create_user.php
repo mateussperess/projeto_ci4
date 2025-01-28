@@ -59,7 +59,7 @@
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Nome de Usuário</label>
-              <input type="text" name="username" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <input id="username" type="text" name="username" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 <?= session()->getFlashdata('warning_username') ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500' : '' ?>">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Nome</label>
@@ -75,7 +75,7 @@
           <div class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <input id="email" type="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 <?= session()->getFlashdata('warning_email') ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500' : '' ?>">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Tipo de Usuário</label>
@@ -136,6 +136,6 @@
     <img src="<?= base_url('public/img/go_top.png') ?>" class="w-12 h-12" alt="Voltar ao topo">
   </button>
 
-  <script src="<?= base_url('public/js/register.js') ?>"></script>
+  <script src="<?= base_url('public/js/admin/create_user.js') ?>"></script>
 </body>
 </html>
