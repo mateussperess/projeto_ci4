@@ -30,6 +30,9 @@ $string_url = substr($requestUri, 23, 8);
             <a href="<?= base_url('dashboard/profile') ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"> Perfil </a>
           </li>
           <li>
+            <a href="<?= base_url('dashboard/announcements/' . session()->get('user_id')) ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"> Meus Anúncios </a>
+          </li>
+          <li>
             <a href="<?= base_url('dashboard/logout') ?>" class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
           </li>
         </ul>

@@ -14,6 +14,7 @@ class PreAnnouncementModel extends Model
   protected $allowedFields = [
     'user_id',
     'property_type_id',
+    'title',
     'total_area',
     'bedrooms',
     'bathrooms',
@@ -39,6 +40,7 @@ class PreAnnouncementModel extends Model
   protected $validationRules = [
     'user_id' => 'required|numeric',
     'property_type_id' => 'required|numeric',
+    'title' => 'required',
     'total_area' => 'required|numeric',
     'address' => 'required',
     'city' => 'required',
@@ -50,4 +52,8 @@ class PreAnnouncementModel extends Model
     'transaction_type' => 'required|in_list[sale,rent]',
     'description' => 'required'
   ];
+
+  public function getAnnouncesByUserId($userId) {
+    return $this->where('user_id', $userId)->findAll();
+  }
 }

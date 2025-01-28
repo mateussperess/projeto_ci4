@@ -29,6 +29,11 @@
               <option value="<?= $type['id'] ?>"><?= esc($type['name']) ?></option>
             <?php endforeach; ?>
           </select>
+
+          <div class="mb-6 mt-6">
+            <h3 class="text-lg font-semibold mb-4">Título do Anúncio</h3>
+            <input type="text" name="title" class="mt-1 block w-full rounded-md">
+          </div>
         </div>
 
         <!-- Property Details -->
@@ -84,7 +89,7 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700"> Número </label>
+              <label class="block text-sm font-medium text-gray-700"> CEP </label>
               <input type="number" name="zip_code" class="mt-1 block w-full rounded-md">
             </div>
           </div>
@@ -147,7 +152,7 @@
               <div class="flex text-sm text-gray-600">
                 <label for="photos" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                   <span>Upload de fotos</span>
-                  <input id="photos" name="photos[]" type="file" class="sr-only" multiple accept="image/*">
+                  <input id="photos" name="photos[]" type="file" class="sr-only" multiple accept="image/*" required>
                 </label>
                 <p class="pl-1">ou arraste e solte</p>
               </div>

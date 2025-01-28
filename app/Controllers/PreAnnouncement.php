@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PreAnnouncementModel;
+use App\Models\PropertyPhotosModel;
 use App\Models\PropertyTypesModel;
 
 class PreAnnouncement extends BaseController
@@ -23,16 +24,18 @@ class PreAnnouncement extends BaseController
     $data = [
       'user_id' => $session->get('user_id'),
       'property_type_id' => $this->request->getPost('property_type_id'),
+      'title' => $this->request->getPost('title'),
       'total_area' => $this->request->getPost('total_area'),
       'bedrooms' => $this->request->getPost('bedrooms'),
       'bathrooms' => $this->request->getPost('bathrooms'),
       'parking' => $this->request->getPost('parking'),
       'address' => $this->request->getPost('address'),
-      'neighborhood' => $this->request->getPost('neighborhood'),       'city' => $this->request->getPost('city'),
+      'neighborhood' => $this->request->getPost('neighborhood'),
+      'city' => $this->request->getPost('city'),
       'state' => $this->request->getPost('state'),
-      'number' => $this->request->getPost('number'), 
+      'number' => $this->request->getPost('number'),
       'complement' => $this->request->getPost('complement'),
-      'zip_code' => $this->request->getPost('zip_code'), 
+      'zip_code' => $this->request->getPost('zip_code'),
       'price' => $this->request->getPost('price'),
       'transaction_type' => $this->request->getPost('transaction_type'),
       'description' => $this->request->getPost('description'),
@@ -40,10 +43,28 @@ class PreAnnouncement extends BaseController
     ];
 
     $pre_announcement_id = $announceModel->insert($data);
+    $files = $this->request->getFileMultiple('photos');
+
+    if ($files) {
+      $propertyPhotosModel = new PropertyPhotosModel();
+      $propertyPhotosModel->addPhotos($pre_announcement_id, $files);
+    }
 
     if ($pre_announcement_id) {
       return redirect()->to(base_url('dashboard'))->with('success', 'Anúncio enviado para aprovação!');
     }
     return redirect()->to(base_url('dashboard'))->with('error', 'Erro ao enviar anúncio.');
+  }
+  public function list()
+  {
+    $userId = session()->get('user_id');
+    $announcesModel = new PreAnnouncementModel();
+    $propertyPhotosModel = new PropertyTypesModel();
+
+    $data = [
+      'announcements' => $announcesModel->where('user_id', $userId)->findAll(),
+    ];
+
+    return view('dashboard/list_announces', $data);
   }
 }

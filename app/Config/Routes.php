@@ -22,10 +22,11 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
   $routes->get('profile', 'User::profile');
   $routes->get('edit_profile', 'User::edit_profile');
   $routes->get('logout', 'User::logout');
-
+  
   $routes->get('announce', 'PreAnnouncement::create');
   $routes->post('submit_announce', 'PreAnnouncement::store');
-
+  $routes->get('announcements/(:num)', 'PreAnnouncement::list/$1');
+  
   $routes->post('logout', 'User::logout');
   $routes->post('update_profile', 'User::update_profile');
 });
