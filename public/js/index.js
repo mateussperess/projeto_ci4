@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
   function toggleMenu() {
     const menu = document.getElementById('navbar-cta');

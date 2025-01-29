@@ -52,7 +52,7 @@ class PreAnnouncement extends BaseController
     }
 
     if ($pre_announcement_id) {
-      return redirect()->to(base_url('dashboard'))->with('success', 'Anúncio enviado para aprovação!');
+      return redirect()->to(base_url('dashboard/announcements/' . session()->get('user_id')))->with('success', 'Anúncio enviado para aprovação!');
     }
     return redirect()->to(base_url('dashboard'))->with('error', 'Erro ao enviar anúncio.');
   }

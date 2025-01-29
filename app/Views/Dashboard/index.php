@@ -17,12 +17,6 @@
 
   <?= view('dashboard/templates/header') ?>
 
-  <?php if (session()->getFlashdata('success')): ?>
-    <div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-      <?= session()->getFlashdata('success') ?>
-    </div>
-  <?php endif; ?>
-
   <!-- Catálogo de Imóveis -->
   <section id="catalogo" class="container mx-auto py-12">
     <h2 class="text-3xl font-bold text-center mb-8">Catálogo</h2>

@@ -34,11 +34,19 @@
         </div>
       </div>
 
+      <div class="container mx-auto px-4 py-8">
+        <?php if (session()->getFlashdata('success')): ?>
+          <div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+            <?= session()->getFlashdata('success') ?>
+          </div>
+        <?php endif; ?>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php foreach ($announcements as $announcement): ?>
           <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition">
-            <img src=" <?= base_url('public/img/3.jpg') ?>"             
-            alt="Imóvel" class="w-full h-48 object-cover">
+            <img src=" <?= base_url('public/img/3.jpg') ?>"
+              alt="Imóvel" class="w-full h-48 object-cover">
 
             <div class="p-4">
               <div class="flex justify-between items-start mb-2">
@@ -89,6 +97,7 @@
   </button>
 
   <script src="<?= base_url('public/js/index.js') ?>" async></script>
+  <script src="<?= base_url('public/js/announcements.js') ?>" async></script>
 </body>
 
 </html>
