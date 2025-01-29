@@ -43,11 +43,12 @@ class PreAnnouncement extends BaseController
     ];
 
     $pre_announcement_id = $announceModel->insert($data);
+
+    $propertyPhotosModel = new PropertyPhotosModel();
     $files = $this->request->getFileMultiple('photos');
 
-    if ($files) {
-      $propertyPhotosModel = new PropertyPhotosModel();
-      $propertyPhotosModel->addPhotos($pre_announcement_id, $files);
+    if (!empty($files)) {
+      $propertyPhotosModel->addPropertyPhotos($pre_announcement_id, $files);
     }
 
     if ($pre_announcement_id) {

@@ -152,7 +152,7 @@
               <div class="flex text-sm text-gray-600">
                 <label for="photos" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                   <span>Upload de fotos</span>
-                  <input id="photos" name="photos[]" type="file" class="sr-only" multiple accept="image/*" required>
+                  <input type="file" name="photos[]" id="photos" class="hidden" accept="image/*" multiple required>
                 </label>
                 <p class="pl-1">ou arraste e solte</p>
               </div>
