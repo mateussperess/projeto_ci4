@@ -90,7 +90,7 @@
 
             <div>
               <label class="block text-sm font-medium text-gray-700"> CEP </label>
-              <input type="number" name="zip_code" class="mt-1 block w-full rounded-md">
+              <input type="text" id="zip_code" name="zip_code" class="mt-1 block w-full rounded-md" maxlength="9">
             </div>
           </div>
         </div>
@@ -123,7 +123,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">Valor (R$)</label>
-              <input type="number" name="price" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+              <input id="price" type="text" name="price" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" maxlength="16">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Tipo de Negócio</label>
@@ -138,7 +138,11 @@
         <!-- Description -->
         <div class="mb-6">
           <h3 class="text-lg font-semibold mb-4">Descrição do Imóvel</h3>
-          <textarea name="description" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Descreva as características do imóvel..."></textarea>
+          <textarea id="description" name="description" rows="4" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Descreva as características do imóvel..." maxlength="500" style="resize: none; height: 12rem;" oninput="updateCounter()"></textarea>
+          <!-- Contador -->
+          <div class="text-sm text-gray-600 mt-1" id="charCounterDiv">
+            <span id="charCounter">0</span>/500 caracteres
+          </div>
         </div>
 
         <!-- Photos -->
@@ -153,8 +157,9 @@
                 <label for="photos" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                   <span>Upload de fotos</span>
                   <input type="file" name="photos[]" id="photos" class="hidden" accept="image/*" multiple required>
+                  <div id="imagePreviewContainer" class="grid grid-cols-3 gap-4 mt-4"></div>
                 </label>
-                <p class="pl-1">ou arraste e solte</p>
+                <p id="text_upload" class="pl-1">ou arraste e solte</p>
               </div>
               <p class="text-xs text-gray-500">PNG, JPG, GIF até 10MB</p>
             </div>
@@ -181,7 +186,6 @@
 
   <script src="<?= base_url('public/js/index.js') ?>" async></script>
   <script src="<?= base_url('public/js/announce.js') ?>" async></script>
-
 </body>
 
 </html>

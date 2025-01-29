@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\PreAnnouncementModel;
 use App\Models\PropertyPhotosModel;
 use App\Models\PropertyTypesModel;
+use Faker\Core\Number;
 
 class PreAnnouncement extends BaseController
 {
@@ -21,6 +22,10 @@ class PreAnnouncement extends BaseController
     $session = session();
     $announceModel = new PreAnnouncementModel();
 
+    $price = str_replace(['R$', '.', ' '], '', $this->request->getPost('price')); 
+    $price = str_replace(',', '.', $price); 
+    $price = (float) $price; 
+    
     $data = [
       'user_id' => $session->get('user_id'),
       'property_type_id' => $this->request->getPost('property_type_id'),
@@ -36,7 +41,7 @@ class PreAnnouncement extends BaseController
       'number' => $this->request->getPost('number'),
       'complement' => $this->request->getPost('complement'),
       'zip_code' => $this->request->getPost('zip_code'),
-      'price' => $this->request->getPost('price'),
+      'price' => $price,
       'transaction_type' => $this->request->getPost('transaction_type'),
       'description' => $this->request->getPost('description'),
       'status' => 'pending'

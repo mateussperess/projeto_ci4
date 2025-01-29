@@ -67,3 +67,73 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+document.getElementById('photos').addEventListener('change', function (event) {
+  const container = document.getElementById('imagePreviewContainer');
+  container.innerHTML = '';
+
+  for (const file of event.target.files) {
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      const previewDiv = document.createElement('div');
+      const text_upload = document.getElementById('text_upload');
+      text_upload.style.display = 'none';
+      previewDiv.className = 'relative';
+
+
+      reader.onload = function (e) {
+        previewDiv.innerHTML = `
+                  <img src="${e.target.result}" class="w-full h-48 object-cover rounded-lg">
+                  <div class="absolute top-2 right-2">
+                      <button type="button" onclick="event.preventDefault();" class="bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                      </button>
+                  </div>
+              `;
+
+        const removeButton = previewDiv.querySelector('button');
+        removeButton.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          previewDiv.remove();
+          text_upload.style.display = 'block';
+        });
+      };
+
+      reader.readAsDataURL(file);
+      container.appendChild(previewDiv);
+    }
+  }
+});
+
+function updateCounter() {
+  const descriptionInput = document.getElementById('description');
+  const charCounter = document.getElementById('charCounter');
+  const charCounterDiv = document.getElementById('charCounterDiv');
+  charCounter.textContent = descriptionInput.value.length;
+
+  if (descriptionInput.value.length === 500) {
+    charCounterDiv.style.color = 'red';
+  } else {
+    charCounterDiv.style.color = 'black';
+  }
+}
+
+document.getElementById('zip_code').addEventListener('input', function (e) {
+  let value = e.target.value;
+  value = value.replace(/\D/g, '');
+  value = value.replace(/^(\d{5})(\d)/, '$1-$2');
+  e.target.value = value;
+});
+
+document.getElementById('price').addEventListener('input', function (e) {
+  let value = e.target.value;
+  value = value.replace(/\D/g, '');
+  value = (Number(value) / 100).toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+  e.target.value = value;
+});
