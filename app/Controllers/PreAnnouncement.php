@@ -7,6 +7,8 @@ use App\Models\PropertyPhotosModel;
 use App\Models\PropertyTypesModel;
 use Faker\Core\Number;
 
+use function PHPSTORM_META\type;
+
 class PreAnnouncement extends BaseController
 {
   public function create()
@@ -22,14 +24,16 @@ class PreAnnouncement extends BaseController
     $session = session();
     $announceModel = new PreAnnouncementModel();
 
-    $price = str_replace(['R$', '.', ' '], '', $this->request->getPost('price')); 
-    $price = str_replace(',', '.', $price); 
-    $price = (float) $price; 
-    
+
+    $price = $this->request->getPost('price'); 
+    $price = preg_replace('/[^0-9,]/', '', $price); 
+    $price = str_replace(',', '.', $price);
+    $price_ok = floatval($price);
+
     $data = [
       'user_id' => $session->get('user_id'),
       'property_type_id' => $this->request->getPost('property_type_id'),
-      'title' => $this->request->getPost('title'),
+      'title' => ucfirst(strtolower($this->request->getPost('title'))),
       'total_area' => $this->request->getPost('total_area'),
       'bedrooms' => $this->request->getPost('bedrooms'),
       'bathrooms' => $this->request->getPost('bathrooms'),
@@ -41,7 +45,7 @@ class PreAnnouncement extends BaseController
       'number' => $this->request->getPost('number'),
       'complement' => $this->request->getPost('complement'),
       'zip_code' => $this->request->getPost('zip_code'),
-      'price' => $price,
+      'price' => $price_ok,
       'transaction_type' => $this->request->getPost('transaction_type'),
       'description' => $this->request->getPost('description'),
       'status' => 'pending'
@@ -64,11 +68,24 @@ class PreAnnouncement extends BaseController
   public function list()
   {
     $userId = session()->get('user_id');
+
     $announcesModel = new PreAnnouncementModel();
-    $propertyPhotosModel = new PropertyTypesModel();
+    $propertyTypesModel = new PropertyTypesModel();
+    $propertyPhotosModel = new PropertyPhotosModel();
+
+    $announcements = $announcesModel->where('user_id', $userId)->findAll();
+
+    // Get photos for each announcement
+    foreach ($announcements as &$announcement) {
+      $announcement['photos'] = $propertyPhotosModel
+        ->where('pre_announcement_id', $announcement['id'])
+        ->orderBy('is_main_photo', 'DESC')
+        ->findAll();
+    }
 
     $data = [
-      'announcements' => $announcesModel->where('user_id', $userId)->findAll(),
+      'announcements' => $announcements,
+      'propertyTypes' => $propertyTypesModel->findAll()
     ];
 
     return view('dashboard/list_announces', $data);

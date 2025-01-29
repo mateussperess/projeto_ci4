@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
+<?php
+  // var_dump($announcements);
+  // exit;
+?>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,9 +50,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php foreach ($announcements as $announcement): ?>
           <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition">
-            <img src=" <?= base_url('public/img/3.jpg') ?>"
+            <img src="<?= base_url($announcement['photos'][0]['file_path']); ?>"
               alt="Imóvel" class="w-full h-48 object-cover">
-
             <div class="p-4">
               <div class="flex justify-between items-start mb-2">
                 <h3 class="text-xl font-semibold text-gray-800"><?= esc($announcement['title']) ?></h3>
