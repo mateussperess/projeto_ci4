@@ -56,22 +56,34 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-white border-b hover:bg-gray-50">
-            <td class="px-6 py-4">001</td>
-            <td class="px-6 py-4">João Silva</td>
-            <td class="px-6 py-4">Casa</td>
-            <td class="px-6 py-4">Rua das Flores, 123</td>
-            <td class="px-6 py-4">15/02/2024</td>
-            <td class="px-6 py-4">
-              <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Pendente</span>
-            </td>
-            <td class="px-6 py-4">
-              <a href="#" class="font-medium text-blue-600 hover:underline mr-3">Revisar</a>
-            </td>
-          </tr>
+          <?php foreach ($recent_ads as $ad): ?>
+            <tr class="bg-white border-b hover:bg-gray-50">
+              <td class="px-6 py-4"><?= esc($ad['id']) ?></td>
+              <td class="px-6 py-4"><?= esc($ad['username']) ?></td>
+              <td class="px-6 py-4"><?= esc($ad['property_type']) ?></td>
+              <td class="px-6 py-4"><?= esc($ad['address']) ?></td>
+              <td class="px-6 py-4"><?= date('d/m/Y', strtotime($ad['created_at'])) ?></td>
+              <td class="px-6 py-4">
+                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Pendente</span>
+              </td>
+              <td class="px-6 py-4">
+                <a href="<?= base_url('broker/review/' . $ad['id']) ?>" class="font-medium text-blue-600 hover:underline mr-3">Revisar</a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
         </tbody>
       </table>
     </div>
+
+    <?php if (empty($recent_ads)): ?>
+      <div class="text-center py-12">
+        <p class="text-gray-600 text-lg"> Sem pré-anúncios recentes para revisão. </p>
+        <a href="<?= base_url('broker/pending') ?>"
+          class="mt-4 inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+          Ver Anúncios Pendentes
+        </a>
+      </div>
+    <?php endif; ?>
   </section>
 
   <!-- Quick Actions -->

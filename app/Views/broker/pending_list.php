@@ -57,19 +57,21 @@
                 <td class="px-6 py-4">
                   <div class="flex items-center">
                     <img class="h-10 w-10 rounded-full"
-                      src="<?= base_url($user_profile_photo['file_path']) ?>"
-                      alt="profile_user_photo">
+                      src="<?= $announcement['file_path'] ? base_url($announcement['file_path']) : base_url('public/uploads/profile_photos/default.png') ?>"
+                      alt="<?= esc($announcement['username']) ?>">
                     <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900"><?= esc($user_data['first_name']) ?> <?= esc($user_data['last_name']) ?></div>
-                      <div class="text-sm text-gray-500"><?= esc($user_data['email']) ?></div>
+                      <div class="text-sm font-medium text-gray-900">
+                        <?= esc($announcement['first_name']) ?> <?= esc($announcement['last_name']) ?>
+                      </div>
+                      <div class="text-sm text-gray-500">
+                        <?= esc($announcement['email']) ?>
+                      </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                    <?= $user_data['role_id'] == 1 ? 'bg-purple-100 text-purple-800' : ($user_data['role_id'] == 2 ? 'bg-green-100 text-green-800' :
-                                      'bg-blue-100 text-blue-800') ?>">
-                    <?= $user_data['role_id'] == 1 ? 'Admin' : ($user_data['role_id'] == 2 ? 'Corretor' : 'Cliente') ?>
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                    Cliente
                   </span>
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-500">

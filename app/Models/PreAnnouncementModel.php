@@ -23,8 +23,8 @@ class PreAnnouncementModel extends Model
     'city',
     'neighborhood',
     'state',
-    'number',
-    'complement',
+    'topography',
+    'soil_type',
     'zip_code',
     'price',
     'transaction_type',
@@ -53,20 +53,40 @@ class PreAnnouncementModel extends Model
     'description' => 'required'
   ];
 
-  public function getAnnouncesByUserId($userId) {
+  public function getAnnouncesByUserId($userId)
+  {
     return $this->where('user_id', $userId)->findAll();
   }
 
-  public function getAllPreAnnouncement() {
-    return $this->findAll();
-  }
-
-  public function getUserDataByPreAnnouncementId($id) {
+  public function getUserDataByPreAnnouncementId($id)
+  {
     $this->select('users.id, users.username, users.email, users.first_name, users.last_name, users.role_id, users.is_deleted');
     $this->join('users', 'users.id = pre_announcements.user_id');
     $this->join('profile_photos', 'profile_photos.user_id = users.id');
     $this->where('pre_announcements.id', $id);
     $query = $this->get();
     return $query->getRowArray();
+  }
+
+  public function getRecentPreAds()
+  {
+    return $this->select('pre_announcements.*, users.username, users.email, profile_photos.file_path as user_photo, property_types.name as property_type')
+      ->join('users', 'users.id = pre_announcements.user_id')
+      ->join('profile_photos', 'profile_photos.user_id = users.id', 'left')
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->where('pre_announcements.created_at >= DATE_SUB(CURDATE(), INTERVAL 3 DAY)')
+      ->orderBy('pre_announcements.created_at', 'DESC')
+      ->limit(5)
+      ->findAll();
+  }
+
+  public function getAllPreAnnouncement()
+  {
+    return $this->select('pre_announcements.*, users.username, users.email, users.first_name, users.last_name, profile_photos.file_path, property_types.name as property_type')
+      ->join('users', 'users.id = pre_announcements.user_id')
+      ->join('profile_photos', 'profile_photos.user_id = users.id', 'left')
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->where('pre_announcements.status', 'pending')
+      ->findAll();
   }
 }

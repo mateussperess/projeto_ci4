@@ -14,12 +14,13 @@ class Broker extends Controller
 {
   public function index()
   {
-    return view('broker/index');
+    $preAdsModel = new PreAnnouncementModel();
+    $data['recent_ads'] = $preAdsModel->getRecentPreAds();
+    return view('broker/index', $data);
   }
 
   public function pending()
   {
-
     $profile_photo = new ProfilePhotoModel();
     $announcesModel = new PreAnnouncementModel();
     $propertyTypesModel = new PropertyTypesModel();
@@ -27,7 +28,6 @@ class Broker extends Controller
 
     $announcements = $announcesModel->getAllPreAnnouncement();
 
-    // Get photos for each announcement
     foreach ($announcements as &$announcement) {
       $announcement['photos'] = $propertyPhotosModel
         ->where('pre_announcement_id', $announcement['id'])
@@ -35,15 +35,26 @@ class Broker extends Controller
         ->findAll();
 
       $user_data = $announcesModel->getUserDataByPreAnnouncementId($announcement['id']);
-      $user_profile_photo = $profile_photo->getProfilePhotoByUserId($user_data['id']);
+      // $announcement['user_data'] = $user_data; 
+
+      if ($user_data) {
+        $user_profile_photo = $profile_photo->getProfilePhotoByUserId($user_data['id'])
+          ?? base_url('public/uploads/profile_photos/default.png');
+      } else {
+        $user_profile_photo = base_url('public/uploads/profile_photos/default.png');
+      }
+
+      $announcement['user_photo'] = $user_profile_photo;
     }
 
     $data = [
       'announcements' => $announcements,
-      'propertyTypes' => $propertyTypesModel->findAll(),
       'user_data' => $user_data,
-      'user_profile_photo' => $user_profile_photo
+      'propertyTypes' => $propertyTypesModel->findAll()
     ];
+
+    // var_dump($data);
+    // exit;
 
     return view('broker/pending_list', $data);
   }
