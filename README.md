@@ -5,20 +5,22 @@
   </tr>
 </table>
 
-## 📋 Sobre o Projeto
-
-Sistema web desenvolvido em CodeIgniter 4 para gestão imobiliária, com foco em uma experiência moderna e intuitiva.
-
 ## 🚀 Funcionalidades
-
-Criação de cadastro de usuários, login, gerenciamento de dados conta;
 
 ### 👤 Gestão de Usuários
 
-- Cadastro e autenticação
-- Perfis personalizados
-- Upload de fotos
+- Cadastro e autenticação de usuários
+- Perfis personalizados com foto
+- Upload e gerenciamento de fotos de perfil
 - Edição de dados pessoais
+- Sistema de boas-vindas por email
+
+### 🏠 Gestão de Imóveis
+
+- Cadastro e gerenciamento de imóveis
+- Upload de fotos dos imóveis
+- Sistema de busca e filtros
+- Categorização de imóveis
 
 ### 🎨 Interface
 
@@ -26,63 +28,87 @@ Criação de cadastro de usuários, login, gerenciamento de dados conta;
 - Modo escuro/claro
 - Navegação intuitiva
 - Feedback visual de ações
+- Seções: Sobre, Catálogo, Contato
 
-## 🛠️ Tecnologias
+## 🛠️ Tecnologias Utilizadas
 
 - **Backend:** CodeIgniter 4, PHP 8+
-- **Database:** MySQL
+- **Banco de Dados:** MySQL
 - **Frontend:** TailwindCSS, JavaScript
-- **Ícones:** Font Awesome
+- **Ícones:** Font Awesome, SVG
 
 ## 🚩 Rotas do Sistema
 
 ### Públicas
+
 - `/` - Página inicial
 - `/login` - Página de login
 - `/register` - Página de registro
 
-### Área Restrita (Dashboard)
+### Área do Usuário
+
 - `/dashboard` - Painel principal
 - `/dashboard/profile` - Perfil do usuário
 - `/dashboard/edit_profile` - Edição de perfil
+- `/dashboard/announce` - Anunciar imóvel
 
-### Área Administrativa (Dashboard)
-- `/admin` - Painel principal
-- `/admin/users` - Painel de Controle de Usuários
-- `/admin/edit_user/(:num)` - Edição de perfil do usuário pelo ID
+## 📦 Estrutura do Projeto
 
 ## 📦 Estrutura do Projeto
 
 ```
-  projeto_ci4/
+projeto_ci4/
 ├── app/
+│   ├── Config/
+│   │   └── App.php
 │   ├── Controllers/
-│   │   ├── Home.php
+│   │   ├── Admin.php
+│   │   ├── BaseController.php
+│   │   ├── Broker.php
 │   │   ├── Auth.php
+│   │   ├── Dashboard.php
+│   │   └── Home.php
+│   │   └── PreAnnouncement.php
 │   │   └── User.php
 │   ├── Models/
+│   │   ├── PreAnnouncementModel.php
 │   │   ├── UserModel.php
-│   │   └── ProfilePhotoModel.php
+│   │   ├── ProfilePhotoModel.php
+│   │   ├── PropertyPhotosModel.php
+│   │   ├── UserModel.php
+│   │   └── UserTypeModel.php
 │   └── Views/
+│       ├── admin/
+│       ├── App/
+│       ├── broker/
+│       ├── Dashboard/
+│       ├── emails/
+│       ├── errors/
+│       ├── templates/
+│       │   ├── about.php
+│       │   ├── carousel.php
+│       │   ├── categories_section.php
+│       │   ├── contact.php
+│       │   ├── footer.php
+│       │   └── header.php
+│       ├── edit_profile.php
 │       ├── index.php
 │       ├── login.php
-│       ├── register.php
 │       ├── profile.php
-│       ├── edit_profile.php
-│       └── templates/
-│           ├── header.php
-│           └── footer.php
+│       ├── register.php
+│       └── welcome_message.php
 ├── public/
 │   ├── img/
-│   │   ├── blue_logo.png
-│   │   ├── black_logo.png
-│   │   └── go_top.png
-│   ├── style/
-│   │   ├── style.css
-│   │   └── style_register.css
-│   └── uploads/
-│       └── profile_photos/
-└── ...
+│   ├── svg/
+│   ├── uploads/
+│   │   └── profile_photos/
+│   │       └── default.png
+│   └── style/
+│       ├── style.css
+│       └── style_register.css
+└── tests/
+    └── README.md
+
 ```
 
 ## ⚙️ Instalação
