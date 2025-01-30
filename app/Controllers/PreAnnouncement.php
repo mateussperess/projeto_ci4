@@ -24,7 +24,6 @@ class PreAnnouncement extends BaseController
     $session = session();
     $announceModel = new PreAnnouncementModel();
 
-
     $price = $this->request->getPost('price'); 
     $price = preg_replace('/[^0-9,]/', '', $price); 
     $price = str_replace(',', '.', $price);

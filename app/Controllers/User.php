@@ -103,6 +103,11 @@ class User extends Controller
     $user = $UserModel->where('email', $email)->first();
 
     $user_type = new UserTypeModel();
+    $user = $UserModel->where('email', $email)->first();
+
+    if (!$user) {
+      return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
+    }
 
     $user_role = $user_type->getUserTypeByUserId($user['id']);
 

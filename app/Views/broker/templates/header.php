@@ -1,6 +1,7 @@
 <?php
 $requestUri = $_SERVER['REQUEST_URI'];
 $string_url = substr($requestUri, 19, 5);
+
 ?>
 
 <nav id="nav" class="bg-white border-gray-200 dark:bg-gray-900">
@@ -51,16 +52,16 @@ $string_url = substr($requestUri, 19, 5);
     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-agent">
       <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <li>
-          <a href="<?= base_url('agent/') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == '' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
+          <a href="<?= base_url('broker/') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == '' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
         </li>
         <li>
-          <a href="<?= base_url('agent/pending') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == 'pendi' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pendentes</a>
+          <a href="<?= base_url('broker/pending') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == '/pend' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pendentes</a>
         </li>
         <li>
-          <a href="<?= base_url('agent/validated') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == 'valid' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Validados</a>
+          <a href="<?= base_url('#') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == 'valid' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Validados</a>
         </li>
         <li>
-          <a href="<?= base_url('agent/reports') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == 'repor' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Relatórios</a>
+          <a href="<?= base_url('#') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == 'repor' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Relatórios</a>
         </li>
       </ul>
     </div>

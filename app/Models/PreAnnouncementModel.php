@@ -56,4 +56,17 @@ class PreAnnouncementModel extends Model
   public function getAnnouncesByUserId($userId) {
     return $this->where('user_id', $userId)->findAll();
   }
+
+  public function getAllPreAnnouncement() {
+    return $this->findAll();
+  }
+
+  public function getUserDataByPreAnnouncementId($id) {
+    $this->select('users.id, users.username, users.email, users.first_name, users.last_name, users.role_id, users.is_deleted');
+    $this->join('users', 'users.id = pre_announcements.user_id');
+    $this->join('profile_photos', 'profile_photos.user_id = users.id');
+    $this->where('pre_announcements.id', $id);
+    $query = $this->get();
+    return $query->getRowArray();
+  }
 }
