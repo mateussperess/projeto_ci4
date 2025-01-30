@@ -34,6 +34,7 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
 $routes->group('broker', '', function ($routes) {
   $routes->get('/', 'Broker::index');
   $routes->get('pending', 'Broker::pending');
+  $routes->get('review/(:num)', 'Broker::review/$1');
 
   $routes->get('logout', 'User::logout');
 });

@@ -49,4 +49,9 @@ class PropertyPhotosModel extends Model
     }
     return true;
   }
+
+  public function getPropertyPhotosByPreAnnouncementId($pre_announcement_id)
+  {
+    return $this->where('pre_announcement_id', $pre_announcement_id)->findAll();
+  }
 }

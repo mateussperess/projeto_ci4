@@ -58,4 +58,32 @@ class Broker extends Controller
 
     return view('broker/pending_list', $data);
   }
+
+  public function review($pre_ad_id)
+  {
+    $preAdsModel = new PreAnnouncementModel();
+    $propertyPhotosModel = new PropertyPhotosModel();
+    $profilePhotoModel = new ProfilePhotoModel();
+    $userModel = new UserModel();
+
+    $announcement = $preAdsModel->find($pre_ad_id);
+
+    $announcements = $preAdsModel->getAllPreAnnouncement();
+    $ad_photos = $propertyPhotosModel->where('pre_announcement_id', $pre_ad_id)->findAll();
+    $user_data = $userModel->find($announcement['user_id']);
+
+    $user_profile_photo = $profilePhotoModel->getProfilePhotoByUserId($user_data['id']);
+
+    $data = [
+      'announcement' => $announcement,
+      'ad_photos' => $ad_photos,
+      'user_data' => $user_data,
+      'user_profile_photo' => $user_profile_photo,
+    ];
+
+    // var_dump($data);
+    // exit;
+
+    return view('broker/review', $data);
+  }
 }

@@ -30,7 +30,8 @@ class PreAnnouncementModel extends Model
     'transaction_type',
     'description',
     'status',
-    'broker_notes'
+    'broker_notes',
+    'is_verified'
   ];
 
   protected $useTimestamps = true;
