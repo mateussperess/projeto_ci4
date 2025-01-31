@@ -44,72 +44,6 @@ class UserModel extends Model
 		],
 	];
 
-	public function insertUser($data)
-	{
-		if (!$this->validate($data)) {
-			return false;
-		}
-
-		// Hash da senha antes de salvar
-		$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-		// Inserir os dados na tabela users
-		return $this->insert($data);
-	}
-
-	public function checkUserNameExistence(string $username)
-	{
-		return $this->where('username', $username)->first();
-	}
-
-	public function checkEmailExistence(string $email)
-	{
-		return $this->where('email', $email)->first();
-	}
-
-	public function addProfilePhoto($userId, $fileData)
-	{
-		$photoModel = new ProfilePhotoModel();
-
-		$data = [
-			'user_id'   => $userId,
-			'file_name' => $fileData['file_name'],
-			'file_path' => $fileData['file_path'],
-			'mime_type' => $fileData['mime_type'],
-			'created_at' => date('Y-m-d H:i:s'),
-		];
-
-		return $photoModel->addPhoto($data);
-	}
-
-	public function getFirstNameByUserId($userId)
-	{
-		$user = $this->find($userId);
-		return $user['first_name'];
-	}
-
-	public function getLastNameByUserId($userId)
-	{
-		$user = $this->find($userId);
-		return $user['last_name'];
-	}
-
-	public function updateUser($userId, $data)
-	{
-		return $this->update($userId, $data);
-	}
-
-	public function getUsernameByUserId($userId)
-	{
-		$user = $this->find($userId);
-		return $user['username'];
-	}
-
-	public function getEmailByUserId($userId)
-	{
-		$user = $this->find($userId);
-		return $user['email'];
-	}
 	private $username;
 	private $first_name;
 	private $last_name;
@@ -172,11 +106,13 @@ class UserModel extends Model
 		$this->password = $value;
 	}
 
-	public function getRoleId($value) {
+	public function getRoleId($value)
+	{
 		return $this->role_id;
 	}
 
-	public function setRoleId($value) {
+	public function setRoleId($value)
+	{
 		$this->role_id = $value;
 	}
 
@@ -228,5 +164,94 @@ class UserModel extends Model
 	public function setMessage($value)
 	{
 		$this->message = $value;
+	}
+
+	public function insertUser($data)
+	{
+		if (!$this->validate($data)) {
+			return false;
+		}
+
+		$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+		return $this->insert($data);
+	}
+
+	public function checkUserNameExistence(string $username)
+	{
+		return $this->where('username', $username)->first();
+	}
+
+	public function checkEmailExistence(string $email)
+	{
+		return $this->where('email', $email)->first();
+	}
+
+	public function setUserProfilePhoto($userId, $fileData)
+	{
+		$photoModel = new ProfilePhotoModel();
+
+		$data = [
+			'user_id'   => $userId,
+			'file_name' => $fileData['file_name'],
+			'file_path' => $fileData['file_path'],
+			'mime_type' => $fileData['mime_type'],
+			'created_at' => date('Y-m-d H:i:s'),
+		];
+
+		return $photoModel->addPhoto($data);
+	}
+
+	public function getFirstNameByUserId($userId)
+	{
+		$user = $this->find($userId);
+		return $user['first_name'];
+	}
+
+	public function getLastNameByUserId($userId)
+	{
+		$user = $this->find($userId);
+		return $user['last_name'];
+	}
+
+	public function updateUser($userId, $data)
+	{
+		return $this->update($userId, $data);
+	}
+
+	public function getUsernameByUserId($userId)
+	{
+		$user = $this->find($userId);
+		return $user['username'];
+	}
+
+	public function getEmailByUserId($userId)
+	{
+		$user = $this->find($userId);
+		return $user['email'];
+	}
+
+	public function getProfilePhotoByUserId($userId) {
+		$profilePhotoModel = new ProfilePhotoModel();
+		return $profilePhotoModel->getProfilePhotoByUserId($userId);
+	}
+
+	public function getUserRoleByUserId($userId) {
+		$UserType = new UserTypeModel();
+		return $UserType->getUserTypeByUserId($userId);
+	}
+
+	public function updateUserProfilePhoto($userId, $fileData) {
+		$photoModel = new ProfilePhotoModel();
+			$data = [
+			'user_id' => $userId,
+			'file_name' => $fileData['file_name'],
+			'file_path' => $fileData['file_path'],
+			'mime_type' => $fileData['mime_type'],
+			'created_at' => date('Y-m-d H:i:s'),
+		];
+
+		$existing_photo = $photoModel->where('user_id', $userId)->first();
+		return $photoModel->update($existing_photo, $data);
 	}
 }

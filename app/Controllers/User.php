@@ -2,13 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Models\UserTypeModel;
 use CodeIgniter\Controller;
 use App\Models\UserModel;
-use App\Models\ProfilePhotoModel;
 use App\Services\EmailService;
-use App\Models\PreAnnouncementModel;
-use App\Models\PropertyTypesModel;
 
 class User extends Controller
 {
@@ -44,13 +40,12 @@ class User extends Controller
       return redirect()->to(base_url('register'))->with('warning_passwords', 'As senhas devem ser iguais!');
     }
 
-    // Dados para a tabela 'users'
     $userData = [
       'username'    => strtolower($username),
       'first_name'  => ucfirst(strtolower($first_name)),
       'last_name'   => ucfirst(strtolower($last_name)),
       'email'       => $email,
-      'password'    => password_hash($password, PASSWORD_DEFAULT), // Hash da senha
+      'password'    => password_hash($password, PASSWORD_DEFAULT), // password hash
       'created_at'  => date('Y-m-d H:i:s'),
       'updated_at'  => date('Y-m-d H:i:s'),
       'is_deleted'  => 0,
@@ -60,8 +55,8 @@ class User extends Controller
     $userId = $userModel->insert($userData);
 
     if ($userId) {
-      // verificar se o arquivo de foto foi enviado
       $profile_photo = $this->request->getFile('profile_photo');
+
       if ($profile_photo->isValid() && !$profile_photo->hasMoved()) {
         $newName = $profile_photo->getRandomName();
         $uploadPath = ROOTPATH  . 'public/uploads/profile_photos';
@@ -80,9 +75,8 @@ class User extends Controller
           'mime_type' => $profile_photo->getClientMimeType(),
           'created_at' => date('Y-m-d H:i:s'),
         ];
-
-        $photoModel = new ProfilePhotoModel();
-        $photoModel->addPhoto($photoData);
+        
+        $userModel->setUserProfilePhoto($userId, $photoData);
       }
     } else {
       return redirect()->back()->withInput()->with('error', 'Erro ao registrar usuário.');
@@ -95,40 +89,36 @@ class User extends Controller
 
   public function login()
   {
+    $UserModel = new UserModel();
+
     $email = trim($this->request->getPost('email'));
     $password = $this->request->getPost('password');
 
-    $profile_photo_model = new ProfilePhotoModel();
-    $UserModel = new UserModel();
-    $user = $UserModel->where('email', $email)->first();
-
-    $user_type = new UserTypeModel();
     $user = $UserModel->where('email', $email)->first();
 
     if (!$user) {
       return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
 
-    $user_role = $user_type->getUserTypeByUserId($user['id']);
-
+    
     if ($user && password_verify($password, $user['password']) && $user['is_deleted'] == 0) {
+      $userRole = $UserModel->getUserRoleByUserId($user['id']);
 
-      // Iniciar a sessão
       $session = session();
       $session->set('user_id', $user['id']);
       $session->set('username', $user['username']);
       $session->set('email', $user['email']);
-      $session->set('role', $user_role['id']);
+      $session->set('role', $userRole);
       $session->set('logged_in', TRUE);
 
-      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
-      $session->set('profile_photo', $profile_photo);
+      $profilePhoto = $UserModel->getProfilePhotoByUserId($session->get('user_id'));
+      $session->set('profile_photo', $profilePhoto);
 
-      if ($user_role['id'] == 1) {
+      if ($userRole['id'] == 1) {
         return redirect()->to(base_url('admin'))->with('success_login', 'Bem-vindo(a) de volta, administrador!');
-      } else if ($user_role['id'] == 2) {
+      } else if ($userRole['id'] == 2) {
         return redirect()->to(base_url('broker'))->with('success_login', 'Bem-vindo(a) de volta, corretor!');
-      } else if ($user_role['id'] == 3) {
+      } else if ($userRole['id'] == 3) {
         return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta, cliente!');
       }
     } else {
@@ -146,28 +136,26 @@ class User extends Controller
   public function profile()
   {
     $session = session();
-    $profile_photo_model = new ProfilePhotoModel();
-    $user = new UserModel();
+    $userModel = new UserModel();
 
-    $user_role = new UserTypeModel();
-    $user_role = $user_role->getUserTypeByUserId($session->get('user_id'));
-
+    
     if ($session->has('user_id')) {
-      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
+      $userRole = $userModel->getUserRoleByUserId($session->get('user_id'));
+      $userProfilePhoto = $userModel->getProfilePhotoByUserId($session->get('user_id'));
 
-      // $session->set('user_id', $user['id']);
-      $session->set('username', $user->getUsernameByUserId($session->get('user_id')));
-      $session->set('email', $user->getEmailByUserId($session->get('user_id')));
-      $session->set('profile_photo', $profile_photo);
+      $session->set('username', $userModel->getUsernameByUserId($session->get('user_id')));
+      $session->set('email', $userModel->getEmailByUserId($session->get('user_id')));
+      $session->set('profile_photo', $userProfilePhoto);
 
       $data = [
         'user_id' => $session->get('user_id'),
-        'username' => $user->getUsernameByUserId($session->get('user_id')),
-        'firstname' => $user->getFirstNameByUserId($session->get('user_id')),
-        'lastname' => $user->getLastNameByUserId($session->get('user_id')),
-        'profile_photo' => $profile_photo,
-        'user_role' => $user_role['id']
+        'username' => $userModel->getUsernameByUserId($session->get('user_id')),
+        'firstname' => $userModel->getFirstNameByUserId($session->get('user_id')),
+        'lastname' => $userModel->getLastNameByUserId($session->get('user_id')),
+        'profile_photo' => $userProfilePhoto,
+        'user_role' => $userRole['id']
       ];
+
       return view('profile', $data);
     } else {
       return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
@@ -177,23 +165,22 @@ class User extends Controller
   public function edit_profile()
   {
     $session = session();
-    $profile_photo_model = new ProfilePhotoModel();
-    $user_model = new UserModel();
 
     if ($session->has('user_id')) {
-      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($session->get('user_id'));
-      $user = $user_model->find($session->get('user_id'));
+      $userModel = new UserModel();
+      $profilePhoto = $userModel->getProfilePhotoByUserId($session->get('user_id'));
+      
+      $user = $userModel->find($session->get('user_id'));
       $data = [
         'user_id' => $session->get('user_id'),
         'username' => $user['username'],
         'first_name' => $user['first_name'],
         'last_name' => $user['last_name'],
         'email' => $user['email'],
-        'profile_photo' => $profile_photo
+        'profile_photo' => $profilePhoto
       ];
       return view('edit_profile', $data);
     } else {
-      // return redirect()->to(base_url('login?code=401'));
       return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
   }
@@ -202,7 +189,7 @@ class User extends Controller
   {
     $session = session();
     $userModel = new UserModel();
-    $profilePhotoModel = new ProfilePhotoModel();
+    // $profilePhotoModel = new ProfilePhotoModel();
 
     $userId = $session->get('user_id');
     $username = $this->request->getPost('username');
@@ -210,19 +197,15 @@ class User extends Controller
     $last_name = $this->request->getPost('last_name');
     $email = $this->request->getPost('email');
 
-    // Obter os dados atuais do usuário
     $current_user = $userModel->find($userId);
 
-    // Verificar se o email já está cadastrado e é diferente do atual
     if ($email !== $current_user['email']) {
       $existing_user = $userModel->where('email', $email)->where('id !=', $userId)->first();
       if ($existing_user) {
-        // return redirect()->back()->with('error_email', 'O email já está cadastrado. Tente outro email.');
         return redirect()->to(base_url('dashboard/edit_profile'))->with('error_email', 'O email já está cadastrado. Tente outro email.');
       }
     }
 
-    // Verificar se o nome de usuário já está cadastrado e é diferente do atual
     if ($username !== $current_user['username']) {
       $existing_username = $userModel->where('username', $username)->where('id !=', $userId)->first();
       if ($existing_username) {
@@ -267,15 +250,15 @@ class User extends Controller
         'created_at' => date('Y-m-d H:i:s')
       ];
 
-      // Verificar se o usuário já tem uma foto de perfil
-      $existing_photo = $profilePhotoModel->where('user_id', $userId)->first();
-      if ($existing_photo) {
-        // Atualizar a foto de perfil existente
-        $profilePhotoModel->update($existing_photo['id'], $photoData);
+      $existingProfilePhoto = $userModel->getProfilePhotoByUserId($userId);
+      
+      if ($existingProfilePhoto) {
+        // atualiza a foto de perfil existente
+        $userModel->updateUserProfilePhoto($userId, $photoData);
       } else {
-        // Adicionar uma nova foto de perfil
+        // adiciona uma nova foto de perfil
         $photoData['user_id'] = $userId;
-        $profilePhotoModel->insert($photoData);
+        $userModel->setUserProfilePhoto($userId, $photoData);
       }
     }
 
