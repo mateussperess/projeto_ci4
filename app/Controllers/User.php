@@ -99,7 +99,6 @@ class User extends Controller
     if (!$user) {
       return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
-
     
     if ($user && password_verify($password, $user['password']) && $user['is_deleted'] == 0) {
       $userRole = $UserModel->getUserRoleByUserId($user['id']);
@@ -108,7 +107,7 @@ class User extends Controller
       $session->set('user_id', $user['id']);
       $session->set('username', $user['username']);
       $session->set('email', $user['email']);
-      $session->set('role', $userRole);
+      $session->set('role', $userRole['id']);
       $session->set('logged_in', TRUE);
 
       $profilePhoto = $UserModel->getProfilePhotoByUserId($session->get('user_id'));

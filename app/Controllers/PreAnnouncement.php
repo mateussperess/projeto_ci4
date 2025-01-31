@@ -21,7 +21,7 @@ class PreAnnouncement extends BaseController
     $session = session();
     $announceModel = new PreAnnouncementModel();
     $property_type_id = $this->request->getPost('property_type_id');
-    $propertyPhotosModel = new PropertyPhotosModel();
+    // $propertyPhotosModel = new PropertyPhotosModel();
 
     $price = $this->request->getPost('price');
     $price = preg_replace('/[^0-9,]/', '', $price);
@@ -62,7 +62,7 @@ class PreAnnouncement extends BaseController
       $files = $this->request->getFileMultiple('photos');
 
       if (!empty($files)) {
-        $propertyPhotosModel->addPropertyPhotos($pre_announcement_id, $files);
+        $announceModel->setPropertyData($pre_announcement_id, $files);
       }
     }
 
@@ -74,32 +74,27 @@ class PreAnnouncement extends BaseController
   public function list()
   {
     $userId = session()->get('user_id');
-
     $announcesModel = new PreAnnouncementModel();
-    $propertyTypesModel = new PropertyTypesModel();
-    $propertyPhotosModel = new PropertyPhotosModel();
 
-    $announcements = $announcesModel->select('pre_announcements.*, property_types.name as property_type')
-      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
-      ->where('user_id', $userId)
-      ->findAll();
+    $announcements = $announcesModel->getAllPreAnnouncementDataByUserId($userId);
 
     foreach ($announcements as &$announcement) {
-      $photos = $propertyPhotosModel->where('pre_announcement_id', $announcement['id'])
-        ->orderBy('is_main_photo', 'DESC')
-        ->findAll();
+      $photos = explode(',', $announcement['photo_files']);
+      $mainPhotoFlags = explode(',', $announcement['main_photos']);
 
-      $announcement['photos'] = $photos;
-      $announcement['main_photo'] = !empty($photos) ? $photos[0]['file_name'] : 'default.jpg';
+      $mainPhotoIndex = array_search('1', $mainPhotoFlags);
+      $mainPhoto = ($mainPhotoIndex !== false) ? $photos[$mainPhotoIndex] : $photos[0];
+
+      $announcement['photos'] = array_map(function ($photo) {
+        return ['file_name' => $photo];
+      }, $photos);
+
+      $announcement['main_photo'] = $mainPhoto ?? 'default.jpg';
     }
 
     $data = [
       'announcements' => $announcements,
-      'propertyTypes' => $propertyTypesModel->findAll()
     ];
-
-    // var_dump($data);
-    // exit;
 
     return view('dashboard/list_announces', $data);
   }

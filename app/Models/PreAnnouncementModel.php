@@ -121,4 +121,21 @@ class PreAnnouncementModel extends Model
       ->orderBy('pre_announcements.updated_at', 'DESC')
       ->findAll();
   }
+
+  public function setPropertyData($pre_ad_id, $files)
+  {
+    $propertyPhotosModel = new PropertyPhotosModel();
+    $propertyPhotosModel->addPropertyPhotos($pre_ad_id, $files);
+  }
+
+  public function getAllPreAnnouncementDataByUserId($userId) {
+    return $this->select('pre_announcements.*, users.username, users.email, users.first_name, users.last_name, profile_photos.file_path, property_types.name as property_type, GROUP_CONCAT(DISTINCT property_photos.file_name) as photo_files, GROUP_CONCAT(DISTINCT property_photos.is_main_photo) as main_photos')
+    ->join('users', 'users.id = pre_announcements.user_id')
+    ->join('profile_photos', 'profile_photos.user_id = users.id', 'left')
+    ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+    ->join('property_photos', 'property_photos.pre_announcement_id = pre_announcements.id', 'left')
+    ->orderBy('pre_announcements.created_at', 'DESC')
+    ->groupBy('pre_announcements.id')
+    ->findAll();
+  }
 }
