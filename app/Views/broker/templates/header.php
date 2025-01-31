@@ -60,7 +60,7 @@ $string_url = substr($requestUri, 19, 5);
           <a href="<?= base_url('broker/pending') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == '/pend' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pendentes</a>
         </li>
         <li>
-          <a href="<?= base_url('#') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == 'valid' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Validados</a>
+          <a href="<?= base_url('broker/evaluated') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == '/eval' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Validados</a>
         </li>
         <li>
           <a href="<?= base_url('#') ?>" class="block py-2 px-3 md:p-0 <?= $string_url == 'repor' ? 'text-blue-700' : 'text-gray-900' ?> rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Relatórios</a>

@@ -18,6 +18,12 @@
   <div class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-8">
 
+      <?php if (session()->getFlashdata('error')): ?>
+        <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span class="block sm:inline"><?= session()->getFlashdata('error') ?></span>
+        </div>
+      <?php endif; ?>
+
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Revisão do Anúncio</h2>
         <a href="<?= base_url('broker/pending') ?>" class="text-blue-600 hover:text-blue-800 flex items-center">
@@ -165,7 +171,7 @@
             <h4 class="text-lg font-semibold mb-4">Informações do Anunciante</h4>
             <div class="flex items-center p-4 bg-white rounded-lg">
               <img class="h-16 w-16 rounded-full border-2 border-blue-500"
-                src="<?= !empty($user_profile_photo['file_path']) ? base_url($user_profile_photo['file_path']) : base_url('public/uploads/profile_photos/default.png') ?>"
+                src="<?= !empty($_profile_photo['file_path']) ? base_url($user_profile_photo['file_path']) : base_url('public/uploads/profile_photos/default.png') ?>"
                 alt="Perfil">
               <div class="ml-4">
                 <p class="text-lg font-semibold"><?= esc($user_data['first_name']) ?> <?= esc($user_data['last_name']) ?></p>
@@ -179,12 +185,6 @@
           <div class="bg-gray-50 p-6 rounded-lg">
             <h4 class="text-lg font-semibold mb-4">Descrição</h4>
             <p class="text-gray-600"><?= esc($announcement['description']) ?></p>
-          </div>
-
-          <!-- Broker Notes -->
-          <div class="bg-gray-50 p-6 rounded-lg">
-            <h4 class="text-lg font-semibold mb-4">Anotações do Corretor</h4>
-            <textarea class="w-full p-3 rounded-lg border" rows="4" placeholder="Adicione suas observações aqui..." style="resize: none; height: 12rem;"><?= esc($announcement['broker_notes']) ?></textarea>
           </div>
 
           <!-- Action Buttons -->
@@ -206,11 +206,50 @@
               </button>
             </div>
           </div>
+
+          <!-- Modal -->
+          <!-- Modal -->
+          <div id="actionModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative p-4 w-full max-w-md max-h-full">
+              <div class="relative bg-white rounded-lg shadow">
+                <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="actionModal">
+                  <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                  </svg>
+                </button>
+                <div class="p-4 md:p-5 text-center">
+                  <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                  <h3 class="mb-5 text-lg font-normal text-gray-500" id="modalText"></h3>
+                  <form id="actionForm" action="<?= base_url('broker/reject/' . $announcement['id']) ?>" method="POST">
+                    <div class="mb-4">
+                      <textarea name="broker_notes" id="modalBrokerNotes" class="w-full p-3 rounded-lg border" rows="4" placeholder="Adicione suas observações aqui..." style="resize: none;" required></textarea>
+                    </div>
+                    <input type="hidden" name="ad_id" id="adIdToUpdate">
+                    <input type="hidden" name="action" id="actionType">
+                    <div class="flex justify-center gap-4">
+                      <button type="submit" id="confirmButton" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                        Sim, continuar
+                      </button>
+                      <button type="button" data-modal-hide="actionModal" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900">
+                        Não, cancelar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+  <script src="<?= base_url('public/js/broker/review.js') ?>" async></script>
+  <script>
 
+  </script>
 </body>
 
 </html>

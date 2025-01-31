@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anúncios Pendentes - Peres Imóveis</title>
+  <title>Anúncios Revisados - Peres Imóveis</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
@@ -17,21 +17,21 @@
 
   <div class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-6">
-
-      <?php if (session()->getFlashdata('success')): ?>
-        <div id="success" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-          <?= session()->getFlashdata('success') ?>
-        </div>
-      <?php endif; ?>
-      
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Anúncios Pendentes para Revisão</h2>
-        <div class="relative">
-          <input type="text" placeholder="Buscar anúncios..."
-            class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <svg class="w-5 h-5 text-gray-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+        <h2 class="text-2xl font-bold text-gray-800">Anúncios Revisados</h2>
+        <div class="flex space-x-4">
+          <div class="relative">
+            <input type="text" placeholder="Buscar anúncios..."
+              class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <svg class="w-5 h-5 text-gray-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <select class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="all">Todos os Status</option>
+            <option value="approved">Aprovados</option>
+            <option value="rejected">Recusados</option>
+          </select>
         </div>
       </div>
 
@@ -41,9 +41,9 @@
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imóvel</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Revisão</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
             </tr>
           </thead>
@@ -64,8 +64,8 @@
                 <td class="px-6 py-4">
                   <div class="flex items-center">
                     <img class="h-10 w-10 rounded-full"
-                      src="<?= $announcement['file_path'] ? base_url($announcement['file_path']) : base_url('public/uploads/profile_photos/default.png') ?>"
-                      alt="<?= esc($announcement['username']) ?>">
+                      src="<?= base_url($announcement['user_photo']) ?>"
+                      alt="<?= esc($announcement['first_name']) ?> <?= esc($announcement['last_name']) ?>">
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
                         <?= esc($announcement['first_name']) ?> <?= esc($announcement['last_name']) ?>
@@ -77,23 +77,22 @@
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                    Cliente
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                    <?= $announcement['status'] === 'approved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' ?>">
+                    <?= $announcement['status'] === 'approved' ? 'Aprovado' : 'Recusado' ?>
                   </span>
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-500">
                   R$ <?= number_format($announcement['price'], 2, ',', '.') ?>
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-500">
-                  <?= date('d/m/Y', strtotime($announcement['created_at'])) ?>
+                  <?= date('d/m/Y H:i', strtotime($announcement['updated_at'])) ?>
                 </td>
                 <td class="px-6 py-4">
-                  <div class="flex space-x-2">
-                    <button onclick="window.location.href='<?= base_url('broker/review/' . $announcement['id']) ?>'"
-                      class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                      Revisar
-                    </button>
-                  </div>
+                  <button onclick="window.location.href='<?= base_url('broker/details/' . $announcement['id']) ?>'"
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Detalhes
+                  </button>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -103,7 +102,7 @@
 
       <?php if (empty($announcements)): ?>
         <div class="text-center py-12">
-          <p class="text-gray-600 text-lg">Não há anúncios pendentes para revisão.</p>
+          <p class="text-gray-600 text-lg">Não há anúncios revisados.</p>
         </div>
       <?php endif; ?>
 
@@ -129,7 +128,6 @@
   </button>
 
   <script src="<?= base_url('public/js/index.js') ?>" async></script>
-  <script src="<?= base_url('public/js/broker/pending.js') ?>" async></script>
 </body>
 
 </html>
