@@ -54,9 +54,17 @@ class PreAnnouncementModel extends Model
     'description' => 'required'
   ];
 
+  // public function getAnnouncesByUserId($userId)
+  // {
+  //   return $this->where('user_id', $userId)->findAll();
+  // }
+
   public function getAnnouncesByUserId($userId)
   {
-    return $this->where('user_id', $userId)->findAll();
+    return $this->select('pre_announcements.*, property_photos.file_name as photo')
+      ->join('property_photos', 'property_photos.pre_announcement_id = pre_announcements.id', 'left')
+      ->where('pre_announcements.user_id', $userId)
+      ->findAll();
   }
 
   public function getUserDataByPreAnnouncementId($id)

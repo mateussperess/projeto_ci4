@@ -5,9 +5,6 @@ namespace App\Controllers;
 use App\Models\PreAnnouncementModel;
 use App\Models\PropertyPhotosModel;
 use App\Models\PropertyTypesModel;
-use Faker\Core\Number;
-
-use function PHPSTORM_META\type;
 
 class PreAnnouncement extends BaseController
 {
@@ -24,6 +21,7 @@ class PreAnnouncement extends BaseController
     $session = session();
     $announceModel = new PreAnnouncementModel();
     $property_type_id = $this->request->getPost('property_type_id');
+    $propertyPhotosModel = new PropertyPhotosModel();
 
     $price = $this->request->getPost('price');
     $price = preg_replace('/[^0-9,]/', '', $price);
@@ -47,10 +45,12 @@ class PreAnnouncement extends BaseController
       'status' => 'pending'
     ];
 
-    if ($property_type_id == 3) { // terreno
+    if ($property_type_id == 3) {
+      // terreno
       $data['topography'] = $this->request->getPost('topography');
       $data['soil_type'] = $this->request->getPost('soil_type');
-    } else { // casa ou ap
+    } else {
+      // casa ou ap
       $data['bedrooms'] = $this->request->getPost('bedrooms');
       $data['bathrooms'] = $this->request->getPost('bathrooms');
       $data['parking'] = $this->request->getPost('parking');
@@ -58,11 +58,12 @@ class PreAnnouncement extends BaseController
 
     $pre_announcement_id = $announceModel->insert($data);
 
-    $propertyPhotosModel = new PropertyPhotosModel();
-    $files = $this->request->getFileMultiple('photos');
+    if ($pre_announcement_id) {
+      $files = $this->request->getFileMultiple('photos');
 
-    if (!empty($files)) {
-      $propertyPhotosModel->addPropertyPhotos($pre_announcement_id, $files);
+      if (!empty($files)) {
+        $propertyPhotosModel->addPropertyPhotos($pre_announcement_id, $files);
+      }
     }
 
     if ($pre_announcement_id) {
@@ -78,20 +79,27 @@ class PreAnnouncement extends BaseController
     $propertyTypesModel = new PropertyTypesModel();
     $propertyPhotosModel = new PropertyPhotosModel();
 
-    $announcements = $announcesModel->where('user_id', $userId)->findAll();
+    $announcements = $announcesModel->select('pre_announcements.*, property_types.name as property_type')
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->where('user_id', $userId)
+      ->findAll();
 
-    // Get photos for each announcement
     foreach ($announcements as &$announcement) {
-      $announcement['photos'] = $propertyPhotosModel
-        ->where('pre_announcement_id', $announcement['id'])
+      $photos = $propertyPhotosModel->where('pre_announcement_id', $announcement['id'])
         ->orderBy('is_main_photo', 'DESC')
         ->findAll();
+
+      $announcement['photos'] = $photos;
+      $announcement['main_photo'] = !empty($photos) ? $photos[0]['file_name'] : 'default.jpg';
     }
 
     $data = [
       'announcements' => $announcements,
       'propertyTypes' => $propertyTypesModel->findAll()
     ];
+
+    // var_dump($data);
+    // exit;
 
     return view('dashboard/list_announces', $data);
   }
