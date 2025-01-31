@@ -100,12 +100,17 @@ class PreAnnouncementModel extends Model
   {
     return $this->update($id, ['status' => 'rejected', 'is_verified' => 1, 'broker_notes' => $broker_notes]);
   }
+  public function approvePreAnnouncement($id, $broker_notes)
+  {
+    return $this->update($id, ['status' => 'approved', 'is_verified' => 1, 'broker_notes' => $broker_notes]);
+  }
 
   public function getAllPreEvaluatedAnnouncement()
   {
     return $this->select('pre_announcements.*, users.first_name, users.last_name, users.email, users.username')
       ->join('users', 'users.id = pre_announcements.user_id')
       ->where('pre_announcements.status !=', 'pending')
+      ->orderBy('pre_announcements.updated_at', 'DESC')
       ->findAll();
   }
 }

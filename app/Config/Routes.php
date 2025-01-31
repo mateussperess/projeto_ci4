@@ -38,6 +38,7 @@ $routes->group('broker', '', function ($routes) {
   $routes->get('evaluated', 'Broker::evaluated');
 
   $routes->post('reject/(:num)', 'Broker::reject/$1');
+  $routes->post('approve/(:num)', 'Broker::approve/$1');
 
   $routes->get('logout', 'User::logout');
 });

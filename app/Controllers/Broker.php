@@ -25,6 +25,7 @@ class Broker extends Controller
     $AnnouncementModel = new PreAnnouncementModel();
     $PropertyTypesModel = new PropertyTypesModel();
     $PropertyPhotosModel = new PropertyPhotosModel();
+    $UserModel = new UserModel();  // Add this line
 
     $announcements = $AnnouncementModel->getAllPreAnnouncement();
 
@@ -34,7 +35,7 @@ class Broker extends Controller
         ->orderBy('is_main_photo', 'DESC')
         ->findAll();
 
-      $user_data = $AnnouncementModel->getUserDataByPreAnnouncementId($announcement['id']);
+      $user_data = $UserModel->find($announcement['user_id']); // Get user data here
 
       if ($user_data) {
         $user_profile_photo = $ProfilePhotoModel->getProfilePhotoByUserId($user_data['id'])
@@ -44,11 +45,11 @@ class Broker extends Controller
       }
 
       $announcement['user_photo'] = $user_profile_photo;
+      $announcement['user_data'] = $user_data; 
     }
 
     $data = [
       'announcements' => $announcements,
-      'user_data' => $user_data,
       'propertyTypes' => $PropertyTypesModel->findAll()
     ];
 
@@ -94,7 +95,6 @@ class Broker extends Controller
         ->orderBy('is_main_photo', 'DESC')
         ->findAll();
 
-      // Get user data and profile photo
       $user_data = $AnnouncementModel->getUserDataByPreAnnouncementId($announcement['id']);
 
       if ($user_data) {
@@ -128,6 +128,24 @@ class Broker extends Controller
       return redirect()->to(base_url('broker/pending'))->with('success', 'Anúncio rejeitado com sucesso!');
     } else {
       return redirect()->to(base_url('broker/pending'))->with('error', 'Erro ao rejeitar anúncio.');
+    }
+  }
+  public function approve($pre_ad_id)
+  {
+    $preAdsModel = new PreAnnouncementModel();
+    $broker_notes = $this->request->getPost('broker_notes');
+
+    if (!empty($broker_notes) && $broker_notes == '') {
+      return redirect()->to(base_url('broker/review/' . $pre_ad_id))->with('error', 'As anotações do corretor são obrigatórias.');
+    }
+
+    $announcement = $preAdsModel->find($pre_ad_id);
+    $reject = $preAdsModel->approvePreAnnouncement($announcement['id'], $broker_notes);
+
+    if ($reject) {
+      return redirect()->to(base_url('broker/pending'))->with('success', 'Anúncio aprovado com sucesso!');
+    } else {
+      return redirect()->to(base_url('broker/pending'))->with('error', 'Erro ao aprovar anúncio.');
     }
   }
 }

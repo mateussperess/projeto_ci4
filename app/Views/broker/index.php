@@ -41,7 +41,7 @@
 
   <!-- Pending Reviews Section -->
   <section class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold mb-6">Anúncios Pendentes de Validação</h2>
+    <h2 class="text-2xl font-bold mb-6">Últimas Submissões</h2>
     <div class="overflow-x-auto">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -62,9 +62,16 @@
               <td class="px-6 py-4"><?= esc($ad['username']) ?></td>
               <td class="px-6 py-4"><?= esc($ad['property_type']) ?></td>
               <td class="px-6 py-4"><?= esc($ad['address']) ?></td>
-              <td class="px-6 py-4"><?= date('d/m/Y', strtotime($ad['created_at'])) ?></td>
+              <td class="px-6 py-4"><?= date('d/m/Y H:i', strtotime($ad['created_at'])) ?></td>
+
               <td class="px-6 py-4">
-                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Pendente</span>
+                <?php if ($ad['status'] === 'pending'): ?>
+                  <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Pendente</span>
+                <?php elseif ($ad['status'] === 'approved'): ?>
+                  <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Aprovado</span>
+                <?php elseif ($ad['status'] === 'rejected'): ?>
+                  <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Recusado</span>
+                <?php endif; ?>
               </td>
               <td class="px-6 py-4">
                 <a href="<?= base_url('broker/review/' . $ad['id']) ?>" class="font-medium text-blue-600 hover:underline mr-3">Revisar</a>
