@@ -16,24 +16,24 @@
   <?= view('broker/templates/header') ?>
 
   <!-- Agent Stats Section -->
-  <section class="bg-blue-600 text-white py-6">
+  <section class="text-white py-6">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-blue-700 p-4 rounded-lg text-center">
           <h3 class="text-xl font-bold">Anúncios Pendentes</h3>
-          <p class="text-2xl font-bold">12</p>
+          <p class="text-2xl font-bold"> <?= esc($pending_ads) ?></p>
         </div>
         <div class="bg-blue-700 p-4 rounded-lg text-center">
           <h3 class="text-xl font-bold">Aprovados Hoje</h3>
-          <p class="text-2xl font-bold">5</p>
+          <p class="text-2xl font-bold"> <?= esc($approved_today_ads) ?></p>
         </div>
         <div class="bg-blue-700 p-4 rounded-lg text-center">
           <h3 class="text-xl font-bold">Reprovados</h3>
-          <p class="text-2xl font-bold">3</p>
+          <p class="text-2xl font-bold"> <?= esc($rejected_ads)?></p>
         </div>
         <div class="bg-blue-700 p-4 rounded-lg text-center">
           <h3 class="text-xl font-bold">Total Validado</h3>
-          <p class="text-2xl font-bold">158</p>
+          <p class="text-2xl font-bold"> <?= esc($reviewed_ads)?></p>
         </div>
       </div>
     </div>

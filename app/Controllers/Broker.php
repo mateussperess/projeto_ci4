@@ -16,6 +16,10 @@ class Broker extends Controller
   {
     $preAdsModel = new PreAnnouncementModel();
     $data['recent_ads'] = $preAdsModel->getRecentPreAds();
+    $data['pending_ads'] = $preAdsModel->getAllPendingAnnounces();
+    $data['rejected_ads'] = $preAdsModel->getAllRejectedAnnounces();
+    $data['reviewed_ads'] = $preAdsModel->getAllReviewedAnnounces();
+    $data['approved_today_ads'] = $preAdsModel->getAnnouncesApprovedToday();
     return view('broker/index', $data);
   }
 
@@ -147,5 +151,33 @@ class Broker extends Controller
     } else {
       return redirect()->to(base_url('broker/pending'))->with('error', 'Erro ao aprovar anúncio.');
     }
+  }
+
+  public function profile() {
+    $session = session();
+    $userModel = new UserModel();
+
+    if($session->has('user_id')) {
+      $user_id = $session->get('user_id');
+      $user = $userModel->find($user_id);
+
+      // var_dump($user);
+      // exit;
+      $userProfilePhoto = $userModel->getProfilePhotoByUserId($session->get('user_id'));
+
+      $data = [
+        'user_id' => $session->get('user_id'),
+        'username' => $userModel->getUsernameByUserId($session->get('user_id')),
+        'firstname' => $userModel->getFirstNameByUserId($session->get('user_id')),
+        'lastname' => $userModel->getLastNameByUserId($session->get('user_id')),
+        'is_deleted' => $user['is_deleted'],
+        'created_at' => $user['created_at'],
+        'profile_photo' => $userProfilePhoto
+      ];
+    }
+
+    // var_dump($data);
+    // exit;
+    return view('broker/profile', $data);
   }
 }

@@ -138,4 +138,29 @@ class PreAnnouncementModel extends Model
     ->groupBy('pre_announcements.id')
     ->findAll();
   }
+
+  public function getAnnouncesApprovedToday() {
+    $today = date('Y-m-d');
+    return $this->select('pre_announcements.*')
+    ->where('pre_announcements.created_at >=', $today)
+    ->countAllResults();
+  }
+
+  public function getAllPendingAnnounces() {
+    return $this->select('pre_announcements.*')
+    ->where('pre_announcements.status', 'pending')
+    ->countAllResults();
+  }
+
+  public function getAllRejectedAnnounces() {
+    return $this->select('pre_announcements.*')
+    ->where('pre_announcements.status', 'rejected')
+    ->countAllResults();
+  }
+
+  public function getAllReviewedAnnounces() {
+    return $this->select('pre_announcements.*')
+    ->where('pre_announcements.status !=', 'pending')
+    ->countAllResults();
+  }
 }

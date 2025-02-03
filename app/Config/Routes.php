@@ -40,6 +40,7 @@ $routes->group('broker', '', function ($routes) {
   $routes->post('reject/(:num)', 'Broker::reject/$1');
   $routes->post('approve/(:num)', 'Broker::approve/$1');
 
+  $routes->get('profile', 'Broker::profile');
   $routes->get('logout', 'User::logout');
 });
 
