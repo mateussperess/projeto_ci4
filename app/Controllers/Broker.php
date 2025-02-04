@@ -34,7 +34,7 @@ class Broker extends Controller
     $AnnouncementModel = new PreAnnouncementModel();
     $PropertyTypesModel = new PropertyTypesModel();
     $PropertyPhotosModel = new PropertyPhotosModel();
-    $UserModel = new UserModel();  
+    $UserModel = new UserModel();
     $session = session();
 
     $announcements = $AnnouncementModel->getAllPreAnnouncement();
@@ -178,9 +178,9 @@ class Broker extends Controller
         'lastname' => $userModel->getLastNameByUserId($session->get('user_id')),
         'is_deleted' => $user['is_deleted'],
         'created_at' => $user['created_at'],
-        'profile_photo' => $userProfilePhoto
+        'profile_photo' => $userProfilePhoto,
+        'message' => $user['message']
       ];
-
     }
 
     return view('broker/profile', $data);
@@ -190,8 +190,8 @@ class Broker extends Controller
   {
     $session = session();
     $userModel = new UserModel();
-
     $userId = $session->get('user_id');
+
     $username = $this->request->getPost('username');
     $first_name = $this->request->getPost('first_name');
     $last_name = $this->request->getPost('last_name');
@@ -202,6 +202,7 @@ class Broker extends Controller
 
     $currUser = $userModel->find($userId);
 
+    // Email check
     if ($email !== $currUser['email']) {
       $existing_user = $userModel->where('email', $email)->where('id !=', $userId)->first();
       if ($existing_user) {
@@ -209,16 +210,11 @@ class Broker extends Controller
       }
     }
 
+    // Username check
     if ($username !== $currUser['username']) {
       $existing_username = $userModel->where('username', $username)->where('id !=', $userId)->first();
       if ($existing_username) {
         return redirect()->to(base_url('broker/profile'))->with('error', 'O nome de usuário já está em uso por outro usuário.');
-      }
-    }
-
-    if ($new_password !== $currUser['password']) {
-      if ($new_password !== $confirm_new_password) {
-        return redirect()->to(base_url('broker/profile'))->with('error', 'Senhas invalidas.');
       }
     }
 
@@ -235,12 +231,18 @@ class Broker extends Controller
     if ($email !== $currUser['email']) {
       $updateData['email'] = $email;
     }
-    if ($new_password == $confirm_new_password && $new_password !== $currUser['password']) {
-      $updateData['password'] = password_hash($new_password, PASSWORD_DEFAULT); // password hash);
-    }
     if ($bio !== $currUser['message']) {
       $updateData['message'] = $bio;
     }
+
+    if (!empty($new_password) && !empty($confirm_new_password)) {
+      if ($new_password === $confirm_new_password) {
+        $updateData['password'] = password_hash($new_password, PASSWORD_DEFAULT);
+      } else {
+        return redirect()->to(base_url('broker/profile'))->with('error', 'Senhas não conferem.');
+      }
+    }
+
     if (!empty($updateData)) {
       $updateData['updated_at'] = date('Y-m-d H:i:s');
       $userModel->update($userId, $updateData);
@@ -272,6 +274,8 @@ class Broker extends Controller
         $photoData['user_id'] = $userId;
         $userModel->setUserProfilePhoto($userId, $photoData);
       }
+
+      $session->set('profile_photo', $photoData);
     }
 
     return redirect()->to(base_url('broker/profile'))->with('success', 'Perfil atualizado com sucesso!');

@@ -15,20 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
       reader.readAsDataURL(file);
     }
   });
-
-  function updateCounter() {
-    const bioInput = document.getElementById('bio');
-    const charCounter = document.getElementById('charCounter');
-    const charCounterDiv = document.getElementById('charCounterDiv');
-    charCounter.textContent = bioInput.value.length;
-  
-    if (bioInput.value.length === 50) {
-      charCounterDiv.style.color = 'red';
-    } else {
-      charCounterDiv.style.color = 'black';
-    }
-  }
-
 });
 
 let error_warning = document.getElementById("error");

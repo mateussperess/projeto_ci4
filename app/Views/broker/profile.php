@@ -95,9 +95,9 @@
                       id="bio"
                       name="bio"
                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                      style="resize: none; height: 4rem"
+                      style="resize: none; height: 4rem;"
                       maxlength="50"
-                      oninput="updateCounter()"> <?= esc(session()->get('message')) ?>
+                      oninput="updateCounter()"> <?= esc($message) ?>
                   </textarea>
                     <!-- Contador -->
                     <div class="text-sm text-gray-600 mt-1" id="charCounterDiv">
@@ -126,6 +126,21 @@
   </form>
 
   <script src="<?= base_url('public/js/broker/edit_profile.js') ?>" async></script>
+
+  <script>
+    function updateCounter() {
+      const bioInput = document.getElementById('bio');
+      const charCounter = document.getElementById('charCounter');
+      const charCounterDiv = document.getElementById('charCounterDiv');
+      charCounter.textContent = bioInput.value.length;
+
+      if (bioInput.value.length === 50) {
+        charCounterDiv.style.color = 'red';
+      } else {
+        charCounterDiv.style.color = 'black';
+      }
+    }
+  </script>
 </body>
 
 </html>
