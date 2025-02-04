@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\PreAnnouncementModel;
+use App\Models\PropertyPhotosModel;
 use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Services\EmailService;
@@ -75,7 +77,7 @@ class User extends Controller
           'mime_type' => $profile_photo->getClientMimeType(),
           'created_at' => date('Y-m-d H:i:s'),
         ];
-        
+
         $userModel->setUserProfilePhoto($userId, $photoData);
       }
     } else {
@@ -99,7 +101,7 @@ class User extends Controller
     if (!$user) {
       return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
     }
-    
+
     if ($user && password_verify($password, $user['password']) && $user['is_deleted'] == 0) {
       $userRole = $UserModel->getUserRoleByUserId($user['id']);
 
@@ -137,7 +139,7 @@ class User extends Controller
     $session = session();
     $userModel = new UserModel();
 
-    
+
     if ($session->has('user_id')) {
       $userRole = $userModel->getUserRoleByUserId($session->get('user_id'));
       $userProfilePhoto = $userModel->getProfilePhotoByUserId($session->get('user_id'));
@@ -168,7 +170,7 @@ class User extends Controller
     if ($session->has('user_id')) {
       $userModel = new UserModel();
       $profilePhoto = $userModel->getProfilePhotoByUserId($session->get('user_id'));
-      
+
       $user = $userModel->find($session->get('user_id'));
       $data = [
         'user_id' => $session->get('user_id'),
@@ -250,7 +252,7 @@ class User extends Controller
       ];
 
       $existingProfilePhoto = $userModel->getProfilePhotoByUserId($userId);
-      
+
       if ($existingProfilePhoto) {
         // atualiza a foto de perfil existente
         $userModel->updateUserProfilePhoto($userId, $photoData);
@@ -262,5 +264,32 @@ class User extends Controller
     }
 
     return redirect()->to(base_url('dashboard/profile'))->with('success', 'Perfil atualizado com sucesso!');
+  }
+
+  public function view_announce($announceId)
+  {
+    $preAdsModel = new PreAnnouncementModel();
+    $propertyPhotosModel = new PropertyPhotosModel();
+    $userModel = new UserModel();
+
+    $announcement = $preAdsModel->find($announceId);
+    $ad_photos = $propertyPhotosModel->where('pre_announcement_id', $announceId)->findAll();
+
+    $userData = $userModel->find($announcement['user_id']);
+    $userData['profile_photo'] = $userModel->getProfilePhotoByUserId($announcement['user_id']);
+
+    $brokerData = $userModel->find($announcement['broker_id']);
+    if ($brokerData) {
+      $brokerData['profile_photo'] = $userModel->getProfilePhotoByUserId($announcement['broker_id']);
+    }
+
+    $data = [
+      'announcement' => $announcement,
+      'ad_photos' => $ad_photos,
+      'user_data' => $userData,
+      'broker_data' => $brokerData
+    ];
+
+    return view('dashboard/view_announce', $data);
   }
 }

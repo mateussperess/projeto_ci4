@@ -26,6 +26,7 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
   $routes->get('announce', 'PreAnnouncement::create');
   $routes->post('submit_announce', 'PreAnnouncement::store');
   $routes->get('announcements/(:num)', 'PreAnnouncement::list/$1');
+  $routes->get('announcement/(:num)', 'User::view_announce/$1');
   
   $routes->post('logout', 'User::logout');
   $routes->post('update_profile', 'User::update_profile');
