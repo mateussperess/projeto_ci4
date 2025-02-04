@@ -57,12 +57,35 @@
             <div class="p-4">
               <div class="flex justify-between items-start mb-2">
                 <h3 class="text-xl font-semibold text-gray-800"><?= esc($announcement['title']) ?></h3>
-                <span class="px-2 py-1 text-sm rounded-full <?= $announcement['status'] === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' ?>">
-                  <?= $announcement['status'] === 'pending' ? 'Pendente' : 'Aprovado' ?>
+                <span class="px-2 py-1 text-sm rounded-full <?php
+                  switch ($announcement['status']) {
+                    case 'pending':
+                      echo 'bg-yellow-100 text-yellow-800';
+                      break;
+                    case 'approved':
+                      echo 'bg-green-100 text-green-800';
+                      break;
+                    case 'rejected':
+                      echo 'bg-red-100 text-red-800';
+                      break;
+                  }
+                  ?>">
+                  <?php
+                  switch ($announcement['status']) {
+                    case 'pending':
+                      echo 'Pendente';
+                      break;
+                    case 'approved':
+                      echo 'Aprovado';
+                      break;
+                    case 'rejected':
+                      echo 'Rejeitado';
+                      break;
+                  }
+                  ?>
                 </span>
               </div>
-
-              <p class="text-gray-600 mb-4"><?= substr(esc($announcement['description']), 0, 100) ?>...</p>
+              <p class="text-gray-600 mb-4"><?= substr(esc($announcement['description']), 0, 100) ?></p>
 
               <div class="flex justify-between items-center">
                 <span class="text-lg font-bold text-blue-600">
