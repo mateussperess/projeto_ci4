@@ -28,7 +28,7 @@
           <p class="text-2xl font-bold"> <?= esc($approved_today_ads) ?></p>
         </div>
         <div class="bg-blue-700 p-4 rounded-lg text-center">
-          <h3 class="text-xl font-bold">Reprovados</h3>
+          <h3 class="text-xl font-bold">Reprovados por Mim</h3>
           <p class="text-2xl font-bold"> <?= esc($rejected_ads)?></p>
         </div>
         <div class="bg-blue-700 p-4 rounded-lg text-center">

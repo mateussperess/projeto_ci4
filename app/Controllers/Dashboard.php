@@ -8,6 +8,6 @@ class Dashboard extends Controller
 {
   public function index(): string
   {
-      return view('Dashboard/index');
+    return view('Dashboard/index');
   }
 }

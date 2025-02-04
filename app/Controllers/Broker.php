@@ -14,10 +14,12 @@ class Broker extends Controller
 {
   public function index()
   {
+    $session = session();
+
     $preAdsModel = new PreAnnouncementModel();
     $data['recent_ads'] = $preAdsModel->getRecentPreAds();
     $data['pending_ads'] = $preAdsModel->getAllPendingAnnounces();
-    $data['rejected_ads'] = $preAdsModel->getAllRejectedAnnounces();
+    $data['rejected_ads'] = $preAdsModel->getAllRejectedAnnouncesByUserId($session->get('user_id'));
     $data['reviewed_ads'] = $preAdsModel->getAllReviewedAnnounces();
     $data['approved_today_ads'] = $preAdsModel->getAnnouncesApprovedToday();
     return view('broker/index', $data);
@@ -120,13 +122,14 @@ class Broker extends Controller
   {
     $preAdsModel = new PreAnnouncementModel();
     $broker_notes = $this->request->getPost('broker_notes');
+    $session = session();
 
     if (!empty($broker_notes) && $broker_notes == '') {
       return redirect()->to(base_url('broker/review/' . $pre_ad_id))->with('error', 'As anotações do corretor são obrigatórias.');
     }
 
     $announcement = $preAdsModel->find($pre_ad_id);
-    $reject = $preAdsModel->rejectPreAnnouncement($announcement['id'], $broker_notes);
+    $reject = $preAdsModel->rejectPreAnnouncement($announcement['id'], $broker_notes, session()->get('user_id'));
 
     if ($reject) {
       return redirect()->to(base_url('broker/pending'))->with('success', 'Anúncio rejeitado com sucesso!');
@@ -230,6 +233,9 @@ class Broker extends Controller
     }
     if ($new_password == $confirm_new_password && $new_password !== $currUser['password']) {
       $updateData['password'] = password_hash($new_password, PASSWORD_DEFAULT); // password hash);
+    }
+    if ($bio !== $currUser['message']) {
+      $updateData['message'] = $bio;
     }
     if (!empty($updateData)) {
       $updateData['updated_at'] = date('Y-m-d H:i:s');

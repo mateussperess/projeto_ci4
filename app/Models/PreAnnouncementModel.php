@@ -31,7 +31,8 @@ class PreAnnouncementModel extends Model
     'description',
     'status',
     'broker_notes',
-    'is_verified'
+    'is_verified',
+    'broker_id'
   ];
 
   protected $useTimestamps = true;
@@ -53,11 +54,6 @@ class PreAnnouncementModel extends Model
     'transaction_type' => 'required|in_list[sale,rent]',
     'description' => 'required'
   ];
-
-  // public function getAnnouncesByUserId($userId)
-  // {
-  //   return $this->where('user_id', $userId)->findAll();
-  // }
 
   public function getAnnouncesByUserId($userId)
   {
@@ -104,13 +100,18 @@ class PreAnnouncementModel extends Model
     return $this->update($pre_ad_id, ['broker_notes' => $broker_notes]);
   }
 
-  public function rejectPreAnnouncement($id, $broker_notes)
+  public function rejectPreAnnouncement($id, $broker_notes, $user_id)
   {
-    return $this->update($id, ['status' => 'rejected', 'is_verified' => 1, 'broker_notes' => $broker_notes]);
+    return $this->update($id, [
+      'status' => 'rejected',
+      'is_verified' => 1,
+      'broker_notes' => $broker_notes,
+      'broker_id' => (int)$user_id
+    ]);
   }
   public function approvePreAnnouncement($id, $broker_notes)
   {
-    return $this->update($id, ['status' => 'approved', 'is_verified' => 1, 'broker_notes' => $broker_notes]);
+    return $this->update($id, ['status' => 'approved', 'is_verified' => 1, 'broker_notes' => $broker_notes, 'broker_id' => session()->get('user_id')]);
   }
 
   public function getAllPreEvaluatedAnnouncement()
@@ -128,39 +129,52 @@ class PreAnnouncementModel extends Model
     $propertyPhotosModel->addPropertyPhotos($pre_ad_id, $files);
   }
 
-  public function getAllPreAnnouncementDataByUserId($userId) {
+  public function getAllPreAnnouncementDataByUserId($userId)
+  {
     return $this->select('pre_announcements.*, users.username, users.email, users.first_name, users.last_name, profile_photos.file_path, property_types.name as property_type, GROUP_CONCAT(DISTINCT property_photos.file_name) as photo_files, GROUP_CONCAT(DISTINCT property_photos.is_main_photo) as main_photos')
-    ->join('users', 'users.id = pre_announcements.user_id')
-    ->join('profile_photos', 'profile_photos.user_id = users.id', 'left')
-    ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
-    ->join('property_photos', 'property_photos.pre_announcement_id = pre_announcements.id', 'left')
-    ->orderBy('pre_announcements.created_at', 'DESC')
-    ->groupBy('pre_announcements.id')
-    ->findAll();
+      ->join('users', 'users.id = pre_announcements.user_id')
+      ->join('profile_photos', 'profile_photos.user_id = users.id', 'left')
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->join('property_photos', 'property_photos.pre_announcement_id = pre_announcements.id', 'left')
+      ->orderBy('pre_announcements.created_at', 'DESC')
+      ->groupBy('pre_announcements.id')
+      ->findAll();
   }
 
-  public function getAnnouncesApprovedToday() {
+  public function getAnnouncesApprovedToday()
+  {
     $today = date('Y-m-d');
     return $this->select('pre_announcements.*')
-    ->where('pre_announcements.created_at >=', $today)
-    ->countAllResults();
+      ->where('pre_announcements.created_at >=', $today)
+      ->countAllResults();
   }
 
-  public function getAllPendingAnnounces() {
+  public function getAllPendingAnnounces()
+  {
     return $this->select('pre_announcements.*')
-    ->where('pre_announcements.status', 'pending')
-    ->countAllResults();
+      ->where('pre_announcements.status', 'pending')
+      ->countAllResults();
   }
 
-  public function getAllRejectedAnnounces() {
+  public function getAllRejectedAnnounces()
+  {
     return $this->select('pre_announcements.*')
-    ->where('pre_announcements.status', 'rejected')
-    ->countAllResults();
+      ->where('pre_announcements.status', 'rejected')
+      ->countAllResults();
   }
 
-  public function getAllReviewedAnnounces() {
+  public function getAllRejectedAnnouncesByUserId($userId)
+  {
     return $this->select('pre_announcements.*')
-    ->where('pre_announcements.status !=', 'pending')
-    ->countAllResults();
+      ->where('pre_announcements.status', 'rejected')
+      ->where('pre_announcements.broker_id', (int)$userId)
+      ->countAllResults();
+  }
+
+  public function getAllReviewedAnnounces()
+  {
+    return $this->select('pre_announcements.*')
+      ->where('pre_announcements.status !=', 'pending')
+      ->countAllResults();
   }
 }
