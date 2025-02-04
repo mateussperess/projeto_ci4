@@ -41,7 +41,8 @@ $routes->group('broker', '', function ($routes) {
   $routes->post('approve/(:num)', 'Broker::approve/$1');
 
   $routes->get('profile', 'Broker::profile');
-  $routes->get('logout', 'User::logout');
+  $routes->post('update_profile', 'Broker::update_profile');
+  $routes->get('logout', 'Broker::logout');
 });
 
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {

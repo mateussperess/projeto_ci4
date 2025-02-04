@@ -49,7 +49,7 @@ class Broker extends Controller
       }
 
       $announcement['user_photo'] = $user_profile_photo;
-      $announcement['user_data'] = $user_data; 
+      $announcement['user_data'] = $user_data;
     }
 
     $data = [
@@ -153,16 +153,15 @@ class Broker extends Controller
     }
   }
 
-  public function profile() {
+  public function profile()
+  {
     $session = session();
     $userModel = new UserModel();
 
-    if($session->has('user_id')) {
+    if ($session->has('user_id')) {
       $user_id = $session->get('user_id');
       $user = $userModel->find($user_id);
 
-      // var_dump($user);
-      // exit;
       $userProfilePhoto = $userModel->getProfilePhotoByUserId($session->get('user_id'));
 
       $data = [
@@ -174,10 +173,104 @@ class Broker extends Controller
         'created_at' => $user['created_at'],
         'profile_photo' => $userProfilePhoto
       ];
+
     }
 
-    // var_dump($data);
-    // exit;
     return view('broker/profile', $data);
+  }
+
+  public function update_profile()
+  {
+    $session = session();
+    $userModel = new UserModel();
+
+    $userId = $session->get('user_id');
+    $username = $this->request->getPost('username');
+    $first_name = $this->request->getPost('first_name');
+    $last_name = $this->request->getPost('last_name');
+    $email = $this->request->getPost('email');
+    $new_password = $this->request->getPost('new_password');
+    $confirm_new_password = $this->request->getPost('confirm_new_password');
+    $bio = $this->request->getPost('bio');
+
+    $currUser = $userModel->find($userId);
+
+    if ($email !== $currUser['email']) {
+      $existing_user = $userModel->where('email', $email)->where('id !=', $userId)->first();
+      if ($existing_user) {
+        return redirect()->to(base_url('broker/profile'))->with('error', 'O e-mail já está em uso por outro usuário.');
+      }
+    }
+
+    if ($username !== $currUser['username']) {
+      $existing_username = $userModel->where('username', $username)->where('id !=', $userId)->first();
+      if ($existing_username) {
+        return redirect()->to(base_url('broker/profile'))->with('error', 'O nome de usuário já está em uso por outro usuário.');
+      }
+    }
+
+    if ($new_password !== $currUser['password']) {
+      if ($new_password !== $confirm_new_password) {
+        return redirect()->to(base_url('broker/profile'))->with('error', 'Senhas invalidas.');
+      }
+    }
+
+    $updateData = [];
+    if ($username !== $currUser['username']) {
+      $updateData['username'] = strtolower($username);
+    }
+    if ($first_name !== $currUser['first_name']) {
+      $updateData['first_name'] = ucfirst(strtolower($first_name));
+    }
+    if ($last_name !== $currUser['last_name']) {
+      $updateData['last_name'] = ucfirst(strtolower($last_name));
+    }
+    if ($email !== $currUser['email']) {
+      $updateData['email'] = $email;
+    }
+    if ($new_password == $confirm_new_password && $new_password !== $currUser['password']) {
+      $updateData['password'] = password_hash($new_password, PASSWORD_DEFAULT); // password hash);
+    }
+    if (!empty($updateData)) {
+      $updateData['updated_at'] = date('Y-m-d H:i:s');
+      $userModel->update($userId, $updateData);
+    }
+
+    $profile_photo = $this->request->getFile('profile_photo');
+    if ($profile_photo && $profile_photo->isValid() && !$profile_photo->hasMoved()) {
+      $newName = $profile_photo->getRandomName();
+      $uploadPath = ROOTPATH . 'public/uploads/profile_photos';
+
+      try {
+        $profile_photo->move($uploadPath, $newName);
+      } catch (\Exception $e) {
+        return redirect()->back()->withInput()->with('error', 'Erro ao mover a foto de perfil: ' . $e->getMessage());
+      }
+
+      $photoData = [
+        'file_name' => $newName,
+        'file_path' => 'uploads/profile_photos/' . $newName,
+        'mime_type' => $profile_photo->getClientMimeType(),
+        'created_at' => date('Y-m-d H:i:s')
+      ];
+
+      $existingProfilePhoto = $userModel->getProfilePhotoByUserId($userId);
+
+      if ($existingProfilePhoto) {
+        $userModel->updateUserProfilePhoto($userId, $photoData);
+      } else {
+        $photoData['user_id'] = $userId;
+        $userModel->setUserProfilePhoto($userId, $photoData);
+      }
+    }
+
+    return redirect()->to(base_url('broker/profile'))->with('success', 'Perfil atualizado com sucesso!');
+  }
+
+  public function logout()
+  {
+    $session = session();
+    $session->destroy();
+    return redirect()->to(base_url('login'));
   }
 }
