@@ -15,10 +15,13 @@ class Broker extends Controller
   public function index()
   {
     $session = session();
-
     $preAdsModel = new PreAnnouncementModel();
+
+    $pending_ads = $preAdsModel->getAllPendingAnnounces();
+    $session->set('pending_ads', $pending_ads);
+
     $data['recent_ads'] = $preAdsModel->getRecentPreAds();
-    $data['pending_ads'] = $preAdsModel->getAllPendingAnnounces();
+    $data['pending_ads'] = $pending_ads;
     $data['rejected_ads'] = $preAdsModel->getAllRejectedAnnouncesByUserId($session->get('user_id'));
     $data['reviewed_ads'] = $preAdsModel->getAllReviewedAnnounces();
     $data['approved_today_ads'] = $preAdsModel->getAnnouncesApprovedToday();
@@ -31,7 +34,8 @@ class Broker extends Controller
     $AnnouncementModel = new PreAnnouncementModel();
     $PropertyTypesModel = new PropertyTypesModel();
     $PropertyPhotosModel = new PropertyPhotosModel();
-    $UserModel = new UserModel();  // Add this line
+    $UserModel = new UserModel();  
+    $session = session();
 
     $announcements = $AnnouncementModel->getAllPreAnnouncement();
 
@@ -41,7 +45,7 @@ class Broker extends Controller
         ->orderBy('is_main_photo', 'DESC')
         ->findAll();
 
-      $user_data = $UserModel->find($announcement['user_id']); // Get user data here
+      $user_data = $UserModel->find($announcement['user_id']);
 
       if ($user_data) {
         $user_profile_photo = $ProfilePhotoModel->getProfilePhotoByUserId($user_data['id'])

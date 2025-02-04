@@ -18,9 +18,9 @@ $string_url = substr($requestUri, 19, 5);
     <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
       <!-- Notifications -->
       <button type="button" class="relative p-2 mr-4" id="notifications-button">
-        <?php if (isset($pending_ads) && $pending_ads > 0): ?>
+        <?php if (session()->get('pending_ads') > 0): ?>
           <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-            <?= esc($pending_ads) ?>
+            <?= esc(session()->get('pending_ads')) ?>
           </span>
         <?php endif; ?>
         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
