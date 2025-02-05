@@ -19,7 +19,7 @@
     <div class="bg-white rounded-lg shadow-lg p-8">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Detalhes do Imóvel</h2>
-        <a href="<?= base_url('houses' . session()->get('user_id')) ?>" class="text-blue-600 hover:text-blue-800 flex items-center">
+        <a href="<?= session()->get('logged_in') ? base_url('dashboard/houses') : base_url('houses') ?>" class="text-blue-600 hover:text-blue-800 flex items-center">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
