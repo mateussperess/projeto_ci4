@@ -54,60 +54,35 @@
 
 ## 📦 Estrutura do Projeto
 
-## 📦 Estrutura do Projeto
-
 ```
 projeto_ci4/
 ├── app/
-│   ├── Config/
-│   │   └── App.php
 │   ├── Controllers/
 │   │   ├── Admin.php
-│   │   ├── BaseController.php
-│   │   ├── Broker.php
 │   │   ├── Auth.php
+│   │   ├── Broker.php
 │   │   ├── Dashboard.php
-│   │   └── Home.php
-│   │   └── PreAnnouncement.php
+│   │   ├── Home.php
 │   │   └── User.php
 │   ├── Models/
 │   │   ├── PreAnnouncementModel.php
-│   │   ├── UserModel.php
 │   │   ├── ProfilePhotoModel.php
 │   │   ├── PropertyPhotosModel.php
-│   │   ├── UserModel.php
-│   │   └── UserTypeModel.php
+│   │   └── UserModel.php
 │   └── Views/
 │       ├── admin/
-│       ├── App/
 │       ├── broker/
 │       ├── Dashboard/
-│       ├── emails/
-│       ├── errors/
 │       ├── templates/
-│       │   ├── about.php
-│       │   ├── carousel.php
-│       │   ├── categories_section.php
-│       │   ├── contact.php
-│       │   ├── footer.php
-│       │   └── header.php
-│       ├── edit_profile.php
-│       ├── index.php
 │       ├── login.php
 │       ├── profile.php
-│       ├── register.php
-│       └── welcome_message.php
-├── public/
-│   ├── img/
-│   ├── svg/
-│   ├── uploads/
-│   │   └── profile_photos/
-│   │       └── default.png
-│   └── style/
-│       ├── style.css
-│       └── style_register.css
-└── tests/
-    └── README.md
+│       └── register.php
+└── public/
+    ├── img/
+    ├── js/
+    ├── uploads/
+    │   └── profile_photos/
+    └── style/
 
 ```
 
