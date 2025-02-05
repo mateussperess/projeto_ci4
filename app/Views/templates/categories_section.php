@@ -8,7 +8,8 @@
         <div class="p-6">
           <h3 class="text-xl font-bold text-gray-800 mb-3">Casas</h3>
           <p class="text-gray-600 mb-4">Encontre a casa dos seus sonhos com os melhores preços e localizações.</p>
-          <a href="<?= base_url('houses');?>" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+          <a href="<?= session()->get('logged_in') ? base_url('dashboard/houses') : base_url('houses') ?>"
+            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
             Ver Casas
           </a>
         </div>

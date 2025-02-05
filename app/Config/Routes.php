@@ -14,7 +14,7 @@ $routes->group('', function ($routes) {
 
   $routes->get('houses', 'PreAnnouncement::houses');
   $routes->get('houses/(:num)', 'PreAnnouncement::view_announcement/$1');
-
+  
   $routes->post('login', 'User::login');
   $routes->post('register', 'User::create');
 });
@@ -25,6 +25,9 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
   $routes->get('profile', 'User::profile');
   $routes->get('edit_profile', 'User::edit_profile');
   $routes->get('logout', 'User::logout');
+  
+  $routes->get('houses', 'PreAnnouncement::houses');
+  $routes->get('houses/(:num)', 'PreAnnouncement::view_announcement/$1');
   
   $routes->get('announce', 'PreAnnouncement::create');
   $routes->post('submit_announce', 'PreAnnouncement::store');
