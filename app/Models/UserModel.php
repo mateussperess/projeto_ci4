@@ -231,19 +231,22 @@ class UserModel extends Model
 		return $user['email'];
 	}
 
-	public function getProfilePhotoByUserId($userId) {
+	public function getProfilePhotoByUserId($userId)
+	{
 		$profilePhotoModel = new ProfilePhotoModel();
 		return $profilePhotoModel->getProfilePhotoByUserId($userId);
 	}
 
-	public function getUserRoleByUserId($userId) {
+	public function getUserRoleByUserId($userId)
+	{
 		$UserType = new UserTypeModel();
 		return $UserType->getUserTypeByUserId($userId);
 	}
 
-	public function updateUserProfilePhoto($userId, $fileData) {
+	public function updateUserProfilePhoto($userId, $fileData)
+	{
 		$photoModel = new ProfilePhotoModel();
-			$data = [
+		$data = [
 			'user_id' => $userId,
 			'file_name' => $fileData['file_name'],
 			'file_path' => $fileData['file_path'],
@@ -253,5 +256,47 @@ class UserModel extends Model
 
 		$existing_photo = $photoModel->where('user_id', $userId)->first();
 		return $photoModel->update($existing_photo, $data);
+	}
+
+	public function getAdminsData()
+	{
+		$admins = $this->where('role_id', 1)
+			->where('is_deleted', 0)
+			->findAll();
+
+		$profilePhotoModel = new ProfilePhotoModel();
+		$adminData = [];
+
+		foreach ($admins as $admin) {
+			$adminData[] = [
+				'firstname' => $admin['first_name'],
+				'lastname' => $admin['last_name'],
+				'email' => $admin['email'],
+				'role' => $this->getUserRoleByUserId($admin['id']),
+				'profile_photo' => $profilePhotoModel->getProfilePhotoByUserId($admin['id'])
+			];
+		}
+
+		return $adminData;
+	}
+
+	public function getBrokersData()
+	{
+		$brokers = $this->where('role_id', 2)->where('is_deleted', 0)->findAll();
+
+		$profilePhotoModel = new ProfilePhotoModel();
+		$brokersData = [];
+
+		foreach ($brokers as $broker) {
+			$brokersData[] = [
+				'firstname' => $broker['first_name'],
+				'lastname' => $broker['last_name'],
+				'email' => $broker['email'],
+				'role' => $this->getUserRoleByUserId($broker['id']),
+				'profile_photo' => $profilePhotoModel->getProfilePhotoByUserId($broker['id'])
+			];
+		}
+
+		return $brokersData;
 	}
 }

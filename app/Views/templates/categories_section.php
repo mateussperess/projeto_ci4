@@ -1,28 +1,42 @@
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-8xl mx-auto">
-  <!-- Card de Imóvel -->
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-    <img src="<?= base_url('public/img/1.jpg') ?>" alt="Imóvel" class="w-full h-48 object-cover lazy">
-    <div class="p-4">
-      <h3 class="text-xl font-bold mb-2"> Casas </h3>
-      <p class="text-gray-700 mb-4">Descrição breve do imóvel.</p>
-      <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Ver Detalhes</a>
-    </div>
-  </div>
-  <!-- Repetir os cards de imóveis conforme necessário -->
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-    <img src="<?= base_url('public/img/2.jpg') ?>" alt="Imóvel" class="w-full h-48 object-cover lazy">
-    <div class="p-4">
-      <h3 class="text-xl font-bold mb-2"> Apartamentos </h3>
-      <p class="text-gray-700 mb-4">Descrição breve do imóvel.</p>
-      <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Ver Detalhes</a>
-    </div>
-  </div>
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-    <img src="<?= base_url('public/img/3.jpg') ?>" alt="Imóvel" class="w-full h-48 object-cover lazy">
-    <div class="p-4">
-      <h3 class="text-xl font-bold mb-2"> Terrenos </h3>
-      <p class="text-gray-700 mb-4">Descrição breve do imóvel.</p>
-      <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Ver Detalhes</a>
+<div class="container mx-auto px-6 py-2">
+  <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card Casa -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition duration-300">
+        <img src="<?= base_url('public/img/1.jpg') ?>" alt="Casas" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Casas</h3>
+          <p class="text-gray-600 mb-4">Encontre a casa dos seus sonhos com os melhores preços e localizações.</p>
+          <a href="#" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+            Ver Casas
+          </a>
+        </div>
+      </div>
+
+      <!-- Card Apartamento -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition duration-300">
+        <img src="<?= base_url('public/img/2.jpg') ?>" alt="Apartamentos" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Apartamentos</h3>
+          <p class="text-gray-600 mb-4">Apartamentos modernos e bem localizados para seu conforto.</p>
+          <a href="#" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+            Ver Apartamentos
+          </a>
+        </div>
+      </div>
+
+      <!-- Card Terreno -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition duration-300">
+        <img src="<?= base_url('public/img/3.jpg') ?>" alt="Terrenos" class="w-full h-64 object-cover">
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Terrenos</h3>
+          <p class="text-gray-600 mb-4">Terrenos em áreas estratégicas para seu investimento ou construção.</p>
+          <a href="#" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+            Ver Terrenos
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

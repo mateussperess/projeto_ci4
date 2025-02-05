@@ -22,7 +22,7 @@
     <h2 class="text-3xl font-bold text-center mb-8">Catálogo</h2>
     <?= view('templates/carousel') ?>
 
-    <h2 class="text-3xl font-bold text-center mb-8">Categorias</h2>
+    <h2 class="text-3xl font-bold text-gray-800 pt-8 text-center">Categorias de Imóveis</h2>
     <?= view('templates/categories_section') ?>
   </section>
 

@@ -1,5 +1,5 @@
 <!-- Seção de Contato -->
-<section class="bg-gray-100 mb-12">
+<section class="bg-gray-100 my-12">
   <div class="container mx-auto px-6">
     <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Entre em Contato</h2>
     <div class="bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto">
