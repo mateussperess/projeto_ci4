@@ -98,4 +98,20 @@ class PreAnnouncement extends BaseController
 
     return view('dashboard/list_announces', $data);
   }
+
+
+  public function houses()
+  {
+    $preAnnouncementModel = new PreAnnouncementModel();
+    $data['houses'] = $preAnnouncementModel->getHousesData();
+    return view('templates/houses', $data);
+  }
+
+  public function view_announcement($id) {
+    $preAnnouncementModel = new PreAnnouncementModel();
+    $data['announcement'] = $preAnnouncementModel->getPreAnnouncementById($id);
+    // var_dump($data);
+    // exit;
+    return view('templates/details', $data);
+  }
 }

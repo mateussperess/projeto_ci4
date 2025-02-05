@@ -12,6 +12,9 @@ $routes->group('', function ($routes) {
   $routes->get('login', 'User::login_page');
   $routes->get('register', 'User::register_page');
 
+  $routes->get('houses', 'PreAnnouncement::houses');
+  $routes->get('houses/(:num)', 'PreAnnouncement::view_announcement/$1');
+
   $routes->post('login', 'User::login');
   $routes->post('register', 'User::create');
 });

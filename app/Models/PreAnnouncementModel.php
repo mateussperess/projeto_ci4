@@ -32,7 +32,8 @@ class PreAnnouncementModel extends Model
     'status',
     'broker_notes',
     'is_verified',
-    'broker_id'
+    'broker_id',
+    'is_deleted'
   ];
 
   protected $useTimestamps = true;
@@ -176,5 +177,55 @@ class PreAnnouncementModel extends Model
     return $this->select('pre_announcements.*')
       ->where('pre_announcements.status !=', 'pending')
       ->countAllResults();
+  }
+
+  public function getPreAnnouncementById($id)
+  {
+    return $this->select('pre_announcements.*, users.username, users.email, users.first_name, users.last_name, profile_photos.file_path, property_types.name as property_type, GROUP_CONCAT(DISTINCT property_photos.file_name) as photo_files, GROUP_CONCAT(DISTINCT property_photos.is_main_photo) as main_photos')
+      ->join('users', 'users.id = pre_announcements.user_id')
+      ->join('profile_photos', 'profile_photos.user_id = users.id', 'left')
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->join('property_photos', 'property_photos.pre_announcement_id = pre_announcements.id', 'left')
+      ->where('pre_announcements.id', $id)
+      ->groupBy('pre_announcements.id')
+      ->first();
+  }
+
+  public function getHousesData()
+  {
+    $propertyPhotos = new PropertyPhotosModel();
+
+    $houses = $this->select('pre_announcements.*, property_types.name as property_type')
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->where('pre_announcements.property_type_id', 1)
+      ->where('pre_announcements.status', 'approved')
+      ->where('pre_announcements.is_deleted', 0)
+      ->orderBy('pre_announcements.created_at', 'DESC')
+      ->findAll();
+
+    $housesData = [];
+
+    foreach ($houses as $house) {
+      $photos = $propertyPhotos->getPropertyPhotosByPreAnnouncementId($house['id']);
+      $mainPhoto = !empty($photos) ? $photos[0]['file_name'] : 'default.jpg';
+
+      $housesData[] = [
+        'id' => $house['id'],
+        'title' => $house['title'],
+        'price' => $house['price'],
+        'address' => $house['address'],
+        'description' => $house['description'],
+        'property_type' => $house['property_type'],
+        'total_area' => $house['total_area'],
+        'bedrooms' => $house['bedrooms'],
+        'bathrooms' => $house['bathrooms'],
+        'parking' => $house['parking'],
+        'transaction_type' => $house['transaction_type'],
+        'main_photo' => $mainPhoto,
+        'photos' => $photos
+      ];
+    }
+
+    return $housesData;
   }
 }
