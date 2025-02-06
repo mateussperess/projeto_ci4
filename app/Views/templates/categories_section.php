@@ -21,7 +21,7 @@
         <div class="p-6">
           <h3 class="text-xl font-bold text-gray-800 mb-3">Apartamentos</h3>
           <p class="text-gray-600 mb-4">Apartamentos modernos e bem localizados para seu conforto.</p>
-          <a href="#" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+          <a href="<?= session()->get('logged_in') ? base_url('dashboard/apartments') : base_url('apartments') ?>" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
             Ver Apartamentos
           </a>
         </div>

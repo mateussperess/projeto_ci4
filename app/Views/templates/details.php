@@ -13,13 +13,29 @@
 </head>
 
 <body class="bg-gray-100">
-  <?= view('templates/header') ?>
-
+  
+  <?php
+  if (session()->get('user_id')) {
+    echo view('dashboard/templates/header');
+  } else {
+    echo view('templates/header');
+  }
+  ?>
   <div class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-8">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Detalhes do Imóvel</h2>
-        <a href="<?= session()->get('logged_in') ? base_url('dashboard/houses') : base_url('houses') ?>" class="text-blue-600 hover:text-blue-800 flex items-center">
+        <a href="<?php
+                  $requestUri = $_SERVER['REQUEST_URI'];
+
+                  if (str_contains($requestUri, 'houses')) {
+                    echo session()->get('logged_in') ? base_url('dashboard/houses') : base_url('houses');
+                  } elseif (str_contains($requestUri, 'apartments')) {
+                    echo session()->get('logged_in') ? base_url('dashboard/apartments') : base_url('apartments');
+                  } elseif (str_contains($requestUri, 'lands')) {
+                    echo session()->get('logged_in') ? base_url('dashboard/lands') : base_url('lands');
+                  }
+                  ?>" class="text-blue-600 hover:text-blue-800 flex items-center">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>

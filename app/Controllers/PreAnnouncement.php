@@ -107,11 +107,33 @@ class PreAnnouncement extends BaseController
     return view('templates/houses', $data);
   }
 
-  public function view_announcement($id) {
+  public function apartments()
+  {
     $preAnnouncementModel = new PreAnnouncementModel();
-    $data['announcement'] = $preAnnouncementModel->getPreAnnouncementById($id);
-    // var_dump($data);
+    $data['apartments'] = $preAnnouncementModel->getApartmentsData();
+
+    // var_dump($data['apartments']);
     // exit;
+    return view('templates/apartments', $data);
+  }
+
+  public function view_announcement($id)
+  {
+    $preAnnouncementModel = new PreAnnouncementModel();
+    $announcement = $preAnnouncementModel->getPreAnnouncementById($id);
+
+    $currentUrl = $_SERVER['REQUEST_URI'];
+    $propertyTypeId = $announcement['property_type_id'];
+
+    if ($propertyTypeId == 1 && !str_contains($currentUrl, 'houses')) {
+      return redirect()->to(base_url('houses'));
+    } elseif ($propertyTypeId == 2 && !str_contains($currentUrl, 'apartments')) {
+      return redirect()->to(base_url('apartments'));
+    } elseif ($propertyTypeId == 3 && !str_contains($currentUrl, 'lands')) {
+      return redirect()->to(base_url('lands'));
+    }
+
+    $data['announcement'] = $announcement;
     return view('templates/details', $data);
   }
 }

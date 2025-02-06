@@ -15,6 +15,9 @@ $routes->group('', function ($routes) {
   $routes->get('houses', 'PreAnnouncement::houses');
   $routes->get('houses/(:num)', 'PreAnnouncement::view_announcement/$1');
   
+  $routes->get('apartments', 'PreAnnouncement::apartments');
+  $routes->get('apartments/(:num)', 'PreAnnouncement::view_announcement/$1');
+  
   $routes->post('login', 'User::login');
   $routes->post('register', 'User::create');
 });
@@ -28,6 +31,9 @@ $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
   
   $routes->get('houses', 'PreAnnouncement::houses');
   $routes->get('houses/(:num)', 'PreAnnouncement::view_announcement/$1');
+
+  $routes->get('apartments', 'PreAnnouncement::apartments');
+  $routes->get('apartments/(:num)', 'PreAnnouncement::view_announcement/$1');
   
   $routes->get('announce', 'PreAnnouncement::create');
   $routes->post('submit_announce', 'PreAnnouncement::store');

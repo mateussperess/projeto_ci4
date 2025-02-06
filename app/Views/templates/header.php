@@ -2,7 +2,7 @@
 <?php if (!(session()->get('user_id'))) : ?>
   <nav id="nav" class="bg-white border-gray-200 dark:bg-gray-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+      <a href="<?= base_url('/') ?>" class="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="<?= base_url('public/img/blue_logo.png') ?>" class="h-14" alt="Peres Imóveis Logo" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Peres Imóveis</span>
       </a>

@@ -13,6 +13,7 @@
 </head>
 
 <body class="bg-gray-100">
+
   <?php
   if (session()->get('user_id')) {
     echo view('dashboard/templates/header');
@@ -20,11 +21,12 @@
     echo view('templates/header');
   }
   ?>
-  <!-- Houses Catalog Section -->
+
+  <!-- apartments Catalog Section -->
   <section class="container mx-auto px-4 py-12">
     <div class="bg-white rounded-lg shadow-lg p-8">
       <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold text-gray-800">Casas Disponíveis</h2>
+        <h2 class="text-3xl font-bold text-gray-800">Apartamentos Disponíveis</h2>
 
         <!-- Filters -->
         <div class="flex gap-4">
@@ -41,15 +43,13 @@
         </div>
       </div>
 
-      <!-- Houses Grid -->
+      <!-- apartments Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
         <!-- House Card -->
-        <?php foreach ($houses as $house): ?>
-          <?= view('components/ad_card', ['house' => $house]) ?>
+        <?php foreach ($apartments as $apartment): ?>
+          <?= view('components/ad_card', ['apartment' => $apartment]) ?>
         <?php endforeach; ?>
-
-        <!-- Repeat house cards as needed -->
 
       </div>
     </div>
