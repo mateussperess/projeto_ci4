@@ -1,5 +1,10 @@
 <div class="bg-gray-50 p-6 rounded-lg">
-  <h4 class="text-lg font-semibold mb-4">Especificações</h4>
+  <div class="flex items-center gap-3 mb-6">
+    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+    </svg>
+    <h2 class="text-2xl font-bold text-gray-800">Especificações</h2>
+  </div>
   <div class="grid grid-cols-2 gap-4">
     <?php if ($announcement['property_type_id'] == 1 || $announcement['property_type_id'] == 2): ?>
       <div class="bg-white p-4 rounded-lg">
