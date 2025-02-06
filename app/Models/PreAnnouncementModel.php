@@ -234,12 +234,12 @@ class PreAnnouncementModel extends Model
     $propertyPhotos = new PropertyPhotosModel();
 
     $apartments = $this->select('pre_announcements.*, property_types.name as property_type')
-    ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
-    ->where('pre_announcements.property_type_id', 2)
-    ->where('pre_announcements.status', 'approved')
-    ->where('pre_announcements.is_deleted', 0)
-    ->orderBy('pre_announcements.created_at', 'DESC')
-    ->findAll();
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->where('pre_announcements.property_type_id', 2)
+      ->where('pre_announcements.status', 'approved')
+      ->where('pre_announcements.is_deleted', 0)
+      ->orderBy('pre_announcements.created_at', 'DESC')
+      ->findAll();
 
     $apartmentsData = [];
 
@@ -261,9 +261,43 @@ class PreAnnouncementModel extends Model
         'transaction_type' => $apartment['transaction_type'],
         'main_photo' => $mainPhoto,
         'photos' => $photos
-      ]; 
+      ];
     }
 
     return $apartmentsData;
+  }
+  public function getLandsData()
+  {
+    $propertyPhotos = new PropertyPhotosModel();
+
+    $lands = $this->select('pre_announcements.*, property_types.name as property_type')
+      ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
+      ->where('pre_announcements.property_type_id', 3)
+      ->where('pre_announcements.status', 'approved')
+      ->where('pre_announcements.is_deleted', 0)
+      ->orderBy('pre_announcements.created_at', 'DESC')
+      ->findAll();
+
+    $landsData = [];
+
+    foreach ($lands as $land) {
+      $photos = $propertyPhotos->getPropertyPhotosByPreAnnouncementId($land['id']);
+      $mainPhoto = !empty($photos) ? $photos[0]['file_name'] : 'default.jpg';
+
+      $landsData[] = [
+        'id' => $land['id'],
+        'title' => $land['title'],
+        'price' => $land['price'],
+        'address' => $land['address'],
+        'description' => $land['description'],
+        'property_type' => $land['property_type'],
+        'total_area' => $land['total_area'],
+        'transaction_type' => $land['transaction_type'],
+        'main_photo' => $mainPhoto,
+        'photos' => $photos
+      ];
+    }
+
+    return $landsData;
   }
 }

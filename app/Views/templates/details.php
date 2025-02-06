@@ -13,7 +13,7 @@
 </head>
 
 <body class="bg-gray-100">
-  
+
   <?php
   if (session()->get('user_id')) {
     echo view('dashboard/templates/header');
@@ -23,11 +23,9 @@
   ?>
   <div class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-8">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Detalhes do Imóvel</h2>
+      <div class="flex flex-col gap-4 mb-6">
         <a href="<?php
                   $requestUri = $_SERVER['REQUEST_URI'];
-
                   if (str_contains($requestUri, 'houses')) {
                     echo session()->get('logged_in') ? base_url('dashboard/houses') : base_url('houses');
                   } elseif (str_contains($requestUri, 'apartments')) {
@@ -35,13 +33,18 @@
                   } elseif (str_contains($requestUri, 'lands')) {
                     echo session()->get('logged_in') ? base_url('dashboard/lands') : base_url('lands');
                   }
-                  ?>" class="text-blue-600 hover:text-blue-800 flex items-center">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  ?>" class="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition w-fit">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Voltar para lista
+          <span>Voltar</span>
         </a>
+
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-bold text-gray-800">Detalhes do Imóvel</h2>
+        </div>
       </div>
+
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 

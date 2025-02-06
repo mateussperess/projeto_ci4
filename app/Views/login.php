@@ -51,6 +51,10 @@
     <div class="text-center mt-4">
       <a href="#" class="text-sm text-blue-500 hover:underline">Esqueceu a senha?</a>
     </div>
+    
+    <div class="text-center mt-4">
+      <a href="<?= base_url('/') ?>" class="text-sm text-blue-500 hover:underline">Acessar sem login.</a>
+    </div>
 
     <!-- Link para criar conta (opcional) -->
     <div class="text-center mt-4">

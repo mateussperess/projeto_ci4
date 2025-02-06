@@ -57,16 +57,19 @@
         </div>
       </div>
 
+      <?php if (!empty($apartments)): ?>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <?php foreach ($apartments as $apartment): ?>
+            <?= view('components/ad_card', ['apartment' => $apartment]) ?>
+          <?php endforeach; ?>
+        </div>
 
-      <!-- apartments Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <?php else: ?>
+        <div class="text-center py-12">
+          <p class="text-gray-600 text-lg">Não há anúncios disponíveis.</p>
+        </div>
+      <?php endif; ?>
 
-        <!-- House Card -->
-        <?php foreach ($apartments as $apartment): ?>
-          <?= view('components/ad_card', ['apartment' => $apartment]) ?>
-        <?php endforeach; ?>
-
-      </div>
     </div>
   </section>
 

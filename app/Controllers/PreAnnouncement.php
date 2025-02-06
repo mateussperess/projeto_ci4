@@ -112,16 +112,21 @@ class PreAnnouncement extends BaseController
     $preAnnouncementModel = new PreAnnouncementModel();
     $data['apartments'] = $preAnnouncementModel->getApartmentsData();
 
-    // var_dump($data['apartments']);
-    // exit;
     return view('templates/apartments', $data);
+  }
+
+  public function lands() {
+    $preAnnouncementModel = new PreAnnouncementModel();
+    $data['lands'] = $preAnnouncementModel->getLandsData();
+
+    return view('templates/lands', $data);
   }
 
   public function view_announcement($id)
   {
     $preAnnouncementModel = new PreAnnouncementModel();
     $announcement = $preAnnouncementModel->getPreAnnouncementById($id);
-
+    
     $currentUrl = $_SERVER['REQUEST_URI'];
     $propertyTypeId = $announcement['property_type_id'];
 
