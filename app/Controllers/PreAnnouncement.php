@@ -71,9 +71,9 @@ class PreAnnouncement extends BaseController
     }
     return redirect()->to(base_url('dashboard'))->with('error', 'Erro ao enviar anúncio.');
   }
-  public function list()
+  public function list($id)
   {
-    $userId = session()->get('user_id');
+    $userId = $id;
     $announcesModel = new PreAnnouncementModel();
 
     $announcements = $announcesModel->getAllPreAnnouncementDataByUserId($userId);

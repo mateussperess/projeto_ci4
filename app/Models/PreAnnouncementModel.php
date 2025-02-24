@@ -137,6 +137,7 @@ class PreAnnouncementModel extends Model
       ->join('profile_photos', 'profile_photos.user_id = users.id', 'left')
       ->join('property_types', 'property_types.id = pre_announcements.property_type_id')
       ->join('property_photos', 'property_photos.pre_announcement_id = pre_announcements.id', 'left')
+      ->where('users.id', $userId)
       ->orderBy('pre_announcements.created_at', 'DESC')
       ->groupBy('pre_announcements.id')
       ->findAll();
