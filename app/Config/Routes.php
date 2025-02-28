@@ -21,7 +21,7 @@ $routes->group('', function ($routes) {
   $routes->get('lands', 'PreAnnouncement::lands');
   $routes->get('lands/(:num)', 'PreAnnouncement::view_announcement/$1');
   
-  $routes->post('login', 'User::login');
+  $routes->post('login', 'Auth::login');
   $routes->post('register', 'User::create');
 });
 

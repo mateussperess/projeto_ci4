@@ -89,44 +89,6 @@ class User extends Controller
     return redirect()->to(base_url('login'))->with('success', 'Conta criada com sucesso!');
   }
 
-  public function login()
-  {
-    $UserModel = new UserModel();
-
-    $email = trim($this->request->getPost('email'));
-    $password = $this->request->getPost('password');
-
-    $user = $UserModel->where('email', $email)->first();
-
-    if (!$user) {
-      return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
-    }
-
-    if ($user && password_verify($password, $user['password']) && $user['is_deleted'] == 0) {
-      $userRole = $UserModel->getUserRoleByUserId($user['id']);
-
-      $session = session();
-      $session->set('user_id', $user['id']);
-      $session->set('username', $user['username']);
-      $session->set('email', $user['email']);
-      $session->set('role', $userRole['id']);
-      $session->set('logged_in', TRUE);
-
-      $profilePhoto = $UserModel->getProfilePhotoByUserId($session->get('user_id'));
-      $session->set('profile_photo', $profilePhoto);
-
-      if ($userRole['id'] == 1) {
-        return redirect()->to(base_url('admin'))->with('success_login', 'Bem-vindo(a) de volta, administrador!');
-      } else if ($userRole['id'] == 2) {
-        return redirect()->to(base_url('broker'))->with('success_login', 'Bem-vindo(a) de volta, corretor!');
-      } else if ($userRole['id'] == 3) {
-        return redirect()->to(base_url('dashboard'))->with('success_login', 'Bem-vindo(a) de volta, cliente!');
-      }
-    } else {
-      return redirect()->to(base_url('login'))->with('error', 'Email ou senha incorretos! Tente novamente.');
-    }
-  }
-
   public function logout()
   {
     $session = session();
