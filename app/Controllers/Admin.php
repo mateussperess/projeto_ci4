@@ -6,6 +6,7 @@ use CodeIgniter\Controller;
 use App\Models\UserTypeModel;
 use App\Models\ProfilePhotoModel;
 use App\Models\UserModel;
+use App\Controllers\Logout;
 
 class Admin extends Controller
 {
@@ -251,5 +252,11 @@ class Admin extends Controller
     } catch (\Exception $e) {
       return redirect()->back()->with('error', 'Erro ao atualizar foto de perfil: ' . $e->getMessage());
     }
+  }
+
+  public function logout() {
+    $logout = new Logout();
+    $logout->logout();
+    return redirect()->to(base_url('login'));
   }
 }

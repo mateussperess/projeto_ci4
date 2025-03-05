@@ -7,6 +7,7 @@ use App\Models\PropertyPhotosModel;
 use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Services\EmailService;
+use App\Controllers\Logout;
 
 class User extends Controller
 {
@@ -91,8 +92,8 @@ class User extends Controller
 
   public function logout()
   {
-    $session = session();
-    $session->destroy();
+    $logout = new Logout();
+    $logout->logout();
     return redirect()->to(base_url('login'));
   }
 

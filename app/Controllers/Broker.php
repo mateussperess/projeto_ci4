@@ -9,6 +9,7 @@ use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Models\ProfilePhotoModel;
 use App\Models\PropertyTypesModel;
+use App\Controllers\Logout;
 
 class Broker extends Controller
 {
@@ -283,8 +284,8 @@ class Broker extends Controller
 
   public function logout()
   {
-    $session = session();
-    $session->destroy();
+    $logout = new Logout();
+    $logout->logout();
     return redirect()->to(base_url('login'));
   }
 }

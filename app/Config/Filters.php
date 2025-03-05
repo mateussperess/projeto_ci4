@@ -36,6 +36,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'          => \App\Filters\Auth::class,
         'admin'         => \App\Filters\AdminFilter::class
+        // 'logout'        => \App\Filters\
     ];
 
     /**
@@ -105,5 +106,20 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'auth' => [
+            'before' => [
+                'broker',     
+                'broker/*',   
+                'dashboard',   
+                'dashboard/*' 
+            ]
+        ],
+        'admin' => [
+            'before' => [
+                'admin',    
+                'admin/*'   
+            ]
+        ]
+    ];
 }
