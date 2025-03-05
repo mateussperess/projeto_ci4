@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\PreAnnouncementModel;
 use CodeIgniter\Controller;
 use App\Models\UserTypeModel;
 use App\Models\ProfilePhotoModel;
@@ -12,11 +13,24 @@ class Admin extends Controller
 {
   public function index()
   {
-    $admin = new UserTypeModel();
-    $total_users = $admin->getTotalQuantityUsers();
+    $userModel = new UserModel();
+    $preAnnouncementModel = new PreAnnouncementModel();
+    $profile_photo_model = new ProfilePhotoModel();
+
+    $recent_users = $userModel->getRecentUsers(5);
+
+    foreach ($recent_users as &$user) {
+      $profile_photo = $profile_photo_model->getProfilePhotoByUserId($user['id']);
+      $user['profile_photo'] = $profile_photo ? $profile_photo['file_path'] : null;
+    }
 
     $data = [
-      'total_users' => $total_users
+      'total_users' => $userModel->getTotalQuantityUsers(),
+      'activated_announces' => $preAnnouncementModel->getAllActivatedPreAnnouncement(),
+      'activated_brokers' => $userModel->countAllBrokers(),
+      'pending_announces' => $preAnnouncementModel->getAllPendingAnnounces(),
+      'recent_users' => $recent_users,
+      'recent_announcements' => $preAnnouncementModel->getRecentAnnouncements(5)
     ];
 
     return view('admin/index', $data);
@@ -24,10 +38,10 @@ class Admin extends Controller
 
   public function users()
   {
-    $admin = new UserTypeModel();
+    $userModel = new UserModel();
     $profile_photo_model = new ProfilePhotoModel();
 
-    $users = $admin->getAllUsers();
+    $users = $userModel->getAllUsers();
     $profile_photos = [];
 
     foreach ($users as $user) {
@@ -37,7 +51,7 @@ class Admin extends Controller
     $data = [
       'users' => $users,
       'profile_photos' => $profile_photos,
-      'total_users' => $admin->getTotalQuantityUsers()
+      'total_users' => $userModel->getTotalQuantityUsers(),
     ];
 
     return view('admin/users', $data);
@@ -254,7 +268,8 @@ class Admin extends Controller
     }
   }
 
-  public function logout() {
+  public function logout()
+  {
     $logout = new Logout();
     $logout->logout();
     return redirect()->to(base_url('login'));

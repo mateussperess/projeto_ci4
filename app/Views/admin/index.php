@@ -16,30 +16,17 @@
 <body class="bg-gray-100">
   <?= view('admin/templates/header') ?>
 
-  <!-- Admin Stats Section -->
-  <section class="bg-blue-600 text-white py-6">
-    <div class="container mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bg-blue-700 p-4 rounded-lg text-center">
-          <h3 class="text-xl font-bold">Imóveis Ativos</h3>
-          <p class="text-2xl font-bold">0</p>
-        </div>
-        <div class="bg-blue-700 p-4 rounded-lg text-center">
-          <h3 class="text-xl font-bold">Usuários</h3>
-          <p class="text-2xl font-bold"> <?= $total_users; ?> </p>
-        </div>
-        <div class="bg-blue-700 p-4 rounded-lg text-center">
-          <h3 class="text-xl font-bold">Visitas Hoje</h3>
-          <p class="text-2xl font-bold">0</p>
-        </div>
-        <div class="bg-blue-700 p-4 rounded-lg text-center">
-          <h3 class="text-xl font-bold">Contatos</h3>
-          <p class="text-2xl font-bold">0</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  
+  <div class="container mx-auto px-4 py-8">
+    <!-- Stats Overview Cards -->
+    <?= view('admin/templates/stats_cards') ?>
+
+    <!-- Quick Actions Section -->
+    <?= view('admin/templates/quick_actions') ?>
+
+    <!-- Recent Activity Section -->
+    <?= view('admin/templates/recent_activities') ?>
+  </div>
+
   <!-- Botão de Voltar ao Topo -->
   <button id="backToTop" class="fixed bottom-4 right-4 p-2 rounded-full shadow-lg">
     <img src="<?= base_url('public/img/go_top.png') ?>" class="w-12 h-12" alt="Voltar ao topo">

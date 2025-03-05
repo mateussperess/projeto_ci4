@@ -33,7 +33,8 @@ class PreAnnouncementModel extends Model
     'broker_notes',
     'is_verified',
     'broker_id',
-    'is_deleted'
+    'is_deleted',
+    'verified_at'
   ];
 
   protected $useTimestamps = true;
@@ -107,12 +108,19 @@ class PreAnnouncementModel extends Model
       'status' => 'rejected',
       'is_verified' => 1,
       'broker_notes' => $broker_notes,
-      'broker_id' => (int)$user_id
+      'broker_id' => (int)$user_id,
+      'verified_at' => date('Y-m-d H:i:s')  // Using full datetime format
     ]);
   }
   public function approvePreAnnouncement($id, $broker_notes)
   {
-    return $this->update($id, ['status' => 'approved', 'is_verified' => 1, 'broker_notes' => $broker_notes, 'broker_id' => session()->get('user_id')]);
+    return $this->update($id, [
+      'status' => 'approved',
+      'is_verified' => 1,
+      'broker_notes' => $broker_notes,
+      'broker_id' => session()->get('user_id'),
+      'verified_at' => date('Y-m-d H:i:s')  // Using full datetime format
+    ]);
   }
 
   public function getAllPreEvaluatedAnnouncement()
@@ -147,7 +155,9 @@ class PreAnnouncementModel extends Model
   {
     $today = date('Y-m-d');
     return $this->select('pre_announcements.*')
-      ->where('pre_announcements.created_at >=', $today)
+      ->where('pre_announcements.status', 'approved')
+      ->where('DATE(pre_announcements.verified_at)', $today)
+      ->where('pre_announcements.is_deleted', 0)
       ->countAllResults();
   }
 
@@ -300,5 +310,33 @@ class PreAnnouncementModel extends Model
     }
 
     return $landsData;
+  }
+  public function getAllActivatedPreAnnouncement()
+  {
+    $array = [
+      'status' => 'approved',
+      'is_deleted' => 0,
+    ];
+
+    return $this->where($array)->countAllResults();
+  }
+
+  public function getRecentAnnouncements($limit = 5)
+  {
+    $propertyPhotos = new PropertyPhotosModel();
+
+    $announcements = $this->select('pre_announcements.*, users.first_name, users.last_name, users.email, profile_photos.file_path')
+      ->join('users', 'users.id = pre_announcements.user_id')
+      ->join('profile_photos', 'users.id = profile_photos.user_id', 'left')
+      ->orderBy('pre_announcements.created_at', 'DESC')
+      ->limit($limit)
+      ->findAll();
+
+    foreach ($announcements as &$announcement) {
+      $photos = $propertyPhotos->getPropertyPhotosByPreAnnouncementId($announcement['id']);
+      $announcement['main_photo'] = !empty($photos) ? $photos[0]['file_name'] : 'default.jpg';
+    }
+
+    return $announcements;
   }
 }

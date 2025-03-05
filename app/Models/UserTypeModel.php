@@ -24,16 +24,4 @@ class UserTypeModel extends Model
       ->get()
       ->getRowArray();
   }
-
-  public function getTotalQuantityUsers()
-  {
-    $userModel = new UserModel();
-    return $userModel->countAllResults();
-  }
-
-  public function getAllUsers()
-  {
-    $userModel = new UserModel();
-    return $userModel->findAll();
-  }
 }

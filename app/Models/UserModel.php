@@ -299,4 +299,38 @@ class UserModel extends Model
 
 		return $brokersData;
 	}
+
+	public function getTotalQuantityUsers()
+	{
+		$array = [
+			'deleted_at' => null,
+			'is_deleted' => 0,
+		];
+		return $this->where($array)->countAllResults();
+	}
+
+	public function getAllUsers()
+	{
+		return $this->findAll();
+	}
+
+	public function countAllBrokers()
+	{
+		$array = [
+			'role_id' => 2,
+			'deleted_at' => null,
+			'is_deleted' => 0
+		];
+
+		return $this->where($array)->countAllResults();
+	}
+
+	public function getRecentUsers($limit = 5)
+	{
+		return $this->select('users.*, profile_photos.file_path')
+			->join('profile_photos', 'users.id = profile_photos.user_id', 'left')
+			->orderBy('users.created_at', 'DESC')
+			->limit($limit)
+			->find();
+	}
 }
