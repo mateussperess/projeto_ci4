@@ -8,8 +8,8 @@
 
   <div class="flex items-center gap-6">
     <div class="relative">
-      <img src="<?= base_url($announcement['file_path']) ?>"
-        alt="<?= esc($announcement['first_name']) ?>"
+      <img src="<?= isset($user_data['profile_photo']) && isset($user_data['profile_photo']['file_path']) ? base_url($user_data['profile_photo']['file_path']) : base_url('public/uploads/profile_photos/default.png') ?>"
+        alt="Profile Photo"
         class="w-20 h-20 rounded-full object-cover ring-4 ring-blue-100">
     </div>
 

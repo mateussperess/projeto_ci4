@@ -10,7 +10,7 @@
   <link rel="shortcut icon" href="<?= base_url('public/img/black_logo.png'); ?>" type="image/x-icon">
 </head>
 
-<body class="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
   <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
     <form action="<?= base_url('dashboard/update_profile') ?>" method="post" enctype="multipart/form-data">
       <div class="flex flex-col items-center">

@@ -124,7 +124,12 @@
           <!-- Property Specifications -->
 
           <div class="bg-gray-50 p-6 rounded-lg">
-            <h4 class="text-lg font-semibold mb-4">Especificações</h4>
+            <div class="flex items-center gap-3 mb-6">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              <h2 class="text-2xl font-bold text-gray-800">Especificações</h2>
+            </div>
             <div class="grid grid-cols-2 gap-4">
               <?php if ($announcement['property_type_id'] == 1 || $announcement['property_type_id'] == 2): ?>
                 <div class="bg-white p-4 rounded-lg">
@@ -156,7 +161,13 @@
 
           <!-- Location Details -->
           <div class="bg-gray-50 p-6 rounded-lg">
-            <h4 class="text-lg font-semibold mb-4">Localização</h4>
+            <div class="flex items-center gap-3 mb-6">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <h2 class="text-2xl font-bold text-gray-800">Localização</h2>
+            </div>
             <div class="space-y-3">
               <p><span class="text-gray-600">Endereço:</span> <?= esc($announcement['address']) ?></p>
               <p><span class="text-gray-600">Bairro:</span> <?= esc($announcement['neighborhood']) ?></p>
@@ -171,7 +182,7 @@
             <h4 class="text-lg font-semibold mb-4">Informações do Anunciante</h4>
             <div class="flex items-center p-4 bg-white rounded-lg">
               <img class="h-16 w-16 rounded-full border-2 border-blue-500"
-                src="<?= base_url($user_profile_photo['file_path']) ?>"
+                src="<?= isset($profile_photo) && $profile_photo ? base_url('public/uploads/profile_photos/' . esc($profile_photo['file_name'])) : base_url('public/uploads/profile_photos/default.png') ?>"
                 alt="Perfil">
               <div class="ml-4">
                 <p class="text-lg font-semibold"><?= esc($user_data['first_name']) ?> <?= esc($user_data['last_name']) ?></p>

@@ -224,6 +224,20 @@ class User extends Controller
         $photoData['user_id'] = $userId;
         $userModel->setUserProfilePhoto($userId, $photoData);
       }
+    } else {
+      $photoData = [
+        'file_name' => 'default.png',
+        'file_path' => 'public/uploads/profile_photos/default.png', 
+        'mime_type' => 'image/png',
+        'created_at' => date('Y-m-d H:i:s')
+      ];
+
+      $existingProfilePhoto = $userModel->getProfilePhotoByUserId($userId);
+
+      if (!$existingProfilePhoto) {
+        $photoData['user_id'] = $userId;
+        $userModel->setUserProfilePhoto($userId, $photoData);
+      }
     }
 
     return redirect()->to(base_url('dashboard/profile'))->with('success', 'Perfil atualizado com sucesso!');
